@@ -1,0 +1,160 @@
+- Class: meta
+  Course: DataScienceAndR
+  Lesson: 01-RBasic-04-Factors
+  Author: Chih-Cheng Liang
+  Type: Standard
+  Organization: Taiwan R User Group
+  Version: 1.0
+- Class: text
+  Output: 这个课程将带大家快速了解R语言的Factor对象结构。
+- Class: text
+  Output: Factor是一个向量对象，用途是储存「类别」的。有这样的格式，我们可以将数据依照类别分组。属于「类别」数据的例子如：
+    「男、女」、「北京市、上海市、广州市、深圳市」等。
+- Class: cmd_question
+  Output: 观察一个实际的例子。我们预定义一个字符向量 blood_type，记载着30个人的血型数据。请输入 blood_type 。 
+  CorrectAnswer: blood_type
+  AnswerTests: omnitest(correctExpr='blood_type')
+  Hint: 请输入 blood_type
+  
+- Class: cmd_question
+  Output: 大家可以观察到，这个字符向量中有A, B, O, AB四种血型，在数据中重复出现。请输入 `blood_type_factor <- factor(blood_type)`，
+    将它转为Factor向量。
+  CorrectAnswer: blood_type_factor <- factor(blood_type)
+  AnswerTests: any_of_exprs( "blood_type_factor = factor(blood_type)", "blood_type_factor
+    <- factor(blood_type)" )
+  Hint: 请输入 blood_type_factor <- factor(blood_type)
+  
+- Class: cmd_question
+  Output: 仔细观察这个Factor向量。请输入`blood_type_factor` 
+  CorrectAnswer: blood_type_factor
+  AnswerTests: omnitest(correctExpr='blood_type_factor')
+  Hint: 请输入 blood_type_factor
+  
+- Class: text
+  Output: 观察后可以发现，Factor向量和字符向量的方式不太一样。在Factor向量的部分多出了levels这个属性。
+  
+- Class: cmd_question
+  Output: Factor向量中的levels属性，代表向量中允许出现的类别。要取出这些类别，可使用levels函数。请输入`levels(blood_type_factor)`
+    来取出所有允许的血型。
+  CorrectAnswer: levels(blood_type_factor)
+  AnswerTests: omnitest(correctExpr='levels(blood_type_factor)')
+  Hint: levels(blood_type_factor)
+  
+- Class: cmd_question
+  Output: 若在Factor向量中指派的类别不存在在levels之中，就会出现NA。请输入`blood_type_factor[5] <- "C"`。
+  CorrectAnswer: blood_type_factor[5] <- "C"
+  AnswerTests: any_of_exprs( "blood_type_factor[5] <- \"C\" ", "blood_type_factor[5]
+    = \"C\" " )
+  Hint: blood_type_factor[5] <- "C"
+  
+- Class: cmd_question
+  Output: 输入`blood_type_factor`确认第五个元素变成NA。
+  CorrectAnswer: blood_type_factor
+  AnswerTests: omnitest(correctExpr='blood_type_factor')
+  Hint: blood_type_factor
+  
+- Class: text
+  Output: 在R 中，排序levels时会依照字母序排序。
+   
+- Class: cmd_question
+  Output: 进一步观察factor向量的结构。请输入`str(blood_type_factor)`
+  CorrectAnswer: str(blood_type_factor)
+  AnswerTests: omnitest(correctExpr='str(blood_type_factor)')
+  Hint: str(blood_type_factor)
+  
+- Class: text
+  Output: str的结果显示Factor向量的四个levels，并列出levels对应的名称。在levels名称后是一串整数，Factor实际上是以整数代表对应
+    的levels名称。例如：一开始3 代表第三个level「B」，第二个1 代表第一个level「A」。（你可以对照Rstudio右上角Environment中blood_type和 
+    blood_type_factor）
+    
+- Class: text
+  Output: Factor向量本质上只是整数向量加上levels。而这样设计的原因是储存整数比储存文字更省空间。
+    
+- Class: text
+  Output: 「类别」的资料有两种。分为「无顺序」与「有顺序」的，血型的资料是无顺序的例子。因为血型并无大小先后之分，你无法说O型比A型大或小。
+    
+- Class: cmd_question
+  Output: 若硬是将无顺序的资料进行比大小，R会印出警告。以血型例子，第一个血型是「A」，第二个血型是「AB」。
+    请试着输入`blood_type_factor[1]> blood_type_factor[2]`来比较大小。
+  CorrectAnswer: blood_type_factor[1]> blood_type_factor[2]
+  AnswerTests: omnitest(correctExpr='blood_type_factor[1]> blood_type_factor[2]')
+  Hint: blood_type_factor[1]> blood_type_factor[2]
+  
+- Class: cmd_question
+  Output: 对于有顺序的资料，我们以我们已经预定义的grade因子向量为例。请输入`grades`
+  CorrectAnswer: grades
+  AnswerTests: omnitest(correctExpr='grades')
+  Hint: grades
+  
+- Class: text
+  Output: 这个数据中有「A」、「B」、「C」三种等级，依照常理看来，A比B好、B比C好、A也比C好。所以我们可以将等级定出顺序。
+    
+- Class: cmd_question
+  Output: 要将grades转为有顺序的factor向量。做法是在factor函数中，将ordered设定为TRUE。并且将levels顺序以向量方式传入，
+    level要由小到大填入。请同学输入：`grades_factor <- factor(grades, ordered = TRUE, levels = c("C","B","A"))`
+  CorrectAnswer: grades_factor <- factor(grades, ordered = TRUE, levels = c("C","B","A"))
+  AnswerTests: any_of_exprs( "grades_factor <- factor(grades, ordered = TRUE, levels
+    = c(\"C\",\"B\",\"A\"))", "grades_factor = factor(grades, ordered = TRUE, levels
+    = c(\"C\",\"B\",\"A\"))" )
+  Hint: grades_factor <- factor(grades, ordered = TRUE, levels = c("C","B","A"))
+  
+- Class: cmd_question
+  Output: 输入`grades_factor`并观察。
+  CorrectAnswer: grades_factor
+  AnswerTests: omnitest(correctExpr='grades_factor')
+  Hint: grades_factor
+  
+- Class: text
+  Output: 可以观察到levels有顺序。
+- Class: cmd_question
+  Output: 这时比较等级大小有意义。请输入`grades_factor[1]> grades_factor[2]`，比较前两个同学的等级。
+  CorrectAnswer: grades_factor[1]> grades_factor[2]
+  AnswerTests: omnitest(correctExpr='grades_factor[1]> grades_factor[2]')
+  Hint: grades_factor[1]> grades_factor[2]
+  
+- Class: text
+  Output: 针对以上内容做个总结。Factor向量用来储存类别的数据。 level属性限制能在向量中出现的类别种类。Factor本质上是整数向量，
+    只是带有levels。Factor可以是无顺序或有顺序的，可用在Factor函数中使用ordered=TRUE让Factor变成有顺序。接着做以下几个练习看看自己的理解情况。
+    
+- Class: cmd_question
+  Output: 我们已经为你自定义了一个字符向量survey_vector,请将这个向量转化成因子类型。
+  CorrectAnswer: factor_survey_vector <- factor(survey_vector)
+  AnswerTests: omnitest(correctExpr='factor_survey_vector <- factor(survey_vector)')
+  Hint: 使用factor函数
+  
+- Class: cmd_question
+  Output: 将factor_survey_vector的因子水平更改为c("female","male"）。 在这里注意向量元素的顺序。
+  CorrectAnswer: levels(factor_survey_vector) <- c("female","male"）
+  AnswerTests: omnitest(correctExpr='levels(factor_survey_vector) <- c("female","male"）')
+  Hint: 使用levels函数获取factor_survey_vector的因子水平并重新赋值  
+
+- Class: cmd_question
+  Output: 为survey_vector生成摘要
+  CorrectAnswer: summary(survey_vector)
+  AnswerTests: omnitest(correctExpr='summary(survey_vector)')
+  Hint: 使用summary函数获取survey_vector的摘要
+
+- Class: cmd_question
+  Output: 为factor_survey_vector生成摘要，比较与纯字符向量摘要的区别
+  CorrectAnswer: summary(factor_survey_vector)
+  AnswerTests: omnitest(correctExpr='summary(factor_survey_vector)')
+  Hint: 使用summary函数获取摘要
+  
+- Class: cmd_question
+  Output: 比较factor_survey_vector两个元素的大小
+  CorrectAnswer: factor_survey_vector[1] > factor_survey_vector[2]
+  AnswerTests: omnitest(correctExpr='factor_survey_vector[1] > factor_survey_vector[2]')
+  Hint: factor_survey_vector[1] > factor_survey_vector[2]
+  
+- Class: cmd_question
+  Output: 创建字符向量speed_vector，分配5个元素有顺序分别是："medium","slow","slow","medium","fast"
+  CorrectAnswer: speed_vector <- c("medium","slow","slow","medium","fast")
+  AnswerTests: omnitest(correctExpr='speed_vector <- c("medium","slow","slow","medium","fast")')
+  Hint: speed_vector <- c("medium","slow","slow","medium","fast")
+  
+- Class: cmd_question
+  Output: 从speed_vector创建一个有序因子向量：factor_speed_vector。参数ordered设置为TRUE，并将levels设置为c（“slow”，“medium”，“fast”）
+  CorrectAnswer: factor_speed_vector <- factor(speed_vector,ordered=TRUE,levels=c（"slow"，"medium"，"fast"）)
+  AnswerTests: omnitest(correctExpr='speed_vector <- c("medium","slow","slow","medium","fast")')
+  Hint: speed_vector <- c("medium","slow","slow","medium","fast")  
+  

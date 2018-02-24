@@ -1,0 +1,141 @@
+- Class: meta
+  Course: GGplot_01
+  Lesson: Introduction
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 在练习中，我们将引导您进入用R开发有意义的可视化的正确思路。您将会理解，作为一种沟通工具，可视化需要您首先考虑您的受众。 
+    您还将介绍ggplot2的基础知识 - 7种不同的语法元素（图层）和审美映射。
+
+- Class: text
+  Output: 为了让你建立对ggplot2的第一个印象，让我们尝试运行一些基本的ggplot2命令。 他们一起构建了一个包含1973年“汽车趋势”（Motor Trend）
+    杂志的32辆汽车信息的mtcars数据集。 这个数据集很小，直观，并包含各种连续和分类变量。ggplot2包,已经安装到了你的工作环境中了。
+
+- Class: cmd_question
+  Output: 使用str（）来探索mtcars数据集的结构。
+  CorrectAnswer: str(mtcars)
+  AnswerTests: omnitest(correctExpr='str(mtcars)')
+  Hint: str(mtcars)
+
+- Class: cmd_question
+  Output: 执行示例代码:ggplot(mtcars, aes(x = cyl, y = mpg)) +geom_point()。 看看你是否能理解ggplot在数据上的作用。
+  CorrectAnswer: ggplot(mtcars, aes(x = cyl, y = mpg)) +geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars, aes(x = cyl, y = mpg)) +geom_point()')
+  Hint: ggplot(mtcars, aes(x = cyl, y = mpg)) +geom_point()
+
+- Class: text
+  Output: 继续探索ggplot2。尽管cyl（缸数）是分类的，但在mtcars中被分类为数字。 您必须明确告诉ggplot2 cyl是一个分类变量。
+
+- Class: cmd_question
+  Output: 通过在cyl上包上factor（）来更改ggplot（）命令，看看最后的图形是否更好。
+  CorrectAnswer: ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +geom_point()')
+  Hint: ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +geom_point()
+
+- Class: text
+  Output:  在之前的练习中，您已经了解了mtcars。 让我们进一步深入探索ggplot2的三个主要主题：数据(data)，美学(aesthetics)和几何图层(geom layersdata)。
+    mtcars数据集包含了1973年“Motor Trend”杂志的32辆汽车的相关信息。 这个数据集很小，直观，并包含各种连续和分类变量。
+
+- Class: cmd_question
+  Output:  根据前边的练习绘制的mpg (miles per galon) 依赖 weight (in thousands of pounds)的ggplot2图形。 
+  CorrectAnswer: ggplot(mtcars, aes(x = wt, y = mpg)) +geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars, aes(x = wt, y = mpg)) +geom_point()')
+  Hint: ggplot(mtcars, aes(x = wt, y = mpg)) +geom_point()
+
+- Class: cmd_question
+  Output: 对上一个问题ggplot（）的调用进行改进，改变aes（代表美学）中的color参数。 颜色应该取决于发动机的排量，由disp变量表示。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg,color=disp))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg,color=disp))+geom_point()')
+  Hint: ggplot(mtcars,aes(x=wt,y=mpg,color=disp))+geom_point()
+
+- Class: cmd_question
+  Output: 仍然绘制的mpg (miles per galon) 依赖 weight (in thousands of pounds)的ggplot2图形，改变aes（）（代表美学）中的size参数。
+    尺寸应该取决于发动机的排量，由disp变量表示。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg,size=disp))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg,size=disp))+geom_point()')
+  Hint: ggplot(mtcars,aes(x=wt,y=mpg,size=disp))+geom_point()
+
+- Class: text
+  Output: diamonds数据框(位于ggplot2包中)包含价格和50,000钻石的各种指标信息。 其中包括的变量有carat （钻石的大小）和price。 你将使用1000个钻石的子集。
+    在这里，将使用两个常见的几何图层函数：geom_point（）和geom_smooth（）。 在前边的练习中，已经看到如何使用+运算符来添加这些运算函数。
+
+- Class: cmd_question
+  Output: 用str（）函数探索diamonds数据框。
+  CorrectAnswer: str(diamonds)
+  AnswerTests: omnitest(correctExpr='str(diamonds)')
+  Hint: str(diamonds)
+
+- Class: cmd_question
+  Output: 使用+运算符将geom_point（）添加到ggplot（）命令之后，显示carat和price的关系。 这会告诉ggplot2在图上绘制点。
+  CorrectAnswer: ggplot(diamonds,aes(x=carat,y=price))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(diamonds,aes(x=carat,y=price))+geom_point()')
+  Hint: ggplot(diamonds,aes(x=carat,y=price))+geom_point()
+
+- Class: cmd_question
+  Output: 使用+运算符来添加geom_point（）和geom_smooth（）在ggplot（）命令之后，显示carat和price的关系。 这些只是堆叠在一起！
+    geom_smooth（）将在点上绘制一条平滑线。
+  CorrectAnswer: ggplot(diamonds,aes(x=carat,y=price))+geom_point()+geom_smooth()
+  AnswerTests: omnitest(correctExpr='ggplot(diamonds,aes(x=carat,y=price))+geom_point()+geom_smooth()')
+  Hint: ggplot(diamonds,aes(x=carat,y=price))+geom_point()+geom_smooth()
+
+- Class: text
+  Output: 上一练习它建立了钻石数据集的散点图，其中x轴为克拉carat，y轴为价格price。 
+    geom_smooth（）用于添加一条平滑线。以这个图形为出发点，让我们探索一下更多的几何可能性
+
+- Class: cmd_question
+  Output: 继续建立了钻石数据集的散点图，其中x轴为克拉carat，y轴为价格price，但只显示平滑线，没有点。
+    通过在ggplot（）调用的aes（）函数中放置参数color = clarity来清晰地显示线的颜色。
+  CorrectAnswer: ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_smooth()
+  AnswerTests: omnitest(correctExpr='ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_smooth()')
+  Hint: ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_smooth()
+
+- Class: cmd_question
+  Output: 继续建立了钻石数据集的散点图，其中x轴为克拉carat，y轴为价格price（clarity映射为颜色）。去除平滑线的层。
+     只添加点层。在geom_point（）中设置alpha = 0.4。 这将使得40％的点透明
+  CorrectAnswer: ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_point(alpha=0.4)
+  AnswerTests: omnitest(correctExpr='ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_point(alpha=0.4)')
+  Hint: ggplot(diamonds,aes(x=carat,y=price,color=clarity))+geom_point(alpha=0.4)
+
+- Class: text
+  Output: 在这里，您将探索一些不同的语法元素。 在整个过程中，你会发现如何以各种方式组合起来发展独特的图形。在以下说明中，您将从diamonds数据集
+    中创建一个ggplot对象。 接下来，您将在此对象上添加图层，以创建美丽的信息图。
+
+- Class: cmd_question
+  Output: 定义数据（diamonds）和aes美学层。 在x轴上映射克拉carat，在y轴上映射价格price。 将其分配给对象：dia_plot。
+  CorrectAnswer: dia_plot <- ggplot(diamonds,aes(x=carat,y=price))
+  AnswerTests: omnitest(correctExpr='dia_plot <- ggplot(diamonds,aes(x=carat,y=price))')
+  Hint: dia_plot <- ggplot(diamonds,aes(x=carat,y=price))
+
+- Class: cmd_question
+  Output: 使用+，将一个geom_point（）图层（不带参数）添加到dia_plot对象。 
+  CorrectAnswer: dia_plot+geom_point()
+  AnswerTests: omnitest(correctExpr='dia_plot+geom_point()')
+  Hint: dia_plot+geom_point()
+
+- Class: cmd_question
+  Output: 也可以在geom_point（）函数中调用aes（）。 以这种方式将清晰度映射到颜色参数。
+  CorrectAnswer: dia_plot+geom_point(aes(color=clarity))
+  AnswerTests: omnitest(correctExpr='dia_plot+geom_point(aes(color=clarity))')
+  Hint: dia_plot+geom_point(aes(color=clarity))
+
+- Class: cmd_question
+  Output: 更新扩展dia_plot，添加对geom层使用geom_point（）来生成散点图的。 设置alpha = 0.2
+  CorrectAnswer: dia_plot <- dia_plot+geom_point(alpha=0.2)
+  AnswerTests: omnitest(correctExpr='dia_plot <- dia_plot+geom_point(alpha=0.2)')
+  Hint: dia_plot <- dia_plot+geom_point(alpha=0.2)
+
+- Class: cmd_question
+  Output: 使用+，绘制一个带有geom_smooth（）图层的dia_plot对象。 你不想要任何误差阴影，这可以通过在geom_smooth（）中设置
+    se = FALSE来实现。
+  CorrectAnswer: dia_plot+geom_smooth(se=FALSE)
+  AnswerTests: omnitest(correctExpr='dia_plot+geom_smooth(se=FALSE)')
+  Hint: dia_plot+geom_smooth(se=FALSE)
+
+- Class: cmd_question
+  Output:  修改前上一个练习指令中的geom_smooth（）函数，使其包含aes（）并将清晰度clarity映射到col参数
+  CorrectAnswer: dia_plot+geom_smooth(aes(col=clarity))
+  AnswerTests: omnitest(correctExpr='dia_plot+geom_smooth(aes(col=clarity))')
+  Hint: dia_plot+geom_smooth(aes(col=clarity))

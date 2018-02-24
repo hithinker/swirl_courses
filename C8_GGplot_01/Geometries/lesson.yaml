@@ -1,0 +1,271 @@
+- Class: meta
+  Course: GGplot_01
+  Lesson: Geometries
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 图形的几何形状决定了将使用什么样的视觉元素。 在本章中，我们将熟悉您将遇到的三种最常见绘图类型中使用的几何图形 - 散点图，
+    条形图和线条图。 我们将看看各种不同的方式来构建这些图形。
+
+- Class: text
+  Output: 你已经看到几个使用geom_point（）的例子，其中结果不是散点图。 例如，连续变量wt被映射到aes()中的y，而分类变量cyl被映射到aes()中的x。
+  这也导致了图形重叠，因为这些点被排列在一个x位置上。 您以前通过设置geom_point（）内的position = jitter来处理重叠绘图。 我们来看看其他一些解决方案
+
+- Class: cmd_question
+  Output: 使用datasets包(已经被加载到工作环境中了)中数据集mtcars绘制散点图，其中连续变量wt被映射到aes()中的y，而分类变量cyl被映射到aes()中的x
+  CorrectAnswer: ggplot(mtcars,aes(x=cyl,y=wt))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=cyl,y=wt))+geom_point()')
+  Hint: ggplot(mtcars,aes(x=cyl,y=wt))+geom_point()
+
+- Class: cmd_question
+  Output: 继续上一个练习的要求，但是使用快捷键geom_jitter（）而不是geom_point（）
+  CorrectAnswer: ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter()')
+  Hint: ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter()
+  
+- Class: cmd_question
+  Output: 但是，上一个练习的图形抖动的宽度有点太宽，无法使用。 通过在geom_jitter（）中设置参数width = 0.1来调整它
+  CorrectAnswer: ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter(width=0.1)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter(width=0.1)')
+  Hint: ggplot(mtcars,aes(x=cyl,y=wt))+geom_jitter(width=0.1)
+
+- Class: cmd_question
+  Output: 最后，返回到geom_point（），并将位置参数设置为position_jitter（0.1），它将直接在点图层内设置抖动宽度。
+  CorrectAnswer: ggplot(mtcars,aes(x=cyl,y=wt))+geom_point(position=position_jitter(0.1))
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=cyl,y=wt))+geom_point(position=position_jitter(0.1))')
+  Hint: ggplot(mtcars,aes(x=cyl,y=wt))+geom_point(position=position_jitter(0.1))
+
+- Class: text
+  Output: 你看到的另一个例子间隔数据。 这可以是在数值间隔（即1,2,3 ...），比例或两个分类（例如因子）变量的区间上测量的
+    连续数据。在这种情况下，你将在两个变量之间有一个很小的，确定的交点数。您将使用Vocab数据集。 
+    Vocab数据集根据1972 - 2004年的美国社会调查，包含21,000多个人的词汇测验的教育年限和整数得分的信息。Vocab数据框(位于car包中)已经为你加载。 
+     education 和 vocabulary 变量都被归类为整数。 你可以把它们想象成因子变量，但是在这里整数更容易处理
+
+- Class: cmd_question
+  Output: 首先，通过使用str（）来查看Vocab数据集的结构来熟悉数据集。
+  CorrectAnswer: str(Vocab)
+  AnswerTests: omnitest(correctExpr='str(Vocab)')
+  Hint: str(Vocab)
+
+- Class: cmd_question
+  Output: 做一个vocabulary（y）与education （x）的基本散点图。 这里显而易见，由于整数范围的问题，你有重叠绘图的问题。
+  CorrectAnswer: ggplot(Vocab,aes(x=education,y=vocabulary))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(Vocab,aes(x=education,y=vocabulary))+geom_point()')
+  Hint: ggplot(Vocab,aes(x=education,y=vocabulary))+geom_point()
+
+- Class: cmd_question
+  Output: 使用geom_jitter（）而不是geom_point（）,将alpha设置为0.2（非常低）
+  CorrectAnswer: ggplot(Vocab,aes(x=education,y=vocabulary,alpha=0.2))+geom_jitter()
+  AnswerTests: omnitest(correctExpr='ggplot(Vocab,aes(x=education,y=vocabulary,alpha=0.2))+geom_jitter()')
+  Hint: ggplot(Vocab,aes(x=education,y=vocabulary,alpha=0.2))+geom_jitter()
+
+- Class: cmd_question
+  Output: 使用geom_jitter（）而不是geom_point（）,将形状设置为1
+  CorrectAnswer: ggplot(Vocab,aes(x=education,y=vocabulary))+geom_jitter(shape=1)
+  AnswerTests: omnitest(correctExpr='ggplot(Vocab,aes(x=education,y=vocabulary))+geom_jitter(shape=1)')
+  Hint: ggplot(Vocab,aes(x=education,y=vocabulary))+geom_jitter(shape=1)
+
+- Class: text
+  Output: 直方图是显示分布的最常见和直观的方法之一。在本练习中，您将使用mtcars数据框来探索简单直方图的典型变化。但首先，一些背景：
+    x轴/aes()：geom_histogram（）的文档声明了参数stat =“bin”作为默认值。回想一下，直方图将连续变量切割成离散的箱子 - 这就是统计“箱子”
+    。默认情况下，您始终可以获得30个大小均匀的bin，这是使用默认参数binwidth = range / 30指定的。如果你不知道被绘制的变量，
+    并想开始探索，这是一个很好的起点。
+    y轴/aes()：geom_histogram（）只需要一个aes参数：x。但是你的情节显然有一个Y轴，那么它从哪里来？
+    实际上，有一个映射到y参数的变量，它被称为..count ..。当geom_histogram（）执行装箱统计（见上面）时，它不仅将数据切分成离散的箱，
+    而且还计算了多少值在每个bin中。所以有一个内部数据框存储这些信息。 ..从这个内部数据框调用变量计数。这是在aes()上出现的东西。
+    但是它变得更好！密度也被计算出来了。这是这个bin相对于整个数据集的比例频率。您使用..density ..来访问这些信息。
+
+- Class: cmd_question
+  Output: 使用mtcars数据框，并通过将mpg映射到aes()里x上来制作单变量直方图。 使用geom_histogram（）作为geom层
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg))+geom_histogram()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg))+geom_histogram()')
+  Hint: ggplot(mtcars,aes(x=mpg))+geom_histogram()
+
+- Class: cmd_question
+  Output: 接上一个练习，在geom_histogram（）中手动创建带有binwidth = 1参数的1单位宽的bin。
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth = 1)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth = 1)')
+  Hint: ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth = 1)
+
+- Class: cmd_question
+  Output: 继续绘制mtcars数据框mpg的直方图，接上一个练习的要求并将..density ..映射到geom_histogram（）内的aes()的y参数（即aes（）内部）。 你将有两个aes（）函数：一个在ggplot（）里面，
+    另一个在里面geom_histogram（）。 
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth=1,aes(y=..density..))
+  AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
+  Hint: hint
+
+- Class: cmd_question
+  Output: 承接上一练习，设置geom_histogram（）中的fill值"#377EB8"。 这不应该出现在aes（）中，因为它是一个属性，而不是aes映射。
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth=1,aes(y=..density..),fill="#377EB8")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth=1,aes(y=..density..),fill="#377EB8")')
+  Hint: ggplot(mtcars,aes(x=mpg))+geom_histogram(binwidth=1,aes(y=..density..),fill="#377EB8")
+
+- Class: text
+  Output: 在前一章中，您看到有很多方法来定位散点图。 同样，geom_bar（）和geom_histogram（）几何也有一个位position参数，您可以使用它来指定
+    如何绘制图的条。
+    这里将介绍三个立场参数：
+    stack：把bars放在彼此的顶部。使用bar计数。 这是默认位置。
+    fill：把bar放在彼此顶部，使用比例。
+    dodge：把bars放在一起。使用计数值。
+    要求根据手动或自动变速器类型（am），绘制具有给定汽缸数（cyl）的汽车总数。因为在内置的mtcars数据集中，cyl和am是整数，请把这两个变量
+    转换为因子变量使用。
+
+- Class: cmd_question
+  Output: 使用mtcars，将cyl映射到aes()函数中的x，然后fill为am。 使用geom_bar（）来创建一个条形图。在geom_bar（）函数中，"position=stack"是默认值。
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()
+
+- Class: cmd_question
+  Output: 在geom_bar（）中设置position ="fill"
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="fill")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="fill")')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="fill")
+  
+- Class: cmd_question
+  Output: explain what the user must do here
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="dodge")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="dodge")')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position="dodge")
+  
+- Class: text
+  Output: 到目前为止，您已经看到了三个不同位置的条形图：stack（默认）,dodge（首选）和fill（显示比例）。
+    但是，您可以通过调整dodge进一步，使您的bar部分重叠。 你会再次使用mtcars数据集。 就像上次一样，cyl和am作为mtcars里面的因子了。
+    而不是使用position =“dodge”，你将使用position_dodge（），就像你在散点图和抖动练习中的position_jitter（）一样。 在这里，
+    你将这个保存为一个对象posn_d，这样你就可以轻松地重用它。请记住，你要使用position_dodge（）（和position_jitter（））的原因是
+    指定你需要多少dodge（或抖动）。
+  
+- Class: cmd_question
+  Output: 调用参数width = 0.2的position_dodge（）定义一个名为posn_d的新对象
+  CorrectAnswer: posn_d <- position_dodge(width=0.2)
+  AnswerTests: omnitest(correctExpr='posn_d <- position_dodge(width=0.2)')
+  Hint: posn_d <- position_dodge(width=0.2)
+
+- Class: cmd_question
+  Output: 继续我们之前前边练习的条形图的绘制。这一次指定position为我们刚才定义的posn_d对象。
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar(position=posn_d)
+  AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
+  Hint: hint
+
+- Class: cmd_question
+  Output: 继续绘制条形图，在上一个绘图命令的aes()函数里设置图形属性alpha= 0.6看看bar的重叠
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am),alpha=0.6))+geom_bar(position=posn_d)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),fill=factor(am),alpha=0.6))+geom_bar(position=posn_d)')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am),alpha=0.6))+geom_bar(position=posn_d)
+
+- Class: text
+  Output: 重叠的直方图对重叠条形图有类似的问题，但是这里有一个独特的解决方案：频率多边形。
+    这是一个特定于分箱数据的geom，它绘制一条连接每个bin的值的线。 像geom_histogram（），它需要一个binwidth参数，
+    默认情况下stat =“bin”和position =“identity”。
+
+- Class: cmd_question
+  Output: 绘制一个基本直方图，将mtcars数据框的mpg列映射到aes的x, 将cyl映射到aes（）内部的fill,设置binwidth=1。这里注意指定fill时，要将cyl
+    指定为因子类型。
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1)')
+  Hint: ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1)
+
+- Class: cmd_question
+  Output: 直方图的默认position是“stack”。 接着上一题的问题，设置直方图bar的position为"identity"。
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1,position="identity")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1,position="identity")')
+  Hint: ggplot(mtcars,aes(x=mpg,fill=factor(cyl)))+geom_histogram(binwidth=1,position="identity")
+
+- Class: cmd_question
+  Output: 使用与前两个图相同的数据和基础图层，使用geom_freqpoly()创建一个图。 请更改aes（）函数：cyl应映射到col而不是fill。 这将正确地着色geom。
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,col=factor(cyl)))+geom_freqpoly()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,col=factor(cyl)))+geom_freqpoly()')
+  Hint: ggplot(mtcars,aes(x=mpg,col=factor(cyl)))+geom_freqpoly()
+
+- Class: text
+  Output: 在这个条形图的例子中，您将根据顺序变量填充每个段。 要做到这一点的最好方法是序列化颜色系列。
+    你将会使用之前的Vocab数据集。 由于这是一个更大的数据集，有更多的类别，您还可以将其与简单的数据集mtcars进行比较。
+    两个数据集都是序列化的
+
+- Class: cmd_question
+  Output: 前边练习中的条形图中，设置cyl映射在x轴上，并根据传输类型am来设置填充色。继续画出这个条形图来，并使用scale_fill_brewer（）
+    设置调色板palette = "Set1"。 
+    有关可能的颜色集的完整列表，请查看？brewer.pal。
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()+scale_fill_brewer(palette = "Set1")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()+scale_fill_brewer(palette = "Set1")', correctVal=VAL)
+  Hint: ggplot(mtcars,aes(x=factor(cyl),fill=factor(am)))+geom_bar()+scale_fill_brewer(palette = "Set1")
+  
+- Class: cmd_question
+  Output: 用str()探索Vocab。 请注意，教育和词汇变量已经被转换为因子变量。
+  CorrectAnswer: str(Vocab)
+  AnswerTests: omnitest(correctExpr='str(Vocab)', correctVal=VAL)
+  Hint: str(Vocab)
+  
+- Class: cmd_question
+  Output: 用Vocab数据集制作一个填充的条形图。将education映射到x,使用vocabulary来设置填补色。
+    在geom_bar（）里面，确保设置position =“fill”。允许颜色酿造者通过使用适当的scale()函数选择一个默认的调色板，不带参数。 注意这是如何
+    产生一个警告信息和一个不完整的图形。
+  CorrectAnswer: ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_brewer()
+  AnswerTests: omnitest(correctExpr='ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_brewer()')
+  Hint: ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_brewer()
+  
+- Class: text
+  Output: 上一个练习画的条形图是不完整的。这是因为对于连续的数据，scale_fill_brewer（）调用的默认RColorBrewer调色板是“蓝调”。调色板中只有9种颜色，
+    而vocabulary有11个类别，所以你的图形看起来很奇怪。这个练习中，您将手动创建一个可以生成所有需要的颜色的调色板。为此，
+    您将使用一个名为colorRampPalette（）的函数。输入是具有2个或更多颜色值的字符向量，例如， “#FFFFFF”（白色）和“＃0000FF”（纯蓝色）。 
+    输出本身就是一个函数！所以当你把它分配给一个对象时，该对象应该被用作一个函数。要明白我们的意思，请看以下三行代码(建议打开一个新的R console 窗口运行一下)：
+    new_col <- colorRampPalette(c("#FFFFFF"，"#0000FF"))
+    new_col(4)#新外推的颜色
+    munsell :: plot_hex（new_col（4））#快速绘图
+    new_col（）是一个函数，它接受一个参数：想要去外推的颜色数量。想要使用更好的颜色，所以我们将RColorBrewer包中的整个“Blues”调色板分配给
+    了字符向量blues。
+
+- Class: cmd_question
+  Output: 修改我们刚才用来绘制条形图的代码，并将scale_fill_brewer（）更改为scale_fill_manual（）。在scale_fill_manual()设置参数values = blue_range(11)
+  CorrectAnswer: ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_manual(values=blue_range(11))
+  AnswerTests: omnitest(correctExpr='ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_manual(values=blue_range(11))')
+  Hint: ggplot(Vocab,aes(x=factor(education),fill=factor(vocabulary)))+geom_bar(position="fill")+scale_fill_manual(blue_range(11))
+
+- Class: text
+  Output: 作为条形图的最后一个例子，我们将返回到直方图（现在您可以看到这只是一种特殊类型的条形图）。 在之前的练习中，您已经看到了一个很好的窍门，
+    但是现在您将看到如何完全重叠它们。 这对于多个直方图来说是很好的，只要没有太多的重叠就可以了！您将使用mtcars数据框中的mpg变量创建直方图。
+
+- Class: cmd_question
+  Output: 绘制基本直方图，将mtcars数据框里的am映射到aes（）函数中的fill,mpg设置为aes()里的x。position设置为"fill",binwidth=1
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,fill=factor(am)))+geom_histogram(binwidth=1,position="fill")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,fill=factor(am)))+geom_histogram(binwidth=1,position="fill")')
+  Hint: ggplot(mtcars,aes(x=mpg,fill=factor(am)))+geom_histogram(binwidth=1,position="fill")
+
+- Class: cmd_question
+  Output: 常用的position没有一个能够很好地工作，因为直接比较分布是很困难的。将position改为"identity",aes()中设置alpha=0.4试试看
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,fill=factor(am),alpha=0.4))+geom_histogram(binwidth=1,position="identity")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,fill=factor(am),alpha=0.4))+geom_histogram(binwidth=1,position="identity")')
+  Hint: ggplot(mtcars,aes(x=mpg,fill=factor(am),alpha=0.4))+geom_histogram(binwidth=1,position="identity")
+
+- Class: cmd_question
+  Output: 改变图形属性的映射，将cyl映射到fill上
+  CorrectAnswer: ggplot(mtcars,aes(x=mpg,fill=factor(cyl),alpha=0.4))+geom_histogram(binwidth=1,position="identity")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=mpg,fill=factor(cyl),alpha=0.4))+geom_histogram(binwidth=1,position="identity")')
+  Hint: ggplot(mtcars,aes(x=mpg,fill=factor(cyl),alpha=0.4))+geom_histogram(binwidth=1,position="identity")
+
+- Class: text
+  Output: 如何使用时间序列数据制作线图是我们接下来几个练习的主题。 为了探索这个话题，你将使用economics数据框，其中包含美国圣路易斯联邦
+    储备银行的失业和人口统计时间序列。 数据包含在ggplot2包中。首先，可以看看失业时间的中位数和失业率（失业人口占总人口的比例）如何随时间
+    而变化。在接下来的练习中，您将探索如何在线路图上添加点缀，例如经济衰退时期
+
+- Class: cmd_question
+  Output: head()函数打印出economics数据框。
+  CorrectAnswer: head(economics)
+  AnswerTests: omnitest(correctExpr='head(economics)')
+  Hint: head(economics)
+
+- Class: cmd_question
+  Output: 使用economics数据框在x轴上绘制date，在y轴上绘制unemploy。 使用geom_line（）。
+  CorrectAnswer: ggplot(economics,aes(x=date,y=unemploy))+geom_line()
+  AnswerTests: omnitest(correctExpr='ggplot(economics,aes(x=date,y=unemploy))+geom_line()')
+  Hint: ggplot(economics,aes(x=date,y=unemploy))+geom_line()
+
+- Class: cmd_question
+  Output: 调整前面的指令的代码：不是unemploy，绘制unemploy/pop来代表失业总人口的一部分。
+  CorrectAnswer: ggplot(economics,aes(x=date,y=unemploy/pop))+geom_line()
+  AnswerTests: omnitest(correctExpr='ggplot(economics,aes(x=date,y=unemploy/pop))+geom_line()')
+  Hint: ggplot(economics,aes(x=date,y=unemploy/pop))+geom_line()
+

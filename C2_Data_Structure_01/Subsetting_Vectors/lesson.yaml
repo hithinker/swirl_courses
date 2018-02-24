@@ -1,0 +1,207 @@
+- Class: meta
+  Course: Vectors
+  Lesson: Subsetting_Vectors
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本课中，我们将看到如何根据我们指定的条件从向量中提取元素。
+
+- Class: text
+  Output: 例如，我们可能只对一个向量的前20个元素感兴趣，或者只对那些不是NA的元素感兴趣，
+    或者只对那些是正变量的或者是某个感兴趣的变量。到本课结束时，您将知道如何处理这些情况
+
+- Class: cmd_question
+  Output: 已经为你创建了一个名为x的向量，其中包含20个随机排序的数值（来自标准正态分布）和20个NAs的。现在输入x以查看它的内容。
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: 输入 x 查看其内容。
+
+- Class: text
+  Output: 从一个向量中选择一些特定元素（即一个“子集”）的方式是通过在紧跟在向量的名字后面方括号中放置一个“索引向量”。
+
+
+- Class: cmd_question
+  Output: 一个简单的例子，x [1:10]尝试输出查看x的前十个元素。
+  CorrectAnswer: x[1:10]
+  AnswerTests: omnitest(correctExpr='x[1:10]')
+  Hint: x [1:10]查看x的前十个元素。
+
+- Class: text
+  Output: 索引向量有四种不同的风格 - 逻辑向量，正整数向量，负整数向量和字符串向量 - 我们将在本课中介绍每一种类型。
+
+- Class: text
+  Output: 我们首先用逻辑向量索引。一个常见的情况就是我们想要提取一个的向量中不是NA（即丢失数据）的所有元素。
+    回想一下，is.na（x）产生一个与x长度相同的逻辑值向量，其中TRUE对应于x中的NA值，FALSE中对应于x中的非NA值。
+
+- Class: mult_question
+  Output: 你认为x [is.na（x）]会输出什么？
+  AnswerChoices: 所有元素均为NA的向量;所有元素均不为NA的向量;一个由逻辑值TRUE 和FALSE 组成的向量; 长度为0的向量
+  CorrectAnswer: 所有元素均为NA的向量
+  AnswerTests: omnitest(correctVal="所有元素均为NA的向量")
+  Hint: 记住is.na（x）告诉我们NAs在向量中的位置。所以如果我们基于这个取子集，你会发生什么？
+
+- Class: cmd_question
+  Output: 通过输入x [is.na（x）]来证明自己得猜想。
+  CorrectAnswer: x[is.na(x)]
+  AnswerTests: omnitest(correctExpr='x[is.na(x)]')
+  Hint: 输入x [is.na(x)]，看看你是否获得了所有的NAs，这显然不是我们想要的！
+
+- Class: cmd_question
+  Output: 回想一下'!'表示一个逻辑表达式的否定，所以！is.na（x）可以被理解为'不是NA'。因此，如果我们想创建一个名为y的向量，其中包含了x的所有非NA值，
+    我们可以使用y <- x [！is.na（x）]。试一试。
+  CorrectAnswer: y <- x[!is.na(x)]
+  AnswerTests: omnitest(correctExpr='y <- x[!is.na(x)]')
+  Hint: 输入y <- x [！is.na（x）]从x中捕获所有非缺失值。
+
+- Class: cmd_question
+  Output: 将y打印到控制台。
+  CorrectAnswer: 'y'
+  AnswerTests: omnitest(correctExpr='y')
+  Hint: 输入y查看其内容。
+
+- Class: text
+  Output: 现在我们已经获得了x的非缺失值并将它们放在y中，我们可以按照我们的要求对y进行取子集操作。
+
+- Class: mult_question
+  Output: 回想一下，表达式y> 0会给我们一个与y的长度相同的逻辑值的向量，其中TRUE对应于大于零的y元素，FALSE 对应于小于或等于零的y元素。
+    你认为y[y > 0]会输出什么？
+  AnswerChoices: y的所有正数元素组成的向量; y的所有负数元素组成的向量;所有元素均为NA的向量;一个长度为0的向量; TRUE和FALSE的向量
+  CorrectAnswer: y的所有正数元素组成的向量
+  AnswerTests: omnitest(correctVal="y的所有正数元素组成的向量")
+  Hint: 每个正的y的元素逻辑表达式y> 0将为我们返回TRUE。基于此，你认为y[y> 0]会返回什么？
+
+- Class: cmd_question
+  Output: 输入y [y> 0]可以看到y的所有正元素，它们也是我们原始向量x的正元素。
+  CorrectAnswer: y[y > 0]
+  AnswerTests: omnitest(correctExpr='y[y > 0]')
+  Hint: 输入y [y> 0]仅查看y的正数元素。
+
+- Class: cmd_question
+  Output: 你可能想知道为什么我们不用x [x> 0]取x的所有正数元素。现在尝试看看为什么。
+  CorrectAnswer: x[x > 0]
+  AnswerTests: omnitest(correctExpr='x[x > 0]')
+  Hint: 尝试x [x> 0]，看看为什么我们不使用这种方法。
+
+- Class: text
+  Output: 由于NA不是数值，而是未知数值的占位符，因此表达式NA> 0的计算结果为NA。因此，当我们这样做的时候，
+    我们得到了正数与NAs混合的结果。
+
+- Class: cmd_question
+  Output: 结合我们的逻辑运算符知识和我们对子集化的新知识，我们可以做到这一点 x [！is.na（x）＆x> 0]。试试看。
+  CorrectAnswer: x[!is.na(x) & x > 0]
+  AnswerTests: omnitest(correctExpr='x[!is.na(x) & x > 0]')
+  Hint: 尝试x [！is.na（x）＆x> 0]看看你得到了什么。
+
+- Class: text
+  Output: 在这种情况下，我们只请求x不为零且大于零的x值
+
+- Class: text
+  Output: 我已经向您展示了如何使用x [1:10]来对x的前十个值进行子集化。在这种情况下，我们在方括号内提供了一个正整数向量
+    告诉R返回x的第一个到第十个元素。
+
+- Class: text
+  Output: 许多编程语言使用所谓的“基于0的索引”，这意味着向量的第一个的索引0。R使用“基于1索引”，它（你猜对了！）意味着第一个元素的索引是1。
+
+- Class: cmd_question
+  Output: 我们如何获取x的第3，第5和第7个元素？提示 - 使用c（）函数将元素索引值指定为数字向量。
+  CorrectAnswer: x[c(3, 5, 7)]
+  AnswerTests: omnitest(correctExpr='x[c(3, 5, 7)]')
+  Hint: 用c（3,5,7）创建索引向量，然后将其放在方括号内。
+
+
+- Class: cmd_question
+  Output: 当使用整数向量来对向量x取子集时，我们坚持使用索引集{1,2，...，40}，因为x只有40个元素。如果我们要求x的第零个元素（即x [0]），会发生什么？试一试。
+  CorrectAnswer: x[0]
+  AnswerTests: omnitest(correctExpr='x[0]')
+  Hint: 尝试x [0]看看当我们引用一个向量的第零个元素时会发生什么，这是在R中没有定义的。
+
+- Class: cmd_question
+  Output: 正如你所期望的，我们没有任何用处。不幸的是，R并不妨碍我们这样做。如果我们要求x的第3000个元素呢？试试看。
+  CorrectAnswer: x[3000]
+  AnswerTests: omnitest(correctExpr='x[3000]')
+  Hint: 用x [3000]请求x（不存在）的第3000个元素。
+
+- Class: text
+  Output: 再次，没有用，但R并不妨碍我们要求。这应该是一个警示的故事。你应该始终确保你所要求的是在你正在使用的向量的索引范围内。
+- Class: text
+  Output: 如果我们对x除了第二和第十的所有元素都感兴趣呢？构造一个除了包含所有1到40之间除了2和10之外的向量将是非常繁琐的
+
+- Class: cmd_question
+  Output: 幸运的是，R接受负整数索引。而x [c（2，10）]只给出x的第2和第10个元素，x [c（-2，-10）]给出了x除了第2个和第10个的所有元素。
+    输入x [c（-2，-10）]
+  CorrectAnswer: x[c(-2, -10)]
+  AnswerTests: omnitest(correctExpr='x[c(-2, -10)]')
+  Hint: 尝试一下x [c（-2，-10）]。
+
+- Class: cmd_question
+  Output: 指定多个负数的简写方法是将负号放在正数向量的前面。键入x [-c（2，10）]以获得完全相同的结果。
+  CorrectAnswer: x[-c(2, 10)]
+  AnswerTests: omnitest(correctExpr='x[-c(2, 10)]')
+  Hint: 使用x [-c（2，10）]来简单一点。如果指定负索引，这可能是一个节省时间的方式。
+
+- Class: text
+  Output: 到目前为止，我们已经介绍了三种类型的索引向量 - 逻辑，正整数和负整数。唯一剩下的类型要求我们引入“命名”元素的概念。
+
+- Class: cmd_question
+  Output: 使用vect <- c（foo = 11，bar = 2，norf = NA）创建一个具有三个命名元素的数字向量。
+  CorrectAnswer: vect <- c(foo = 11, bar = 2, norf = NA)
+  AnswerTests: omnitest(correctExpr='vect <- c(foo = 11, bar = 2, norf = NA)')
+  Hint: 使用vect <- c（foo = 11，bar = 2，norf = NA）创建一个命名向量。
+
+- Class: cmd_question
+  Output: 当我们打印到控制台，你会看到每个元素都有一个名字。试试看。
+  CorrectAnswer: vect
+  AnswerTests: omnitest(correctExpr='vect')
+  Hint: 输入vect查看其内容。
+
+- Class: cmd_question
+  Output: 我们还可以通过将vect作为参数传递给names（）函数来获取vect的名称。试试看。
+  CorrectAnswer: names(vect)
+  AnswerTests: omnitest(correctExpr='names(vect)')
+  Hint: 查看vect名称。
+
+- Class: cmd_question
+  Output: 或者，我们可以用c（11，2，NA）创建一个未命名的向量vect2。现在就这样做。
+  CorrectAnswer: vect2 <- c(11, 2, NA)
+  AnswerTests: omnitest(correctExpr='vect2 <- c(11, 2, NA)')
+  Hint: 创建一个名为vect2的包含c（11，2，NA）的普通（未命名）向量。
+
+- Class: cmd_question
+  Output: 然后，我们可以在names（vect2）< - c（“foo”，“bar”，“norf”）之后将`names`属性添加到vect2中。前进。
+  CorrectAnswer: names(vect2) <- c("foo", "bar", "norf")
+  AnswerTests: omnitest(correctExpr='names(vect2) <- c("foo", "bar", "norf")')
+  Hint: 使用names（vect2）<- c（“foo”，“bar”，“norf”）添加名称到vect2。
+
+- Class: cmd_question
+  Output: 现在，让我们检查vect和vect2是否相同，将它们作为参数传递给identical（）函数。
+  CorrectAnswer: identical(vect, vect2)
+  AnswerTests: any_of_exprs('identical(vect, vect2)', 'identical(vect2, vect)')
+  Hint: 输入identical()查看比较结果。
+
+- Class: text
+  Output: 事实上，vect和vect2是相同的命名向量。
+
+- Class: mult_question
+  Output: 现在回到通过命名元素对向量进行子集化的问题。你认为下列哪个命令会给我们vect的第二个元素？
+  AnswerChoices: vect["bar"]; vect[bar]; vect["2"]
+  CorrectAnswer: vect["bar"]
+  AnswerTests: omnitest(correctVal='vect["bar"]')
+  Hint: 如果我们想要名为“bar”的元素（即vect的第二个元素），那么哪个命令会使我们知道？
+
+- Class: cmd_question
+  Output: 现在，试试看。
+  CorrectAnswer: vect["bar"]
+  AnswerTests: omnitest(correctExpr='vect["bar"]')
+  Hint: 试试vect [“bar”]。
+
+- Class: cmd_question
+  Output: 同样，我们可以使用vect [c（“foo”，“bar”）]指定一个名称向量。试试看。
+  CorrectAnswer: vect[c("foo", "bar")]
+  AnswerTests: omnitest(correctExpr='vect[c("foo", "bar")]')
+  Hint: 使用vect [c（“foo”，“bar”）]来获得名为“foo”和“bar”的vect元素。
+
+- Class: text
+  Output: 现在你知道所有四种从向量中进行数据子集化的方法。不同的方法在不同的情况下是最好的，如果有疑问，请尝试一下！

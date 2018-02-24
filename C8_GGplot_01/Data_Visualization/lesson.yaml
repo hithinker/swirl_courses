@@ -1,0 +1,86 @@
+- Class: meta
+  Course: GGplot_01
+  Lesson: Data
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 这节课程是关于在图形语法的背景下理解数据可视化的。 为了更好地理解ggplot2并理解它如何与基本包不同地运行，有必要进行一些比较。
+    首先，我们来关注基础绘图包。 您想在mtcars数据框中绘制mpg（英里/加仑）与wt（以千磅为单位的重量）的关系图，
+    但是这次您需要根据圆柱体数cyl来着色点。 你将如何用基础绘图来做？ 通过指定一个因子变量作为颜色来为这些点着色。因为因子只是一个整数类型的特殊类。
+
+- Class: cmd_question
+  Output: 使用基础包plot（），在x轴上使用mtcars$wt,在y轴上使用mtcars$mpg作为散点图，根据mtcars$cyl（使用col参数）着色。 
+  CorrectAnswer: plot(mtcars$wt,mtcars$mpg,col=mtcars$cyl)
+  AnswerTests: omnitest(correctExpr='plot(mtcars$wt,mtcars$mpg,col=mtcars$cyl)')
+  Hint: plot(mtcars$wt,mtcars$mpg,col=mtcars$cyl)
+
+- Class: cmd_question
+  Output: 添加一个新的列，fcyl，到mtcars数据框,其是cyl转换成一个因子类型的结果
+  CorrectAnswer: mtcars$fcyl <- as.factor(mtcasr$cyl)
+  AnswerTests: omnitest(correctExpr='mtcars$fcyl <- as.factor(mtcasr$cyl)')
+  Hint: mtcars$fcyl <- as.factor(mtcasr$cyl)
+
+- Class: cmd_question
+  Output: 创建一个plot基础图，但是这次使用fcyl（它是cyl作为因子）来设置col
+  CorrectAnswer: plot(mtcars$wt,mtcars$mpg,col=mtcars$fcyl)
+  AnswerTests: omnitest(correctExpr='plot(mtcars$wt,mtcars$mpg,col=mtcars$fcyl)')
+  Hint: plot(mtcars$wt,mtcars$mpg,col=mtcars$fcyl)
+  
+- Class: text
+  Output: 下面通过一个绘制回归模型的例子来比较一下基础绘图与ggplot绘图。注意下边的练习是在前边练习的基础上进行的。
+  
+- Class: cmd_question
+  Output: 首先用基础绘图里的abline()函数和lm()函数画出mtcat数据框里mpg对wt的依赖关系，lty=2为虚线
+  CorrectAnswer: abline(lm(mpg~wt,data=mtcars),lty=2)
+  AnswerTests: omnitest(correctExpr='abline(lm(mpg~wt,data=mtcars),lty=2)')
+  Hint: abline(lm(mpg~wt,data=mtcars),lty=2)
+
+- Class: cmd_question
+  Output: 运行如下代码：lapply(mtcars$fcyl, function(x) {abline(lm(mpg ~ wt, mtcars, subset = (cyl == x)), col = x)})。运行lapply,
+    对数据框mtcars里的因子cyl(回顾前边fcyl列是cyl对应的因子类型的列)每个水平的子集数据画出回归模型线。
+  CorrectAnswer: lapply(mtcars$fcyl, function(x) {abline(lm(mpg ~ wt, mtcars, subset = (cyl == x)), col = x)})
+  AnswerTests: omnitest(correctExpr='lapply(mtcars$fcyl, function(x) {abline(lm(mpg ~ wt, mtcars, subset = (cyl == x)), col = x)})')
+  Hint: lapply(mtcars$fcyl, function(x) {abline(lm(mpg ~ wt, mtcars, subset = (cyl == x)), col = x)})
+
+- Class: cmd_question
+  Output: 为上图添加图例来说明曲线的颜色与因子的对应关系。其中图例的标签legend参数为因子列fcyl的水平，添加参数col=1:3。设置pch=1,bty="n".
+    图例的坐标位置为x=5,y=33
+  CorrectAnswer: legend(x=5,y=33,legend=levels(mtcars$fcyl),col=1:3,pch=1,bty="n")
+  AnswerTests: omnitest(correctExpr='legend(x=5,y=33,legend=levels(mtcars$fcyl),col=1:3,pch=1,bty="n")')
+  Hint: legend(x=5,y=33,legend=levels(mtcars$fcyl),col=1:3,pch=1,bty="n")
+  
+- Class: text
+  Output: 接下来我们使用ggplot2里的ggplot绘图来实现相同的效果。
+  
+- Class: cmd_question
+  Output: 首先，添加geom_point（）绘制一个x = wt, y = mpg,颜色有cyl列指定的散点图
+  CorrectAnswer: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()')
+  Hint: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()
+
+- Class: cmd_question
+  Output: 添加geom_smooth（）图层，根据cyl为每个子集添加线性模型，在这个geom_smooth（）中，将方法method设置为“lm”，并将"se"其设置为FALSE。
+    注意：geom_smooth（）会自动在每个cyl子集中绘制一条线。 它通过ggplot（）命令在aes（）调用中识别您想要按颜色标识的组。
+  CorrectAnswer: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")')
+  Hint: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")
+
+- Class: cmd_question
+  Output: 绘制整个数据集的线性模型，通过添加另一个geom_smooth（）图层来完成。将geom_smooth（）图层中的组审美(group aesthetic)设置为1,
+    这必须在aes（）函数中设置group参数。将方法设置为“lm”，将se设置为FALSE，将linetype设置为2.这些必须设置在geom_smooth（）的aes（）之外。
+    注意：组美学将告诉ggplot（）通过所有的点绘制一个单一的线性模型。
+  CorrectAnswer: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")+geom_smooth(aes(group=1),se=FALSE,method="lm")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")+geom_smooth(aes(group=1),se=FALSE,method="lm")')
+  Hint: ggplot(mtcars,aes(x = wt, y = mpg,col=cyl))+geom_point()+geom_smooth(se=FALSE,method="lm")+geom_smooth(aes(group=1),se=FALSE,method="lm")
+  
+- Class: mult_question
+  Output: ggplot2已经变得非常流行，对于很多人来说，它是R中的指导性绘图软件包。ggplot2做的那个基础软件包不能做什么？
+  AnswerChoices: All ;ggplot2 creates plotting objects, which can be manipulated.;ggplot2 takes care of a lot of the leg
+    work for you, such as choosing nice color pallettes and making legends;ggplot2 is built upon the grammar of graphics plotting 
+    philosophy, making it more flexible and intuitive for understanding the relationship between your visuals and your data.
+  CorrectAnswer: All
+  AnswerTests: omnitest(correctVal= 'All')
+  Hint: 回顾一下我们之前的练习

@@ -1,0 +1,302 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: GGPlot2_Extras
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output:  在本课中，我们将通过使用ggplot2软件包附带的diamonds数据来演示更多的qplot示例。这个数据比mpg数据稍微复杂一点，它包含了钻石各种特征的信息。
+
+- Class: cmd_question
+  Output:  用参数diamonds运行R命令str，看看数据是什么样的。
+  CorrectAnswer: str(diamonds)
+  AnswerTests: omnitest(correctExpr='str(diamonds)')
+  Hint: 在命令提示符下输入str(diamonds)。
+
+- Class: mult_question
+  Output: 从输出结果来看，您认为这些数据包含多少钻石特征？
+  AnswerChoices:  10; 53940; 5394; 53950
+  CorrectAnswer:  10
+  AnswerTests: omnitest(correctVal='10')
+  Hint: 输出结果表明有10个变量有53940个观测值。接下来是一个可以应用于钻石的长10的特征列表(carat, cut, color, etc.)。
+
+- Class: mult_question
+  Output: 在str的输出中，这个数据集中有多少个钻石？
+  AnswerChoices:  10; 53940; 5394; 53950
+  CorrectAnswer:  53940
+  AnswerTests: omnitest(correctVal='53940')
+  Hint: 输出结果表明有10个变量有53940个观测值。接下来是一个可以应用于钻石的长10的特征列表(carat, cut, color, etc.)。
+
+- Class: cmd_question
+  Output:  现在让我们在这个数据集中绘制一个53940钻石价格(price)的直方图。回想一下，一个直方图只需要一个数据变量，
+    所以用第一个参数price和参数数据集diamonds运行R命令qplot。这将显示不同钻石价格的频率。
+  CorrectAnswer: qplot(price,data=diamonds)
+  AnswerTests: omnitest(correctExpr='qplot(price,data=diamonds)')
+  Hint: 在命令提示符下输入qplot（price，data = diamonds）。
+
+- Class: cmd_question
+  Output:  你不仅得到直方图，而且还得到一个关于默认范围为range/ 30的binwidth的消息。回想一下，范围是指数据的分布或分散性，
+    这里是指是钻石的价格的分布。现在以diamonds$price作为参数运行R函数range。
+  CorrectAnswer: range(diamonds$price)
+  AnswerTests: omnitest(correctExpr='range(diamonds$price)')
+  Hint: 在命令提示符处输入range(diamonds$price)。
+  
+- Class: text
+  Output: 我们看到该范围返回最低和最高价格，所以钻石的价格从326美元到18823美元不等。范围（这两个数字之间的区别）是$18497。
+
+- Class: cmd_question
+  Output:  现在用3个参数重新运行qplot。第一个是price，第二个是数据集等于diamonds，第三个是binwidth设置等于18497/30）。
+   （使用向上的箭头来节省一些输入。）看看图形是否看起来很熟悉。
+  CorrectAnswer: qplot(price,data=diamonds,binwidth=18497/30)
+  AnswerTests: omnitest(correctExpr='qplot(price,data=diamonds,binwidth=18497/30)')
+  Hint: 在命令提示符下输入qplot（price，data = diamonds，binwidth = 18497/30）。
+
+- Class: text
+  Output: 没有红色消息输出，但直方图和前一个几乎相同！如果你在命令行键入18497/30，你会得到结果616.5667。
+    这意味着每个箱子的高度告诉你有多少钻石的价格在x和x + 617之间，其中x是箱子的左边缘的值。
+
+- Class: cmd_question
+  Output:  我们已经为您创建了一个包含整数617的倍数的向量，叫做brk。现在看看
+  CorrectAnswer: brk
+  AnswerTests: omnitest(correctExpr='brk')
+  Hint: 在命令提示符下输入brk。
+
+- Class: cmd_question
+  Output: 我们还创建了一个向量，向量的项是价格在brk每对相邻的数据项之间的包含钻石的数量。例如，
+    第一个数字是价格介于0和617美元之间的钻石数量，第二个是价格介于617和1234美元之间的钻石数量。看看现在名为counts的向量。
+  CorrectAnswer: counts
+  AnswerTests: omnitest(correctExpr='counts')
+  Hint: 在命令提示符处输入计数。
+
+- Class: text
+  Output: 看看它如何匹配你刚刚绘制的直方图？所以，qplot真的有用！
+
+- Class: cmd_question
+  Output:  你可能已经厌倦了，但重新运行qplot，这次有4个参数。前3个和你刚才跑过的最后一个qplot命令一样
+    （price，数据集等于diamonds，binwidth设置等于18497/30）。 （使用向上箭头来节省一些输入。）第四个参数是fill设置等于cut。
+    直方图的形状将是熟悉的，但它会更加丰富多彩。
+  CorrectAnswer: qplot(price,data=diamonds,binwidth=18497/30,fill=cut)
+  AnswerTests: omnitest(correctExpr='qplot(price,data=diamonds,binwidth=18497/30,fill=cut)')
+  Hint: 在命令提示符下输入qplot（price，data = diamonds，binwidth = 18497/30，fill = cut）。
+
+- Class: text
+  Output: 这显示了每个价格组（bin）内的计数如何在不同的钻石切割中分配。请注意，qplot如何显示相对于右侧剪切图例的这些分布。
+    切割合理(fair)的钻石位于每个bin的顶部，好(good)的切口在其下面，然后在它们下面是非常(very good)好，
+    直到理想(ideal)的切割在每个bin的底部。你可以很快从这个显示器看到，价格在5000美元以上的fair切割钻石很少。
+
+- Class: cmd_question
+  Output:  现在我们将重新绘制直方图作为一个密度函数，它将显示每个bin中的钻石的比例。这意味着形状将是类似的，但y轴上的比例将会不同，
+    因为根据定义，密度函数在任何地方都是非负的，并且曲线下的面积是1。要做到这一点，只需使用3个参数调用qplot即可。
+    前两个是价格和数据（相当于钻石）。第三个是应该设置等于字符串"density"的"geom"。现在试试这个。
+  CorrectAnswer: qplot(price,data=diamonds,geom="density")
+  AnswerTests: omnitest(correctExpr='qplot(price,data=diamonds,geom="density")')
+  Hint: 在命令提示符下键入qplot（price，data = diamonds，geom =“density”）。
+
+- Class: text
+  Output:  注意，形状与我们之前看到的直方图的形状相似。最高峰出现在在x轴上接近0处，这意味着数据集中的大部分钻石价格便宜。
+    一般来说，随着价格的上涨（沿x轴向右移动），钻石数量（以这些价格）下降。这个例外是价格在$ 4000左右;频率略有增加。
+    让我们看看是否和切割(cut)有关。
+
+- Class: cmd_question
+  Output: 重新运行qplot，这次有4个参数。前两个是和前边一样的，第三个是geom设置等于“denisity”。第四是color设置等于cut。现在试试这个。
+  CorrectAnswer: qplot(price,data=diamonds,geom="density",color=cut)
+  AnswerTests: omnitest(correctExpr='qplot(price,data=diamonds,geom="density",color=cut)')
+  Hint: 在命令提示符下输入qplot（price，data = diamonds，geom =“density”，color = cut）。
+
+- Class: text
+  Output: 看看qplot是如何轻松完成的？五个cut中有四个有两个高峰，一个在$ 1000价格，另一个在$ 4000和$ 5000之间。
+    唯一的例外是fair cut,在2500美元的高峰期。这给了我们更多的了解我们之前看到的直方图。
+
+- Class: text
+  Output: 我们来看看散点图。我们需要从钻石数据集中指定两个变量。
+
+- Class: cmd_question
+  Output:  我们从carat and price开始。使用这些作为qplot的前2个参数。第三个数据集应该是数据集diamonds。现在试试这个。
+  CorrectAnswer: qplot(carat,price,data=diamonds)
+  AnswerTests: omnitest(correctExpr=' qplot(carat,price,data=diamonds)')
+  Hint: 在命令提示符下输入qplot(carat,price,data=diamonds)。
+
+- Class: text
+  Output: 我们看到积极的趋势，随着克拉数的增加价格也上涨。
+
+- Class: cmd_question
+  Output:  现在重新运行相同的命令，添加第四个参数shape，设置等于cut
+  CorrectAnswer: qplot(carat,price,data=diamonds, shape=cut)
+  AnswerTests: omnitest(correctExpr='qplot(carat,price,data=diamonds, shape=cut)')
+  Hint: 在命令提示符下输入qplot(carat,price,data=diamonds, shape=cut)
+
+- Class: cmd_question
+  Output:  除了钻石的切割由不同的符号区分外，相同的散点图出现。右边的图例告诉你哪个符号与每个切割(cut)相关联。这些都很小，难以阅读，
+    所以重新运行相同的命令，这次，不是设置参数shape等于剪切(cut)，设置参数color等于剪切(cut)。
+  CorrectAnswer: qplot(carat,price,data=diamonds, color=cut)
+  AnswerTests: omnitest(correctExpr='qplot(carat,price,data=diamonds, color=cut)')
+  Hint: 在命令提示符处输入qplot(carat,price,data=diamonds, color=cut)。
+
+- Class: text
+  Output: 这很容易看到！现在我们将关注两个更复杂的散点图示例。
+
+- Class: cmd_question
+  Output:  我们将重新运行你刚刚做的图(carat,price,data=diamonds and color=cut) ，但添加一个额外的参数。使用geom_smooth，设置method等于字符串“lm”。
+  CorrectAnswer: qplot(carat,price,data=diamonds, color=cut) + geom_smooth(method="lm")
+  AnswerTests: omnitest(correctExpr='qplot(carat,price,data=diamonds, color=cut) + geom_smooth(method="lm")')
+  Hint: 在命令提示符处输入qplot(carat,price,data=diamonds, color=cut) + geom_smooth(method="lm")
+  
+- Class: text
+  Output: 再次，我们看到相同的散点图，但稍微压缩一点，显示5条回归线，每条钻石一条。这可能很难看，但每条线周围是一个显示95％置信区间的阴影。
+    我们毫不意外地看到，剪切越好，线条斜率越陡。
+
+- Class: cmd_question
+  Output:  最后，让我们重新运行一下你刚才做的qplot（carat，price，data = diamonds，color = cut）+ geom_smooth（method =“lm”），
+    但为qplot添加一个(只有一个)参数。新的参数是facets，它应该被设置等于公式.~cut。回想一下，facets的参数表明我们想要一个多面板图形。
+    ~左侧的符号表示行（本例中只有一行），而~右侧的符号表示列（本例是5个cut类型）。现在试试这个。
+  CorrectAnswer: qplot(carat,price,data=diamonds, color=cut, facets=.~cut) + geom_smooth(method="lm")
+  AnswerTests: omnitest(correctExpr='qplot(carat,price,data=diamonds, color=cut, facets=.~cut) + geom_smooth(method="lm")')
+  Hint: 在命令提示符处输入qplot(carat,price,data=diamonds, color=cut, facets=.~cut) + geom_smooth(method="lm")。
+
+- Class: text
+  Output:  让我们回顾一下我们学到的东西
+
+- Class: mult_question
+  Output:  qplot绘制哪些类型的图形？
+  AnswerChoices:  histograms; scatterplots; box and whisker plots; all of the others
+  CorrectAnswer: all of the others
+  AnswerTests: omnitest(correctVal='all of the others')
+  Hint: qplot太棒了！它似乎包含了一切！
+
+- Class: mult_question
+  Output:  ggplot2中的gg代表什么？
+  AnswerChoices:  good grief; grammar of graphics; goto graphics; good graphics
+  CorrectAnswer: grammar of graphics
+  AnswerTests: omnitest(correctVal='grammar of graphics')
+  Hint: 考虑积木和组件，名词，动词和图表句子。
+
+- Class: mult_question
+  Output:  对还是错？ geom参数值是一个字符串。
+  AnswerChoices:  True; False
+  CorrectAnswer: True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 回想一下我们的例子，例如geom =“density”。
+
+- Class: mult_question
+  Output:  对还是错？方法参数需要一个字符串作为值。
+  AnswerChoices:  True; False
+  CorrectAnswer: True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 回想一下我们的例子，例如method =“lm”。
+
+- Class: mult_question
+  Output:  对还是错？ binwidth参数需要一个字符串作为值。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回想我们的例子，例如，binwidth = 18497/30。
+
+- Class: mult_question
+  Output:  对还是错？用户在使用qplot时必须指定x轴和y轴标签。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回顾我们的例子，当我们看到标签，我们没有指定。
+  
+- Class: text
+  Output: 进入ggplots绘图.
+
+- Class: cmd_question
+  Output:  首先创建一个图形对象g，通过给它分配一个调用2个参数的函数ggplot的输出。第一个是数据集diamonds，第二个是调用函数aes，
+    有2个参数，depth和price。记住你不会看到任何结果。
+  CorrectAnswer: g <- ggplot(diamonds,aes(depth,price))
+  AnswerTests: expr_creates_var("g"); omnitest(correctExpr='g <- ggplot(diamonds,aes(depth,price))')
+  Hint: 在命令提示符处输入g <- ggplot（diamonds，aes（depth，price））。
+
+- Class: cmd_question
+  Output:  g是否存在？当然了!用g作为参数输入summary以查看它的含义。
+  CorrectAnswer: summary(g)
+  AnswerTests: omnitest(correctExpr='summary(g)')
+  Hint: 在命令提示符处输入summary(g)。
+
+- Class: cmd_question
+  Output:  我们看到g保存整个数据集。现在假设我们想看到关系的散点图。添加对函数geom_point的调用，参数alpha设置为1/3。
+  CorrectAnswer: g+geom_point(alpha=1/3)
+  AnswerTests: omnitest(correctExpr='g+geom_point(alpha=1/3)')
+  Hint: 在命令提示符下输入g + geom_point（alpha = 1/3）
+
+- Class: text
+  Output: 这有点有趣。我们可以看到depth范围从43到79，但是最密集的分布是在60到65之间。假设我们想看看这种关系（depth和price之间）是否受cut或者carat的影响。
+    我们知道cut是一个5级(Fair, Good, Very Good, Premium, and Ideal)的因子(factor)。但克拉是numeric型的，而不是一个离散的因子。我们能做到吗？
+
+- Class: text
+  Output: 当然！这就是我们问的原因。 R有一个方便的命令cut，它允许你把你的数据分成集合，并把每个条目标记为属于一个集合，
+    实际上是创建一个新的因子。首先，我们必须决定在哪里分割数据。
+
+- Class: cmd_question
+  Output: 我们把数据分成3个口袋，这样每个口袋就有数据的1/3。我们将使用R命令quantile来执行此操作。创建变量cutpoints，
+    并为其分配具有3个参数的函数quantile的输出。首先是数据切割，diamonds$carat;第二个是调用R函数seq，这也有3个参数，(0, 1, length为4)。
+    调用分位数的第三个参数是设置为布尔值TRUE的na.rm。
+  CorrectAnswer: cutpoints <- quantile(diamonds$carat,seq(0,1,length=4),na.rm=TRUE)
+  AnswerTests: expr_creates_var("cutpoints"); omnitest(correctExpr='cutpoints <- quantile(diamonds$carat,seq(0,1,length=4),na.rm=TRUE)')
+  Hint: 在命令提示符下输入cutpoints <- quantile(diamonds$carat,seq(0,1,length=4),na.rm=TRUE)。
+
+- Class: cmd_question
+  Output: 现在看看cutpoints,了解它是什么。
+  CorrectAnswer: cutpoints 
+  AnswerTests:  omnitest(correctExpr='cutpoints')
+  Hint: 在命令提示符处输入cutpoints 。
+
+- Class: cmd_question
+  Output: 我们看到一个4长的向量（解释为什么长度被设置为4）。我们也看到0.2是数据集中最小的克拉值，5.01是最大的。
+    三分之一的钻石在0.2克拉到0.5克拉之间，另外三分之一的钻石在0.5克拉到1克拉之间。剩下的三分之一在1和5.01克拉之间。
+    现在我们可以使用R函数cut来标记数据集中的每个53940个钻石属于这三个因素之一。在diamonds中创建一个新的名字，
+    通过分配给 diamonds$car2对cut调用的输出。cut函数需要2个参数，diamonds$carat，这是我们要分割的数据，cutpoints，我们执行分割的点。
+  CorrectAnswer: diamonds$car2 <- cut(diamonds$carat,cutpoints); stageVariable("diamonds$car2",diamonds$car2)
+  AnswerTests:   omnitest(correctExpr='diamonds$car2 <- cut(diamonds$carat,cutpoints)')
+  Hint: diamonds$car2 <- cut(diamonds$carat,cutpoints)。
+
+- Class: cmd_question
+  Output: 现在我们可以继续我们的多面板绘图。首先，我们必须重置g，因为我们改变了它所包含的数据集（diamonds）（通过添加一个新列car2）。
+    使用2个参数调用ggplot。数据集diamonds是第一个，并且具有2个参数（depth，price）的函数aes的调用是第二个。
+  CorrectAnswer: g <- ggplot(diamonds,aes(depth,price))
+  AnswerTests: expr_creates_var("g"); omnitest(correctExpr='g <- ggplot(diamonds,aes(depth,price))')
+  Hint: 在命令提示符下输入g <- ggplot（diamonds，aes（depth，price））。
+
+- Class: cmd_question
+  Output: 现在g调用后添加2个函数。首先是调用geom_point，参数alpha设置为1/3。第二个是使用公式cut~car2作为参数的函数facet_grid的调用
+  CorrectAnswer: g+geom_point(alpha=1/3)+facet_grid(cut~car2)
+  AnswerTests:  omnitest(correctExpr='g+geom_point(alpha=1/3)+facet_grid(cut~car2)')
+  Hint: 在命令提示符下输入g + geom_point（alpha = 1/3）+ facet_grid（cut~car2）。
+  
+- Class: text
+  Output: 我们看到一个5行的多面板图，每行对应一个切割因子。不奇怪。令人惊讶的是列的数量。我们期待3，得到了4.为什么？
+
+- Class: cmd_question
+  Output: 前3列用切点边界标记。第四个标记为“NA”，向我们显示发生数据缺失（NA或Not Available）的数据点的位置。我们看到只有少数（实际上12个），他们发生在Very Good, Premium, Ideal cuts的切割处。我们创建了一个向量，myd，包含这些数据点的索引。通过输入表达式钻石来查看钻石中的这些条目[myd，]。 myd告诉R显示哪些行，空栏列表显示打印所有的列。
+  CorrectAnswer: diamonds[myd,]
+  AnswerTests:  omnitest(correctExpr='diamonds[myd,]')
+  Hint: 在命令提示符处输入diamonds[myd,]。
+
+- Class: text
+  Output: car2字段实际上标记这些条目为NA，但是克carat字段显示它们每个都有一个carat size为0.2。这里发生了什么？
+
+- Class: text
+  Output: 其实我们的图形回答这个问题。每列的边界出现在每列顶部的灰色标签中，我们看到第一列标记为（0.2,0.5]，这表示该列包含大于0.2和小于或等于0.5的数据。因此，0.2号克拉的钻石被排除在car2数据之外。
+
+- Class: cmd_question
+  Output: 最后，回想一下最后的绘图命令（g + geom_point（alpha = 1/3）+ facet_grid（cut~car2））或者重新输入它，
+    如果你愿意并添加另一个调用--函数geom_smooth。传递3个参数，method设置等于字符串“lm”，size设置为3，color等于字符串“pink”。
+  CorrectAnswer: g+geom_point(alpha=1/3)+facet_grid(cut~car2)+geom_smooth(method="lm",size=3,color="pink")
+  AnswerTests:  omnitest(correctExpr='g+geom_point(alpha=1/3)+facet_grid(cut~car2)+geom_smooth(method="lm",size=3,color="pink")')
+  Hint: 在命令提示符处输入g + geom_point（alpha = 1/3）+ facet_grid（cut〜car2）+ geom_smooth（method =“lm”，size = 3，color =“pink”）。
+
+- Class: text
+  Output: 很好的粗回归线，有点有趣。你可以添加带标签的图形，如果你想，但我们会让你尝试自己的。
+
+- Class: cmd_question
+  Output: 最后，ggplot2当然可以产生箱形图。最后的练习是3个函数调用。第一个是ggplot,有2个参数，
+    diamonds和aes,aes把carat和price作为参数来调用。第二个调用是geom_boxplot没有参数。第三个是facet_grid有一个参数，公式.~cut。现在试试这个。
+  CorrectAnswer: ggplot(diamonds,aes(carat,price))+geom_boxplot()+facet_grid(.~cut)
+  AnswerTests:  omnitest(correctExpr='ggplot(diamonds,aes(carat,price))+geom_boxplot()+facet_grid(.~cut)')
+  Hint: 在命令提示符下输入ggplot（diamonds，aes（carat，price））+ geom_boxplot（）+ facet_grid（.~cut）。
+
+- Class: text
+  Output: 干得好，恭喜！你已经完成了这堂课的宝典。希望它得到回报！

@@ -1,0 +1,193 @@
+- Class: meta
+  Course: Base_Graph_01
+  Lesson: Different_plot_types
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: Base R图形支持许多不同的绘图类型，本章介绍其中的几个对于查看数据集中的重要特征以及向其他人解释这些特征特别有用。 
+    我们从简单的工具开始，如直方图和密度图，一次表征一个变量，继续散点图和其他有用的工具，以显示两个变量如何相关，最后引入一些工具，
+    用于在我们的数据集中可视化更复杂的关系。
+    
+- Class: text
+  Output: hist（）和truehist（）函数。直方图可能是研究数值变量的值如何在其范围内分布的最有名的方法，而R提供了几种不同的直方图实现。
+    这个练习介绍其中两个：hist（）是基本R的一部分，其默认选项根据记录落入每个柱状图的基础上的次数生成柱状图。
+    truehist（）来自MASS包，并对这些计数进行缩放以给出概率密度的估计。
+
+- Class: cmd_question
+  Output: 使用par（）函数为两个图的并排数组设置mfrow参数。
+  CorrectAnswer: par(mfrow=c(1,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(1,2))')
+  Hint: par(mfrow=c(1,2))
+
+- Class: cmd_question
+  Output: 使用hist（）函数从MASS包(已经为你加载了MASS包)里Cars93数据框生成Horsepower变量的直方图。 将其main(标题参数)参数设置为等于曲线的标题
+    “hist（）plot”。
+  CorrectAnswer: hist(Cars93$Horsepower,main="hist() plot")
+  AnswerTests: omnitest(correctExpr='hist(Cars93$Horsepower,main="hist() plot")')
+  Hint: hist(Cars93$Horsepower,main="hist() plot")
+
+- Class: cmd_question
+  Output: 使用truehist（）函数生成相同变量的替代直方图。 通过相应地指定其main参数来标题“truehist（）plot”。
+  CorrectAnswer: truehist(Cars93$Horsepower,main="truehist() plot")
+  AnswerTests: omnitest(correctExpr='truehist(Cars93$Horsepower,main="truehist() plot")')
+  Hint: truehist(Cars93$Horsepower,main="truehist() plot")
+
+- Class: text
+  Output: 密度图作为平滑的直方图虽然它们可能不像直方图那样广为人知，但是密度估计可以被认为是平滑的直方图，其被设计为给随机变量的密度函数
+    提供更好的估计。在本练习中，您将使用ChickWeight数据集(位于datasets包里)，其中包含chick(小鸡)重量的集合。 您将首先选择16周龄的雏鸡。 
+    然后，使用truehist（）函数创建一个直方图，并在其顶部添加密度图，使用lines（）和density（）函数及其默认选项。 
+    这种类型的变量的密度曲线通常预计大致符合钟形曲线，被称为高斯分布。 让我们来看看这个数据集是否属于这种情况
+
+- Class: cmd_question
+  Output: 使用which（）函数从Time等于16的ChickWeight数据框中选择记录，创建变量 index16
+  CorrectAnswer: index16<-which(ChickWeight$Time==16)
+  AnswerTests: omnitest(correctExpr='index16<-which(ChickWeight$Time==16)')
+  Hint: index16<-which(ChickWeight$Time==16)
+
+- Class: cmd_question
+  Output: 创建变量weights，给出16周龄雏鸡的体重。
+  CorrectAnswer: weights<-ChickWeight$weight[index16]
+  AnswerTests: omnitest(correctExpr='weights<-ChickWeight$weight[index16]')
+  Hint: weights<-ChickWeight$weight[index16]
+
+- Class: cmd_question
+  Output: 使用truehist（）函数根据weights生成直方图。
+  CorrectAnswer: truehist(weights)
+  AnswerTests: omnitest(correctExpr='truehist(weights)')
+  Hint: truehist(weights)
+
+- Class: cmd_question
+  Output: 使用lines（）和density（）函数叠加直方图上weight值的密度图。
+  CorrectAnswer: lines(density(weights))
+  AnswerTests: omnitest(correctExpr='lines(density(weights))')
+  Hint: lines(density(weights))
+
+- Class: text
+  Output: 使用qqPlot（）函数来查看数据中的许多细节。直方图和密度估计的实际限制是，如果我们想知道高斯分布假设对于我们的数据是否合理，
+    则很难说。分位数分位数图或QQ图是一种有用的替代方法：我们对数据进行排序，根据基于我们的参考分布（例如，高斯“钟形曲线”）的
+    专门设计的x轴对其进行绘图，看看这些点是否大致在一条直线上。在R中，有几个QQ实例可用，但最方便的是car包中的qqPlot（）函数。
+    将这个函数应用于上一个练习中考虑的16周雏鸡体重数据，以显示高斯分布在这里似乎是合理的。然后将这个函数应用于高斯分布明显不适合的
+    另一个变量，但是结果还显示了重复值（图中的平坦延伸）的存在以及没有观察到的数据范围的部分（在图中垂直“跳跃”）。注意：
+    我们已经提前加载了car到我们的工作环境当中
+
+- Class: cmd_question
+  Output: 将qqPlot（）函数应用于weights，注意观察几乎所有的点落在参考线周围的置信区间内，表明该数据序列与高斯分布的合理一致性。
+  CorrectAnswer: qqPlot(weights)
+  AnswerTests: omnitest(correctExpr='qqPlot(weights)')
+  Hint: qqPlot(weights)
+
+- Class: cmd_question
+  Output: 将qqPlot（）函数应用于MASS包中Boston数据框的tax变量。
+  CorrectAnswer: qqPlot(Boston$tax)
+  AnswerTests: omnitest(correctExpr='qqPlot(Boston$tax)')
+  Hint: qqPlot(Boston$tax)
+
+- Class: text
+  Output: sunflowerplot（）函数用于重复的数字数据。散点图用一个点表示数据集中的每个（x，y）对。如果这些对中的一些被重复
+    （即，如果x和y值的相同组合多次出现并因此位于彼此之上），则我们不能在散点图中看到这一点。已经开发了几种方法来处理这个问题，
+     包括抖动（jittering），它为每个x和y值添加小的随机值，所以重复的点将显示为邻近点的簇。代表重复的数据点同样有效的一个有用的选择是
+     向日葵图，其通过“向日葵”来表示每个重复的点，对于每个数据点的重复，具有一个“花瓣”。这个练习要求你从同一个数据集中构建一个散点图和
+     一个向日葵图，一个包含重复的数据点。比较这些图可以让您看到有多少数据点出现多少时，标准散点图中可能丢失多少信息。
+
+- Class: cmd_question
+  Output: 使用par（）函数为并排绘图数组设置mfrow参数。
+  CorrectAnswer: par(mfrow=c(1,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(1,2))')
+  Hint: par(mfrow=c(1,2))
+
+- Class: cmd_question
+  Output: 对于左侧的图，使用plot（）函数来构建rad变量与zn变量的散点图，两者均来自MASS包中的Boston数据框。
+  CorrectAnswer: plot(Boston$zn,Boston$rad)
+  AnswerTests: omnitest(correctExpr='plot(Boston$zn,Boston$rad)')
+  Hint: plot(Boston$zn,Boston$rad)
+
+- Class: cmd_question
+  Output: 对于右侧的绘图，将sunflowerplot（）函数应用于相同的数据以查看重复数据点的存在，而不是从左侧的散点图看出。
+  CorrectAnswer: sunflowerplot(Boston$zn,Boston$rad)
+  AnswerTests: omnitest(correctExpr='sunflowerplot(Boston$zn,Boston$rad)')
+  Hint: sunflowerplot(Boston$zn,Boston$rad)
+
+- Class: text
+  Output: boxplot（）函数的有用选项boxplot（）函数显示数值变量y的分布在第二个变量x的唯一水平上的差异。 为了有效，
+    这第二个变量不应该有太多的独特的水平（例如，10个或更少是好的;比这更多使得图形难以解释）。boxplot（）函数也有一些可选的参数，
+    这个练习要求你使用其中的三个来获得更多的信息图：varwidth允许显示数据子集的不同大小的可变宽度盒形图。log允许对数转换的y值。
+    las允许更多可读的轴标签。这个练习还说明了公式formula接口的使用：y~x表示我们想要在x变量的不同级别上的y变量的箱形图。请参阅？boxplot了解更多详情。
+
+- Class: cmd_question
+  Output: 使用formula，创建一个箱形图，显示Boston数据框中不同的rad水平下crim的数值分布。 使用varwidth参数获取可变宽度的箱形图，
+    指定对数转换后的y轴，并将las参数设置为1，以获得x轴和y轴的水平标签。
+  CorrectAnswer: boxplot(crim~rad,data=Boston,varwidth=TRUE,log="y",las=1)
+  AnswerTests: omnitest(correctExpr='boxplot(crim~rad,data=Boston,varwidth=TRUE,log="y",las=1)')
+  Hint: boxplot(crim~rad,data=Boston,varwidth=TRUE,log="y",las=1)
+
+- Class: cmd_question
+  Output: 使用title（）函数添加标题"Crime rate vs. radial highway index"
+  CorrectAnswer: title("Crime rate vs. radial highway index")
+  AnswerTests: omnitest(correctExpr='title("Crime rate vs. radial highway index")')
+  Hint: title("Crime rate vs. radial highway index")
+
+- Class: text
+  Output: 使用mosaicplot()函数。马赛克图可以被看作是分类变量之间的散点图，并且在R中用mosaicplot（）函数来支持。
+    正如这个例子所显示的，除了分类变量之外，这个图还可以用于理解数值变量（整数值或实值）之间的关系，这些变量只取几个不同的值。
+    更具体地说，这个练习要求你构造一个马赛克图，显示mtcars(位于datasets包里)数据框中的数值carb和cyl变量之间的关系，分别表示6和3个唯一值的变量。
+
+- Class: cmd_question
+  Output: 在公式formula接口中应用mosaicplot（）函数，以查看carb 变量的水平如何随着mtcars数据框中cyl变量的水平而变化。
+  CorrectAnswer: mosaicplot(carb~cyl,data=mtcars)
+  AnswerTests: omnitest(correctExpr='mosaicplot(carb~cyl,data=mtcars)')
+  Hint: mosaicplot(carb~cyl,data=mtcars)
+
+- Class: text
+  Output: 使用bagplot（）函数。单个boxplot给出了基于五个数字的数字变量的变化范围的图形表示：最小值和最大值中位数（或“中等”）的值
+    两个中间值称为低四分位数和高四分位数。另外，boxplot从这些数字中的三个计算标称数据范围，并将落在该范围之外的标志点作为异常值计算，
+    表示它们的不同点。bagplot将这种表示扩展到两个数值变量，显示它们之间的关系，在与boxplot中box相对应的二维“袋子”内，
+    并指示在这些界限之外的离群点。本练习要求您首先从mtcars数据集中构建Min.Price和Max.Price变量的并列方块图，
+    然后使用aplpack包中的bagplot（）函数构造相应的袋图。
+
+- Class: cmd_question
+  Output: 使用boxplot（）函数为Cars93数据框中的Min.Price和Max.Price构造并排框图。boxplot内传入我们需要画图的两个变量的值即可。
+  CorrectAnswer:  boxplot(Cars93$Max.Price,Cars93$Min.Price)
+  AnswerTests: omnitest(correctExpr=' boxplot(Cars93$Max.Price,Cars93$Min.Price)')
+  Hint: boxplot(Cars93$Max.Price,Cars93$Min.Price)
+
+- Class: cmd_question
+  Output: 我们已经为你加载aplpack包，使bagplot（）函数可用。构造显示Cars93数据框中Min.Price和Max.Price变量之间关系的袋图。 使用cex参数使该图中的点
+    大小比默认大小大20％。
+  CorrectAnswer: bagplot(Cars93$Min.Price,Cars93$Max.Price,cex=1.2)
+  AnswerTests: omnitest(correctExpr='bagplot(Cars93$Min.Price,Cars93$Max.Price,cex=1.2)')
+  Hint: bagplot(Cars93$Min.Price,Cars93$Max.Price,cex=1.2)
+
+- Class: text
+  Output: 使用corrplot（）函数绘制相关矩阵。corrplot相关矩阵作为获得多个数值变量之间关系的初步视图的有用工具。使用
+    corrplot包中的corrplot（）函数来可视化MASS包中UScereal数据框的数值变量的相关矩阵。
+    细长的椭圆表示所指示变量之间的大的相关值，而接近圆形的椭圆表示相关接近于零。
+
+- Class: cmd_question
+  Output: 创建仅包含9个数字（即非因子变量，第2-10列）变量的UScereal数据框的一个子集。 将结果保存为numericVars。
+  CorrectAnswer: numericVars <- UScereal[,2:10]
+  AnswerTests: omnitest(correctExpr='numericVars <- UScereal[,2:9]')
+  Hint: numericVars <- UScereal[,2:10]
+
+- Class: cmd_question
+  Output: 将cor（）函数应用于numericVars这个子集来计算包含所有变量对之间的相关系数的相关矩阵。 将结果保存为corrMat。
+  CorrectAnswer: corrMat<-cor(numericVars)
+  AnswerTests: omnitest(correctExpr='corrMat<-cor(numericVars)')
+  Hint: corrMat<-cor(numericVars)
+
+- Class: cmd_question
+  Output: 应用corrplot（）函数来显示这个相关矩阵，使用“椭圆”方法(method参数指定为"ellipse")
+  CorrectAnswer: corrplot(corrMat,method="ellipse")
+  AnswerTests: omnitest(correctExpr='corrplot(corrMat,method="ellipse")')
+  Hint: corrplot(corrMat,method="ellipse")
+
+- Class: mult_question
+  Output: 根据上一个问题得到的图形判断，哪一个变量和potassium关系最大？
+  AnswerChoices: fibre;protein;sodium
+  CorrectAnswer: fibre
+  AnswerTests: omnitest(correctVal= 'fibre')
+  Hint: 根据椭圆的形状和颜色来判断
+
+

@@ -1,0 +1,160 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: Graphics_Devices_in_R
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output:  正如标题所示，这将是向您介绍R中的图形设备的简短课程。那么，什么是图形设备？
+
+- Class: text
+  Output:  你可以认为这是一个你可以让一个图形出现的地方，或者是一个屏幕设备，比如你的电脑上的一个窗口，或者一个文件设备？
+
+- Class: text
+  Output: 有几种不同类型的文件设备具有特定的特征。这些包括PDF，PNG，JPEG，SVG和TIFF。我们稍后再谈这些。
+
+- Class: text
+  Output: 要清楚的是，当你在R中绘制一个图时，它必须被“发送”到一个特定的图形设备。通常这是屏幕（默认设备），尤其是当您正在进行探索性工作时。当您准备发布报告，进行演示或向同事发送信息时，您会将图发送给文件。
+
+- Class: text
+  Output: 您如何访问屏幕设备取决于您使用的计算机系统。在Mac上，通过调用quartz（）启动屏幕设备，在Windows上使用调用windows（）和Unix / Linux x11（）。在给定的平台（Mac，Windows，Unix / Linux）上，只有一个屏幕设备，显然不是所有平台上都可以使用所有的图形设备（即不能在Mac上启动windows（））。
+
+- Class: cmd_question
+  Output:  运行R命令?Devices设备查看系统上可用的图形设备。
+  CorrectAnswer: ?Devices
+  AnswerTests: omnitest(correctExpr='?Devices')
+  Hint: 在命令提示符处输入？Devices。
+
+- Class: text
+  Output: R文档显示了什么是可用的。
+
+- Class: text
+  Output: 绘图有两种基本的方法。第一个，画在屏幕上，是最常见的。这很简单 - 你可以调用一个绘图函数，
+    如plot，xyplot或者qplot（你调用的函数取决于你喜欢的绘图系统），这样绘图就会出现在屏幕上。然后，如果有必要的话，
+    你注释（添加）的图形。
+
+- Class: cmd_question
+  Output:  例如，使用2个参数运行R的with函数画图。第一个是一个数据集，faithful，是R内置的数据集。第二个是绘图功能图的调用。绘图函数的调用有两个参数， eruptions and waiting。现在试试看看会发生什么。
+  CorrectAnswer: with(faithful, plot(eruptions, waiting))
+  AnswerTests: omnitest(correctExpr='with(faithful, plot(eruptions, waiting))')
+  Hint: 在命令提示符下输入with(faithful, plot(eruptions, waiting))
+ 
+- Class: cmd_question
+  Output: 看看R如何在屏幕上为你创建一个散点图？这显示了eruptions和waiting的关系。现在使用R函数title,
+    参数main设置为字符串“Old Faithful Geyser data”的。这是对图形的注释。
+  CorrectAnswer: title(main = "Old Faithful Geyser data")
+  AnswerTests: omnitest(correctExpr='title(main = "Old Faithful Geyser data")')
+  Hint: 在命令提示符下输入title(main = "Old Faithful Geyser data")。
+ 
+- Class: cmd_question
+  Output: 简单，对吧?Device现在运行命令dev.cur（）。这将显示当前绘图设备，屏幕。
+  CorrectAnswer: dev.cur()
+  AnswerTests: omnitest(correctExpr='dev.cur()')
+  Hint: 在命令提示符处键入dev.cur（）。
+ 
+- Class: cmd_question
+  Output: 创建绘图的第二种方法是将其发送到文件设备。根据您制作的绘图类型，您明确地启动一个图形设备，
+    例如，一个pdf文件。输入命令pdf（file =“myplot.pdf”）启动文件设备。这将在您的工作目录中创建pdf文件myplot.pdf。
+  CorrectAnswer: pdf(file="myplot.pdf")
+  AnswerTests: omnitest(correctExpr='pdf(file="myplot.pdf")')
+  Hint: Type pdf(file="myplot.pdf") at the command prompt.
+ 
+- Class: cmd_question
+  Output: 然后调用绘图功能（如果使用的是文件设备，屏幕上不会出现任何绘图）。再次运行with命令来绘制之前绘制的散点图。
+    使用向上箭头键来恢复命令，会节省一些输入。
+  CorrectAnswer: with(faithful, plot(eruptions, waiting))
+  AnswerTests: omnitest(correctExpr='with(faithful, plot(eruptions, waiting))')
+  Hint: 在命令提示符下输入with(faithful, plot(eruptions, waiting))。
+ 
+- Class: cmd_question
+  Output: 现在重新运行标题命令并注释该图。 （向上箭头键是伟大的！）
+  CorrectAnswer: title(main = "Old Faithful Geyser data")
+  AnswerTests: omnitest(correctExpr='title(main = "Old Faithful Geyser data")')
+  Hint: 在命令提示符下输入标题title(main = "Old Faithful Geyser data")。
+ 
+- Class: text
+  Output: 最后，在绘制文件设备时，必须使用dev.off（）命令关闭设备。这个非常重要！尽管如此，现在还是不要这样做。关闭设备后，您可以在计算机上查看PDF文件。
+ 
+- Class: text
+  Output: 有两种基本类型的文件设备，矢量和位图设备。这些使用不同的格式，具有不同的特点。矢量格式适用于线条图和使用适中点数的纯色图，而位图格式适用于具有大量点，自然场景或基于Web的的绘图。
+
+- Class: text
+  Output: 我们会提到4个特定的矢量格式。首先是pdf，我们刚刚在我们的例子中使用。这对线型图形和纸张很有用。它调整大小时会很好，通常是便携式的，但是如果情节有很多对象/点，效率就不高。
+
+- Class: text
+  Output: 第二个是svg，它是基于XML的可伸缩矢量图形。这支持动画和交互性，并可能对基于网络的图形有用。
+
+- Class: text
+  Output: 最后两种矢量格式是win.metafile（一种仅限于Windows的元文件格式）和postscript（ps），这种较旧的格式也在调整大小时表现得很好，
+    通常是可移植的，可用于创建封装的postscript文件。不幸的是，Windows系统通常没有postscript查看器。
+
+- Class: text
+  Output:  我们还会提到4种不同的位图格式。首先是PNG（便携式网络图形），这是适合线条图或纯色图像。它使用无损压缩（如旧的GIF格式），
+    大多数网页浏览器可以原生读取这种格式。另外，png对于有很多点的绘图是有好处的，但是它不能很好地调整大小。
+
+
+- Class: text
+  Output: 相比之下，JPEG文件适用于照片或自然场景。他们使用有损压缩，所以他们适合多点的情形。 jpeg格式的文件不能很好地调整大小，
+    但几乎可以在任何计算机和任何网页浏览器上阅读。他们不适合线条画。
+
+- Class: text
+  Output: 最后两个位图格式是tiff，一个较老的无损压缩元格式和bmp，它是本地Windows位图格式。
+
+- Class: text
+  Output: 虽然可以打开多个图形设备（屏幕，文件或两者），但是一次查看多个图形时，绘图一次只能在一个图形设备上进行。
+
+- Class: cmd_question
+  Output: 通过调用dev.cur（）可以找到当前活动的图形设备。现在尝试一下，看看什么号码分配给您的PDF设备。
+  CorrectAnswer: dev.cur()
+  AnswerTests: omnitest(correctExpr='dev.cur()')
+  Hint: 在命令提示符处输入ev.cur（）。
+
+
+- Class: cmd_question
+  Output: 现在使用dev.off（）关闭设备。
+  CorrectAnswer: dev.off()
+  AnswerTests: omnitest(correctExpr='dev.off()')
+  Hint: 在命令提示符处输入dev.off（）。
+
+- Class: cmd_question
+  Output: 现在重新运行dev.cur（）来查看您的绘图窗口分配了什么样的整数。
+  CorrectAnswer: dev.cur()
+  AnswerTests: omnitest(correctExpr='dev.cur()')
+  Hint: 在命令提示符处输入dev.cur（）。
+
+- Class: text
+  Output: 设备返回到启动时的状态。正如您可能已经猜到的那样，每个打开的图形设备都会被分配一个大于或等于2的整数。
+    您可以使用dev.set（<integer>）来更改活动图形设备，其中<integer>是想切换到的图形设备的序号。
+
+- Class: text
+  Output: 您也可以将一个绘图从一台设备复制到另一台设备。这可以节省您一些时间，但要小心！复制一个绘图不是一个精确的操作，
+    所以结果可能与原始的不一样。 R提供了一些功能来帮助你做到这一点。 dev.copy函数从一个设备复制一个绘图到另一个设备，dev.copy2pdf专门将一个绘图复制到一个PDF文件。
+
+- Class: cmd_question
+  Output:  为了好玩，再次用with(faithful, plot(eruptions, waiting))重新运行命令，绘制旧忠实的数据。如果您不喜欢打字，请使用向上箭头键来恢复该命令。
+  CorrectAnswer: with(faithful, plot(eruptions, waiting))
+  AnswerTests: omnitest(correctExpr='with(faithful, plot(eruptions, waiting))')
+  Hint: 在命令提示符下输入（忠实，情节（喷发，等待））。
+ 
+- Class: cmd_question
+  Output: 现在重新运行标题命令title（main =“Old Faithful Geyser data”）来标注图。 （向上箭头键是伟大的！）
+  CorrectAnswer: title(main = "Old Faithful Geyser data")
+  AnswerTests: omnitest(correctExpr='title(main = "Old Faithful Geyser data")')
+  Hint: 在命令提示符下输入title(main = "Old Faithful Geyser data")。
+ 
+- Class: cmd_question
+  Output: 现在用2个参数运行dev.copy。第一个是png，第二个是文件名，等于“geyserplot.png”。这会将你的屏幕图复制到工作目录中的一个png文件中，你可以在关闭设备之后查看它。
+  CorrectAnswer: dev.copy(png, file = "geyserplot.png")
+  AnswerTests: omnitest(correctExpr='dev.copy(png, file = "geyserplot.png")')
+  Hint: 在命令提示符处输入dev.copy（png，file =“geyserplot.png”）。
+ 
+- Class: cmd_question
+  Output: 不要忘记关闭PNG设备！现在做！！！然后您将能够查看该文件。
+  CorrectAnswer: dev.off()
+  AnswerTests: omnitest(correctExpr='dev.off()')
+  Hint: 在命令提示符处输入dev.off（）。
+
+- Class: text
+  Output: 祝贺！我们希望你能发现这个课程很好！

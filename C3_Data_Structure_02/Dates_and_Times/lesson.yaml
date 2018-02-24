@@ -1,0 +1,249 @@
+- Class: meta
+  Course: Data_Structure_2
+  Lesson: Dates_and_Times
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: R有一种特殊的表示日期和时间的方法，如果您正在处理显示事物如何随时间变化的数据（如时间序列数据）或数据是否包含其他时间信息
+    如日期出生。
+
+- Class: text
+  Output: 日期由'Date'类表示，时间由'POSIXct'和'POSIXlt'类表示。日期在内部，存储为自1970-01-01以来的天数。
+    时间存储为1970-01-01以来的秒数（'POSIXct'）或秒，分钟，小时等组成的列表（'POSIXlt'） 
+
+- Class: cmd_question
+  Output: 首先使用d1 <- Sys.Date（）获取当前日期并将其存储在变量d1中。 （这是字母“d”和数字1）。
+  CorrectAnswer: d1 <- Sys.Date()
+  AnswerTests: omnitest(correctExpr='d1 <- Sys.Date()')
+  Hint: 键入d1 <- Sys.Date（）以获取当前日期并将其存储在名为d1的新变量中
+
+- Class: cmd_question
+  Output: 使用class（）函数确认d1是一个Date对象。
+  CorrectAnswer: class(d1)
+  AnswerTests: omnitest(correctExpr='class(d1)')
+  Hint: class(d1)会告诉你d1的class值。
+
+- Class: cmd_question
+  Output: 我们可以使用unclass()函数来查看d1内部的存储格式。试试看。
+  CorrectAnswer: unclass(d1)
+  AnswerTests: omnitest(correctExpr='unclass(d1)')
+  Hint: 使用unclass（d1）来查看d1的内部。
+
+- Class: text
+  Output: 这是自1970-01-01以来的确切天数！
+
+- Class: cmd_question
+  Output: 但是，如果您将d1打印到控制台，您将获得今天的日期--YEAR-MONTH-DAY。试一试。
+  CorrectAnswer: d1
+  AnswerTests: omnitest(correctExpr='d1')
+  Hint: 输入d1打印其内容。
+
+- Class: cmd_question
+  Output: 如果我们需要参考1970-01-01之前的日期，该怎么办？创建一个包含as.Date（“1969-01-01”）的变量d2。
+  CorrectAnswer: d2 <- as.Date("1969-01-01")
+  AnswerTests: omnitest(correctExpr='d2 <- as.Date("1969-01-01")')
+  Hint: 尝试d2 < - as.Date（“1969-01-01”）。
+
+- Class: cmd_question
+  Output: 现在再次使用unclass（）来查看内部的d2。
+  CorrectAnswer: unclass(d2)
+  AnswerTests: omnitest(correctExpr='unclass(d2)')
+  Hint: unclass(d2)会告诉你什么d2的内部存储。
+
+- Class: text
+  Output: 正如你所预料的那样，你会得到一个负数。在这种情况下，它是-365，自1969-01-01是1970年1月1日之前的一个日历年（即365天）。
+
+- Class: cmd_question
+  Output: 现在让我们来看看R如何存储时间。您可以使用不带参数的Sys.time（）函数访问当前的日期和时间。执行此操作并将结果存储在名为t1的变量中。
+  CorrectAnswer: t1 <- Sys.time()
+  AnswerTests: omnitest(correctExpr='t1 <- Sys.time()')
+  Hint: t1 < - Sys.time（）会将当前的日期和时间存储在一个名为t1的变量中。
+
+- Class: cmd_question
+  Output: 查看t1的内容。
+  CorrectAnswer: t1
+  AnswerTests: omnitest(correctExpr='t1')
+  Hint: 输入t1查看其内容。
+
+- Class: cmd_question
+  Output: 并检查t1的类（）。
+  CorrectAnswer: class(t1)
+  AnswerTests: omnitest(correctExpr='class(t1)')
+  Hint: 用class(t1)查看t1的类。
+
+- Class: cmd_question
+  Output: 如前所述，POSIXct只是R表示时间信息的两种方式之一。 （你可以忽略上面的第二个值POSIXt，它只是作为POSIXct和POSIXlt之间的通用语言。）使用unclass（）来看看t1在内部看起来是什么样的 - 自从1970年初以来的（大）秒数。
+  CorrectAnswer: unclass(t1)
+  AnswerTests: omnitest(correctExpr='unclass(t1)')
+  Hint: 使用unclass(t1)来查看自1970年以来经过了多少秒。
+
+- Class: cmd_question
+  Output: 默认情况下，Sys.time（）返回一个POSIXct类的对象，但是我们可以使用as.POSIXlt(Sys.time())将结果强制转换为POSIXlt。试试看，并将结果存储在t2中。
+  CorrectAnswer: t2 <- as.POSIXlt(Sys.time())
+  AnswerTests: omnitest(correctExpr='t2 <- as.POSIXlt(Sys.time())')
+  Hint: t2 <- as.POSIXlt(Sys.time())将Sys.time的结果强制为'POSIXlt'类型并存储结果。
+
+- Class: cmd_question
+  Output: 检查t2的类。
+  CorrectAnswer: class(t2)
+  AnswerTests: omnitest(correctExpr='class(t2)')
+  Hint: 输入class（t2）来查看它的类。
+
+- Class: cmd_question
+  Output: 现在查看其内容。
+  CorrectAnswer: t2
+  AnswerTests: omnitest(correctExpr='t2')
+  Hint: 输入t2查看其内容。
+
+- Class: cmd_question
+  Output: t2的打印格式与t1的打印格式相同。现在unclass（）t2来看看它在内部是如何不同的。
+  CorrectAnswer: unclass(t2)
+  AnswerTests: omnitest(correctExpr='unclass(t2)')
+  Hint: 使用unclass（t2）来查看其内部结构。
+
+- Class: cmd_question
+  Output: t2与所有POSIXlt对象一样，只是组成日期和时间的值列表。使用str(unclass(t2)来获得更紧凑的视图。
+  CorrectAnswer: str(unclass(t2))
+  AnswerTests: omnitest(correctExpr='str(unclass(t2))')
+  Hint: 使用str(unclass(t2))以更紧凑的方式查看其内部结构。
+
+- Class: cmd_question
+  Output: 例如，如果我们只需要存储在t2中的时间的分钟，我们可以用t2 $ min来访问它们。试一试。
+  CorrectAnswer: t2$min
+  AnswerTests: omnitest(correctExpr='t2$min')
+  Hint: t2 $ min会给你t2存储的时间的分钟数。
+
+- Class: text
+  Output: 现在我们已经探索了所有三种类型的日期和时间对象，让我们来看几个函数，从这些对象中提取有用的信息 - weekdays（），months（）和quarters（）。
+
+- Class: cmd_question
+  Output: weekdays（）函数将返回任何日期或时间对象的星期几。在包含今天日期的Date对象d1上试试。
+  CorrectAnswer: weekdays(d1)
+  AnswerTests: omnitest(correctExpr='weekdays(d1)')
+  Hint: 尝试weekday（d1）以获得一周中的一天。
+
+- Class: cmd_question
+  Output: months（）函数也适用于任何日期或时间对象。在t1上试试它，它是包含当前时间的POSIXct对象（当然，这是创建它的当前时间）。
+  CorrectAnswer: months(t1)
+  AnswerTests: omnitest(correctExpr='months(t1)')
+  Hint: months（t1）会给你当前的月份。
+
+- Class: cmd_question
+  Output: quarters（）函数从任何日期或时间对象返回一年中的季度（Q1-Q4）。在t2上试试它，它是包含创建它的时间的POSIXlt对象。
+  CorrectAnswer: quarters(t2)
+  AnswerTests: omnitest(correctExpr='quarters(t2)')
+  Hint: quarter(t2)会给你当前的季度。
+  
+- Class: text
+  Output: 创建和格式化日期。要从R中的简单字符串创建Date对象，可以使用as.Date（）函数。字符串必须遵守可以使用一组符号定义的格式（例子对应于1982年1月13日）：
+    ％Y：四位数年（1982年）
+    ％y：两位数年份（82）
+    ％m：两位数月份（01）
+    ％d：月份的2位数字（13）
+    ％A：工作日（星期三）
+    ％a：缩写星期几（星期三）
+    ％B：月份（一月）
+    ％b：缩月（Jan）
+    以下R命令将在1982年1月的第13天创建相同的Date对象
+    
+- Class: cmd_question
+  Output: 在命令提示符处输入as.Date("1982-01-13")
+  CorrectAnswer: as.Date("1982-01-13")
+  AnswerTests: omnitest(correctExpr='as.Date("1982-01-13")')
+  Hint: 按要求输入：as.Date("1982-01-13")
+  
+- Class: cmd_question
+  Output: 请注意，上一个不需要格式format参数，因为默认情况下，R将您的字符串与格式“％Y-％m-％d”或“％Y /％m /％d”相匹配。
+    在命令提示符处输入这个命令：as.Date("Jan-13-82", format = "%b-%d-%y")
+  CorrectAnswer: as.Date("Jan-13-82", format = "%b-%d-%y")
+  AnswerTests: omnitest(correctExpr='as.Date("Jan-13-82", format = "%b-%d-%y")')
+  Hint: 按要求输入：as.Date("Jan-13-82", format = "%b-%d-%y")
+  
+- Class: cmd_question
+  Output: 为了看看它是如何工作的，将下面的字符串存储在名为t3的变量中："02/27/92 23:03:20"（带引号）。
+  CorrectAnswer: t3 <- "02/27/92 23:03:20"
+  AnswerTests: omnitest(correctExpr='t3 <- "02/27/92 23:03:20"')
+  Hint: 将"October 17, 1986 08:24"存储在一个名为t3的新变量中。
+  
+- Class: cmd_question
+  Output: 除了创建日期之外，还可以将日期转换为使用不同日期表示法的字符串。为此，您使用format（）函数。尝试以下代码：format（Sys.Date（），format =“％d％B，％Y”）
+  CorrectAnswer: format(Sys.Date(),format ="％d％B，％Y")
+  AnswerTests: omnitest(correctExpr='format(Sys.Date()，format ="％d％B，％Y")')
+  Hint: 按要求输入：format(Sys.Date()，format ="％d％B，％Y")
+
+- Class: cmd_question
+  Output: 请尝试以下代码：format（Sys.Date（），format =“％d％B，％Y”）
+  CorrectAnswer: format(Sys.Date(),format ="今天是％A！")
+  AnswerTests: omnitest(correctExpr='format(Sys.Date(),format ="今天是％A！")')
+  Hint: 按要求输入：format(Sys.Date(),format ="今天是％A！")
+ 
+- Class: text
+  Output: 创建和格式化时间,与使用日期类似，可以使用as.POSIXct（）将字符串转换为POSIXct对象，并使用format（）将POSIXct对象转换为字符串。
+    再次，你有各种各样的符号：
+    ％H：十进制小时数（00-23）
+    ％I：十进制小时数（01-12）
+    ％M：十进制数字
+    ％S：十进制数字
+    ％T：典型格式％H的简写符号：％M：％S
+    ％p：上午/下午指标
+    有关转换符号的完整列表，请参strptime文档：
+    
+- Class: text
+  Output: 通常，数据集中的日期和时间R无法识别其格式。 strptime（）函数可以在这种情况下有所帮助。
+
+- Class: text
+  Output: strptime（）将字符向量转换为POSIXlt。从这个意义上说，它与as.POSIXlt（）类似，除了输入不必是特定的格式（YYYY-MM-DD）。
+
+- Class: cmd_question
+  Output: 为了看看它是如何工作的，将下面的字符串存储在名为t3的变量中："02/27/92 23:03:20"（带引号）。
+  CorrectAnswer: t3 <- "02/27/92 23:03:20"
+  AnswerTests: omnitest(correctExpr='t3 <- "02/27/92 23:03:20"')
+  Hint: 将"October 17, 1986 08:24"存储在一个名为t3的新变量中。
+
+- Class: cmd_question
+  Output: 现在，使用strptime（t3，"%m/%d/%y %H:%M:%S"）来帮助R将我们的日期/时间对象转换成它理解的格式。将结果分配给一个名为t4的新变量。 （如果你想了解更多关于它的工作原理，你应该把strptime（）的文档写出来。）
+  CorrectAnswer: t4 <- strptime(t3, "%m/%d/%y %H:%M:%S")
+  AnswerTests: omnitest(correctExpr='t4 <- strptime(t3, "%m/%d/%y %H:%M:%S")')
+  Hint: t4 < - strptime（t3，"%m/%d/%y %H:%M:%S"）会将我们的日期/时间对象转换为R理解的格式。
+
+- Class: cmd_question
+  Output: 打印t4的内容。
+  CorrectAnswer: t4
+  AnswerTests: omnitest(correctExpr='t4')
+  Hint: 输入t4以打印其内容。
+
+- Class: cmd_question
+  Output: 这是我们期待的格式。现在，我们来检查它的类（）。
+  CorrectAnswer: class(t4)
+  AnswerTests: omnitest(correctExpr='class(t4)')
+  Hint: 输入class（t4）来检查它的类。
+
+- Class: text
+  Output: 最后，可以在日期和时间上执行一些操作，包括算术运算（+和 - ）和比较（<，==等）
+
+- Class: cmd_question
+  Output: 变量t1包含你创建它的时间（回想一下你使用的Sys.time（））。使用">"运算符来比较它与当前时间：Sys.time()> t1
+  CorrectAnswer: Sys.time() > t1
+  AnswerTests: omnitest(correctExpr='Sys.time() > t1')
+  Hint: Sys.time()> t1会告诉你，当前时间是在t1中包含的时间之后（这是你创建它的当前时间）
+
+- Class: cmd_question
+  Output: 所以我们知道一段时间已经过去了，但是有多少？尝试使用Sys.time()- t1从当前时间减去t1。不要忘记Sys.time()结尾的圆括号，因为它是一个函数。
+  CorrectAnswer: Sys.time() - t1
+  AnswerTests: omnitest(correctExpr='Sys.time() - t1')
+  Hint: Sys.time()- t1会给你从t1创建以来已经过去的时间量。
+
+- Class: text
+  Output: 同样的思路适用于加法和其他比较运算符。如果您希望在查找上述时间差时更好地控制单位，则可以使用difftime（），它允许您指定“单位”参数。
+
+- Class: cmd_question
+  Output: 使用difftime（Sys.time()，t1，units ='days'）来查找自创建t1以来已经过去的DAYS中的时间量。
+  CorrectAnswer: difftime(Sys.time(), t1, units = 'days')
+  AnswerTests: match_call("difftime(Sys.time(), t1, units = 'days')")
+  Hint: difftime(Sys.time(),t1，units ='days'）会告诉你自创建t1以来已经过了多少天
+  
+- Class: text
+  Output: 在本课中，您学习了如何在R中处理日期和时间。虽然了解基本知识非常重要，但如果您经常使用日期和时间，则可能需要查看Hadley Wickham the开发的lubridate package 。

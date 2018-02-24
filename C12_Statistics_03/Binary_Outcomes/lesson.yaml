@@ -1,0 +1,163 @@
+- Class: meta
+  Course: Regression_Models
+  Lesson: Binary_Outcomes
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 我们经常关心具有两个值的结果，例如活着或死亡，输或赢，成功或失败。这样的结果被称为二元结果，伯努利或0/1。
+    相同协变量数据的可交换二元结果集合被称为二项式结果。 （如果他们的顺序无关紧要，结果是可以交换的。）
+
+- Class: text
+  Output: 在这个单元中，我们将使用glm（）来为一个二元结果和一个连续预测因子关系进行建模。我们还将学习如何解释glm系数，
+    以及如何找到置信区间。但首先，让我们讨论赔率。
+
+- Class: text
+  Output: 巴尔的摩乌鸦是在美式橄榄球联盟的一个队。在赛季（锦标赛）中，他们赢得了2/3的比赛。换句话说，他们赢得的比例是失败的两倍。
+    如果我打赌他们，我将不得不提供2对1的赔率 - 如果他们输了，我会付给你2美元，但是如果他们赢了，你只需支付我1美元。这样一来，从长远来看，
+    我们都期望赢的的钱和输掉的一样多
+
+- Class: mult_question  
+  Output: 在常规赛中，乌鸦赢得了他们比赛的55％。在常规赛中我会提供什么赔率？
+  AnswerChoices: 55 to 45; 11 to 9; 1.22222 to 1; Any of these
+  CorrectAnswer: Any of these
+  AnswerTests: omnitest()
+  Hint: 任何答案都可以。
+
+- Class: text
+  Output: 所有的答案是正确的，因为它们都代表相同的比例。如果p是一个事件的概率，则相关的赔率是p /（1-p）。
+
+- Class: figure
+  Output: 现在假设我们想看看乌鸦的赔率如何取决于他们的进攻。换句话说，我们想要模拟p或者它的某个函数是如何依赖于Ravens得分的。
+    当然，我们不能观察p，我们只能观察胜利，失败和相关的分数。这是一个赛季观察的箱形图。
+  Figure: nevermore.R
+  FigureType: new
+
+- Class: mult_question  
+  Output: 我们可以看到，乌鸦队得分越高，他们的胜率就越高。事实上，他们大约3/4的失败是等于或低于一个一定的分数，
+    大约3/4的胜率是在或高于这个分数。这个得分是多少什么？ （请记住，紫色框代表50％的样本，“T”代表25％）。
+  AnswerChoices: 23;18;30;40
+  CorrectAnswer: 23
+  AnswerTests: omnitest(correctVal='23')
+  Hint: 紫色的“损失”框在这个分数的左边，紫色的“赢”框在它的右边
+
+- Class: figure
+  Output: 有9场比赛乌鸦得到23分以下。他们赢得了4场比赛，所以我们可以猜测他们得分不到23分时他们获胜的概率，差不多是1/2
+  Figure: purple_line.R
+  FigureType: add
+
+- Class: cmd_question
+  Output: 乌鸦得到24分以上的11场比赛。除了其中一场，他们都赢了。通过检查数据来验证。数据在一个名为ravenData的数据框中。
+    通过输入ravenData或View(ravenData)
+  CorrectAnswer: ravenData
+  AnswerTests: ANY_of_exprs('ravenData', 'View(ravenData)')
+  Hint: 输入ravenData以在控制台中打印数据。输入View（ravenData）在一个单独的窗口查看数据
+
+- Class: figure
+  Output: 我们看到乌鸦的赢/失记录在23到28点之间有一个相当快的转变。在23分以下的时候，他们赢得了大约一半的比赛，
+    24到28分之间他们赢了3/4，28分以上他们全部赢了。由此，我们得到了得分与获胜可能性之间对应关系的一个非常粗略的概念。
+    我们得到一个S形曲线，一个graffiti(涂鸦)S。
+  Figure: graffiti_s.R
+  FigureType: new
+
+- Class: text
+  Output: 当然，我们会期望一个真实的曲线更平滑。例如，我们不会期望乌鸦赢得他们得分为零时一半得分的比赛，也不会期望赢得所有得分超过28的比赛。
+    具有这些属性的广义线性模型假设获胜的对数赔率线性取决于得分(score)。即log（p /（1-p））= b0 + b1 *score。联系函数log（p /（1-p））
+    被称为logit，寻找最好的b0和b1的过程被称为逻辑回归。
+
+- Class: text
+  Output: 最佳”b0和b1是最大化实际win/loss记录出现的可能性。根据一个游戏的得分，b0和b1给我们一个对数的赔率，
+    我们可以把它转换成一个获胜的概率p。我们希望对于赢得比赛高分时p值较高，对于输掉的比赛的低分时P值较低
+
+- Class: cmd_question
+  Output: 我们可以使用R的glm（）函数来找到最大化观测可能性的b0和b1。回过头来看数据框，我们想从ravenScore的得分上
+    预测二进制结果ravenWinNum。这对应于公式ravenWinNum~ravenScore，这是glm的第一个参数。第二个参数，family，描述结果，
+    在我们的例子中是二项式(binomial)的。第三个参数是数据ravenData。用这些参数调用glm并将结果存储在名为mdl的变量中。
+  CorrectAnswer: 'mdl <- glm(ravenWinNum ~ ravenScore, binomial, ravenData)'
+  AnswerTests: creates_glm_model('mdl <- glm(ravenWinNum ~ ravenScore, binomial, ravenData)')
+  Hint: 使用诸如mdl <- glm（ravenWinNum~ravenScore，binomial，ravenData）或
+    mdl < - glm（ravenWinNum~ravenScore，family = binomial，data = ravenData）的表达式。
+
+- Class: figure
+  Output: 使用glm（）进行逻辑回归估计的概率用黑色曲线表示，在几个方面比粗略估计更合理：它随着分数平稳增加，
+    估计15分给予乌鸦50％的机会，28分给他们80％的机会，55分赢得的可能性很高（98％），但不是绝对肯定的。
+  Figure: glm_vs_graffiti.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 这个模型在低于9分的时候是不太可信的。当然，这个区间没有数据，乌鸦在每场比赛中得分至少9分，如果他们得分9，
+    他们有33％的机会获胜分数，这可能是合理的，但是，即使他们没有得分，他们也有16％的获胜机会！
+    我们可以使用R的predict（）函数来查看模型对较低分数的估计，函数predict将采用mdl和一个分数的数据框作为参数返回分数对应的对数赔率。
+    predict（mdl，data.frame（ravenScore = c（0，3，6））），并将结果存储在名为lodds的变量中
+  CorrectAnswer: 'lodds <- predict(mdl, data.frame(ravenScore=c(0, 3, 6)))'
+  AnswerTests: expr_creates_var('lodds');omnitest('lodds <- predict(mdl, data.frame(ravenScore=c(0, 3, 6)))')
+  Hint: 输入lodds < - predict（mdl，data.frame（ravenScore = c（0，3，6）））以产生模型评分为0,3和6的双赢的对数赔率。
+
+- Class: cmd_question
+  Output: 由于predict（）给我们对数的赔率，我们将不得不转换为概率，为了将对数赔率转换为概率，使用exp（lodds）/（1 + exp（lodds））。
+    不要将结果存储在一个变量中，我们不需要这样做
+  CorrectAnswer: 'exp(lodds)/(1+exp(lodds))'
+  AnswerTests: omnitest('exp(lodds)/(1+exp(lodds))')
+  Hint: 输入exp（lodds）/（1 + exp（lodds））来将对数赔率lodds转换为概率。这个表达式被称为逆对数函数
+
+- Class: cmd_question
+  Output: 正如你所看到的，一个人可以用这个模型来赚很多钱，当Ravens没有得分的时候，模型可能会有16/84的赔率，但事实证明，
+    这个模型并不是那么肯定。summary（mdl），你可以看到估计的系数都在0附近的2个标准误差之内，现在查看总summary
+  CorrectAnswer: summary(mdl)
+  AnswerTests: omnitest('summary(mdl)')
+  Hint: 只需输入summary（mdl）。
+
+- Class: text
+  Output: 系数估计对数赔率为得分的线性函数，他们对赔率有一个自然的解释，因为如果b0 + b1 *score估计对数赔率，
+    则exp（b0 + b1 *score）= exp（b0 ）exp（b1 *score）估计的赔率,因此exp（b0）是分数为0的对数赔率，
+    （在本例中为16/84），而exp（b1）是一个因子，是获胜的对数赔率随得分的增加而增加，在本例中，exp（b1）= exp（0.10658）= 1.11，
+    换句话说，分数提高1分，对数赔率增加11％
+
+- Class: cmd_question
+  Output: 然而，系数具有相对较大的标准差，95％的置信区间大致是系数两边两个标准差的范围，R的函数confint（）会找到95％置信区间的确切的
+    下限和上限系数b0和b1，为了得到的相应的exp（b0）和exp（b1）的置信区间，我们只需要取幂confint（mdl）的输出，现在就这样做
+  CorrectAnswer: 'exp(confint(mdl))'
+  AnswerTests: omnitest('exp(confint(mdl))')
+  Hint: 只需输入exp（confint（mdl））
+
+- Class: mult_question  
+  Output: 以0分的分数的赔率2.5％的置信间隔是多少？
+  AnswerChoices: 0.005674966;0.996229662;2.5%
+  CorrectAnswer: '0.005674966'
+  AnswerTests: omnitest(correctVal= '0.005674966')
+  Hint: 这是非常小的。
+
+- Class: mult_question  
+  Output: 得分为0的赔率置信度下限接近零，这似乎比最大似然模型的16/84这个数字更真实，现在看下exp（b1）的下界， 
+    RavenScore的指数系数表明获胜赔率如何受到每个额外得分的影响？
+  AnswerChoices: They will decrease slightly;They will increase slightly;They will increase by 30%
+  CorrectAnswer: They will decrease slightly
+  AnswerTests: omnitest(correctVal= 'They will decrease slightly')
+  Hint: 如果你乘以一个正数0.996229662，你增加还是减少了值呢？
+
+- Class: text
+  Output: exp（b1）上的置信度下限表明，每增加一个点，获胜的几率就会略微下降，这显然是不现实的。当然，置信区间是基于大样本假设的，
+    我们的样本只有20个值，事实上，方差分析的GLM版本将显示，如果我们完全忽略分数，我们不会做太多的事情
+
+- Class: cmd_question
+  Output: 线性回归最小化预测和实际观测值之间的平方差，即最小化残差方差，如果一个额外的预测变量显着降低残差方差，
+    则预测变量被认为是重要的;偏差将这个思想扩展到广义线性回归（负）对数似然值代替差异。
+    要查看我们模型的偏差分析，请键入anova（mdl）
+  CorrectAnswer: 'anova(mdl)'
+  AnswerTests: omnitest('anova(mdl)')
+  Hint: 输入anova（mdl）
+
+- Class: cmd_question
+  Output: 标记为ravenScore的偏差的值3.5398实际上是包含斜率的模型的偏差与仅包含截距b0的模型的偏差，平方分布（对于大样本）
+    有1个自由度（2个参数减去1个参数，或者相当于19-18）。零假设是ravenScore的系数为零，
+    为了有把握地拒绝这个假设，我们希望3.5398是大于一个自由度的卡方分布的第95个分位点，使用qchisq（0.95，1）来计算这个百分点的值
+  CorrectAnswer: 'qchisq(0.95, 1)'
+  AnswerTests: ANY_of_exprs('qchisq(0.95, 1)', 'qchisq(.95, 1)')
+  Hint: Type qchisq(0.95, 1).
+
+- Class: text
+  Output: 正如你所看到的，3.5398接近但小于第95个百分点阈值3.841459，因此将被认为与传统5％水平上的零假设一致。
+    换句话说，ravenScore对模型增加很少这只是猜测。乌鸦以70％的概率获胜（他们的实际记录是那个赛季）或者是7比3的赔率差不多，
+    如果你喜欢，你可以使用mdl0 < - glm（ravenWinNum~1，binomial，ravenData） ，但是这个结论就是二元结果的例子，谢谢

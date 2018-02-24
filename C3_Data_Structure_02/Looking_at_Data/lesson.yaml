@@ -1,0 +1,144 @@
+- Class: meta
+  Course: Data_Analysis
+  Lesson: Looking_at_Data
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text是
+  Output: 每当你使用一个新的数据集时，你应该做的第一件事是看看它！数据的格式是什么？维度是什么？变量名称什么？变量如何存储？有没有数据丢失？数据中是否有缺陷？
+
+- Class: text
+  Output: 本课将教你如何使用R的内置函数来回答这些问题。我们将使用美国农业部植物数据库（http://plants.usda.gov/adv_search.html）构建的数据集。
+
+- Class: cmd_question
+  Output: 我已经将数据存储在一个名为plants的变量中。输入ls()来列出工作空间中的变量，其中应该存在plants。
+  CorrectAnswer: ls()
+  AnswerTests: omnitest(correctExpr='ls()')
+  Hint: 使用ls()列出工作区中的变量。
+
+- Class: cmd_question
+  Output: 我们首先通过class(plants)来检查植物变量的类别。这将给我们提供关于数据总体结构的线索。
+  CorrectAnswer: class(plants)
+  AnswerTests: omnitest(correctExpr='class(plants)')
+  Hint: 使用class(plants)来检查plants变量的类别。
+  
+- Class: cmd_question
+  Output: 另外R中提供了一系列
+  CorrectAnswer: class(plants)
+  AnswerTests: omnitest(correctExpr='class(plants)')
+  Hint: 使用class(plants)来检查plants变量的类别。  
+- Class: cmd_question
+  Output: 我们首先通过class(plants)来检查植物变量的类别。这将给我们提供关于数据总体结构的线索。
+  CorrectAnswer: class(plants)
+  AnswerTests: omnitest(correctExpr='class(plants)')
+  Hint: 使用class(plants)来检查plants变量的类别。
+  
+- Class: text
+  Output: 数据存储在数据框中是很常见的。数据框是使用像read.csv()和read.table()这样的函数读入R的数据的默认类，您将在另一课中学习这些类。
+
+- Class: cmd_question
+  Output: 由于数据集存储在数据框中，我们知道它是矩形的。换句话说，它有两个维度（行和列），并整齐地放入表格或电子表格中。使用dim(plants)来查看我们正在处理的行数和列数。
+  CorrectAnswer: dim(plants)
+  AnswerTests: omnitest(correctExpr='dim(plants)')
+  Hint: 使用dim(plants)来查看plants数据集的确切尺寸。
+
+- Class: text
+  Output: 您看到的第一个数字（5166）是行数（观测值），第二个数字（10）是列数（变量）。
+
+- Class: cmd_question
+  Output: 您也可以使用nrow(plants)来查看只有行数。试试看。
+  CorrectAnswer: nrow(plants)
+  AnswerTests: omnitest(correctExpr='nrow(plants)')
+  Hint: 使用nrow(plants)只能看到行数。
+
+- Class: cmd_question
+  Output: 使用ncol(plants)能看到列数。
+  CorrectAnswer: ncol(plants)
+  AnswerTests: omnitest(correctExpr='ncol(plants)')
+  Hint: 使用ncol(plants)查看列数。
+
+- Class: cmd_question
+  Output: 如果您对数据集占用内存空间有多少好奇，可以使用object.size（plants）。
+  CorrectAnswer: object.size(plants)
+  AnswerTests: omnitest(correctExpr='object.size(plants)')
+  Hint: 使用object.size(plants)会告诉你plants数据框占用了多少内存。
+
+- Class: cmd_question
+  Output: 现在我们对数据集的形状和大小有了一个感觉，让我们感受一下内在的东西。names(plants)将返回列（即可变）名称的字符向量。试一试。
+  CorrectAnswer: names(plants)
+  AnswerTests: omnitest(correctExpr='names(plants)')
+  Hint: 返回列（即变量）名称的字符向量:names(plants)。
+
+- Class: text
+  Output: 我们已经对这个数据集应用了相当多描述性的变量名，但事实并非总是如此。合乎逻辑的下一步是查看实际数据。但是，我们的数据集包含超过5000个观测值（行），所以一次查看整个事件是不切实际的。
+  
+- Class: cmd_question
+  Output: head()函数允许您预览数据集的顶部(默认6行)。试试只有一个参数。
+  CorrectAnswer: head(plants)
+  AnswerTests: omnitest(correctExpr='head(plants)')
+  Hint: head(plants)会显示数据集的最顶部。
+
+- Class: text
+  Output: 花一分钟时间查看并理解上面的输出。每行标有观察编号，每列标有变量名称。您的屏幕可能不够宽，无法全部查看所有10列，在这种情况下，R会在每行上显示尽可能多的列，然后再继续下一行。
+
+- Class: cmd_question
+  Output: 默认情况下，head()显示数据的前六行。您可以通过将您希望查看的行数作为第二个参数传递来改变此行为。使用head（）预览植物的前10行。
+  CorrectAnswer: head(plants, 10)
+  AnswerTests: omnitest(correctExpr='head(plants, 10)')
+  Hint: 显示数据集的前10行:head(plants, 10)。
+
+- Class: cmd_question
+  Output: 同样适用于使用tail（）预览数据集尾部。使用tail()查看最后15行。
+  CorrectAnswer: tail(plants, 15)
+  AnswerTests: omnitest(correctExpr='tail(plants, 15)')
+  Hint: 显示数据集的最后15行：tail(plants, 15)。
+
+- Class: cmd_question
+  Output: 在预览数据的顶部和底部之后，您可能会注意到许多NAs，这是R的缺失值的占位符。使用summary(plants)可以更好地感受每个变量如何分布以及缺少多少数据集。
+  CorrectAnswer: summary(plants)
+  AnswerTests: omnitest(correctExpr='summary(plants)')
+  Hint: 尝试summary(plants)，看看每个变量是如何分布的，以及我们处理的缺失值有多少。
+
+- Class: text
+  Output: summary（）为每个变量提供不同的输出，具体取决于它的类。对于诸如Precip_Min之类的数值数据，summary（）显示最小值，第一四分位数，中位数，平均值，第三四分位数和最大值。这些值有助于我们理解数据如何分布。
+
+- Class: text
+  Output: 对于分类变量（在R中称为“因子”变量），summary（）显示数据中每个值（或“级别”）出现的次数。例如，Scientific_Name的每个值只出现一次，因为它对于特定的plants是唯一的。相比之下，持续时间（也是一个因子变量）的总结告诉我们，我们的数据集包含3031个多年生植物，682个一年生植物等。
+
+- Class: cmd_question
+  Output: 可以看到R通过包含名为“其他”的全部捕获类别截断了Active_Growth_Period的摘要。由于它是一个分类/因子变量，使用table(plants$Active_Growth_Period)我们可以看到每个值实际发生在具有表的数据中的次数
+  AnswerTests: omnitest(correctExpr='table(plants$Active_Growth_Period)')
+  Hint: 使用table(plants$Active_Growth_Period)将显示因子变量的每个级别的计数。
+
+- Class: text
+  Output: 到目前为止，我们介绍的每个函数都有助于更好地理解数据结构。不过，我们已经留下了最后的....
+
+- Class: cmd_question
+  Output: 对于理解数据的* strcture可能是最有用和最简洁的函数是str()。现在试试吧。
+  CorrectAnswer: str(plants)
+  AnswerTests: omnitest(correctExpr='str(plants)')
+  Hint: 使用str(plants)来查看数据的结构。
+
+- Class: text
+  Output: str()的美妙之处在于它结合了你已经看到的其他函数的许多特性，所有这些特性都是以一个简洁而可读的格式。在最高层，它告诉我们，植物类是“data.frame”，它有5166个观察值和10个变量。然后给我们每个变量的名称和类别，以及其内容的预览。
+
+- Class: text
+  Output: str()实际上是一个非常通用的函数，你可以在R中的大多数对象上使用。任何时候你想要理解某些东西（数据集，函数等等）的结构，str（）是一个很好的开始。
+  
+- Class: text
+  Output: 数学工具。再看看R的一些有用的数学函数：abs（）：计算绝对值。sum（）：计算数据结构中所有值的总和。mean（）：计算算术平均值。
+    round（）：默认情况下将值四舍五入到小数点后0位。 在控制台中试试round（）的变体，并更改要循环的数字位数。我们已经为你预定义了一个数值型向量errors。请使用
+    这个向量完成以下练习。
+    
+- Class: cmd_question
+  Output: 计算errors元素的绝对值四舍五入的总和
+  CorrectAnswer: sum(round(abs(errors)))
+  AnswerTests: omnitest(correctExpr='sum(round(abs(errors)))')
+  Hint: 嵌套函数结构abs,round,sum
+  
+- Class: text
+  Output: 在本课中，您学习了如何使用一系列简单而有用的函数来了解新数据集的结构和内容。花时间做这个前期的工作可以节省在以后的分析中你的时间和挫折。
+
+

@@ -1,0 +1,127 @@
+- Class: meta
+  Course: Data_Analysis
+  Lesson: Dispersion
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 1.0.0
+
+- Class: text
+  Output: 在本课中，我们将了解DISPERSION是什么以及需要什么统计值才能最好地描述数据的分布。 
+    此外，您将了解所有关于统计学家在确定变异性时通常使用的度量指标。
+
+- Class: text
+  Output: “虽然用集中趋势度量来估计数据集的中间值，但分散度的测量对于描述数据的分布是非常重要的。“
+
+- Class: text
+  Output: 术语分散是指数据值围绕平均值散布的程度。 离差与其他词汇是同义词，例如变化和分布。
+
+- Class: text
+  Output: 为什么分析一组特定数据的分布很重要？两个不同的样本可能具有相同的平均值或中位数，但不同水平的变化特征，反之亦然。
+
+- Class: text
+  Output: “在本课中，我们将讨论最常用来描述数据集的离差或变异性的三个统计值。 可变性是用来分类数据如何变化或分散的术语。“
+
+- Class: text
+  Output: “可以描述数据集变化特征的第一个描述性统计量就是RANGE。 范围是数据集的最大值和最小值之间的差值。“
+
+- Class: text
+  Output: 为了演示如何使用R来确定数据集的范围，我们将使用cars数据集。“
+
+- Class: cmd_question
+  Output: 输入R命令range(cars$price)来确定数据集中汽车的最低和最高价格的确切值。'
+  CorrectAnswer: range(cars$price)
+  AnswerTests: swirl1cmd=range(cars$price)
+  Hint: 输入'range(cars$price)'并按下Enter查看最低和最高价格。"
+
+- Class: exact_question
+  Output: 现在您已经拥有最低和最高的'price'数值，请计'price'数据的范围。计算'price'数据的范围。
+  CorrectAnswer: '54.5'
+  AnswerTests: exact=54.5
+  Hint: 从最高价格中减去最低价格。
+
+- Class: text
+  Output: 第二个重要的变量测量称为VARIANCE。 在数学上，VARIANCE是与均值差的平方和的平均值。
+
+- Class: cmd_question
+  Output: 在R中，可以使用'var（data）'命令轻松计算特定数据集的方差。 尝试计算数据'cars$price'的方差。
+  CorrectAnswer: var(cars$price)
+  AnswerTests: swirl1cmd=var(cars$price)
+  Hint: 输入'var（cars $ price）'不带引号，按回车键查看汽车价格的方差。
+
+- Class: text
+  Output: 方差和标准差的值是非常密切相关的。 标准差可以通过取方差的平方根来计算，其中方差可以通过平方标准偏差来计算。“
+
+- Class: text
+  Output: 对于统计学家来说，标准偏差是一种更为常规的变异性度量，因为它以与原始数据值相同的单位表示。
+
+- Class: cmd_question
+  Output: 方差类似，您可以使用R命令的“sd（data）”来计算特定数据集的标准偏差。 尝试计算数据'cars$price'的标准差。
+  CorrectAnswer: sd(cars$price)
+  AnswerTests: swirl1cmd=sd(cars$price)
+  Hint: 输入sd(cars$price)然后按回车看到汽车价格的标准偏差。
+
+- Class: text
+  Output: 分析我们的数据集时，标准差是非常重要的。 小的标准偏差表示数据点倾向于位于平均值附近，而大的标准偏差表示数据点从平均值进一步扩散。
+
+- Class: text
+  Output: BOX PLOT也被称为BOX-AND-WHISKER PLOT，用于总结特定数据集的主要描述性统计量，这种类型的图有助于说明可变性的概念。 
+    箱线图图用于直观地表示数据集的最小值，第一四分位值（Q1），中间值，第三个四分位值（Q3）和最大值。
+
+- Class: figure
+  Output: 在这里，我创建了一个箱形图来表示三种车型中的每一种的价格数据：大型，中型和小型。 
+    你会注意到，这三个数字中的每一个都是由一个封闭的四面“盒子”组成的，上面和下面都有“胡须”，因此这个名字就是盒子和胡须。
+  Figure: mod1_boxplot.R
+  FigureType: new
+
+- Class: text
+  Output: 每个盒子的高度被称为INTERQUARTILE RANGE（IQR）。数据内的变异性越大，IQR越大。 另一方面，数据内变化较小意味着较小的IQR。 
+   箱形图框中的底部对应于第一四分位数（Q1）的值，并且该框的顶部对应于第三四分位数（Q3）的值。 要计算IQR的值，只需从Q3的值中减去Q1的值即可。
+
+- Class: text
+  Output: 在每个盒子上方和下方延伸的晶须或线条分别代表大于Q3 25%的值和小于Q1 25%范围内的值。 唯一的例外是有异常值时，我马上解释。
+
+- Class: range_question
+  Output: 纵观箱形图，中型车辆的近似四分位距离是多少？
+  CorrectAnswer: 16; 22
+  AnswerTests: range=16-22
+  Hint: 从Q3值中减去Q1值。 Q1值是包含在盒中的最小值，Q3值是包含在盒中的最大值。
+
+- Class: text
+  Output: 让我们仔细看看四分位数是如何计算的。 我们首先将数据从最小到最大排序，就像计算中位数时一样。
+    第一个四分位数（Q1）也被称为第25个PERCENTILE（由于25％的数据点落在这个值以下）只是排序数据前半部分的中位数。同样，
+    第三个四分位数（Q3）也被称为第75个百分位数，是排序数据后半部分的中位数。
+
+- Class: figure
+  Output: 如图所示，蓝色水平线说明如何找到第一个四分位数的值。 绿色的水平线说明如何找到第三个四分位的值。
+    四分位数间距是包含在这两行之间的数据值的范围。
+  Figure: mod1_boxplot_add.R
+  FigureType: addition
+
+- Class: figure
+  Output: 再看看我们的价格(price)与汽车类型(type)的箱线图。 你可能会想，“这个箱子上面的那个圆圈是为中型轿车绘制的，为什么大型轿车的箱形图上没有圆圈？
+    这些圆圈代表数据集中的OUTLIERS，即异常值点。
+  Figure: mod1_boxplot.R
+  FigureType: new
+
+- Class: figure
+  Output: OUTLIER是相对于数据集中的其他值而言不寻常或极端的观察结果。 离群值在识别分布中的严重偏斜方面是有用的，并且可能向科学家表示数据收集或数据录入错误。
+    在数据集中识别异常值有许多不同的约定。
+  Figure: mod1_boxplot.R
+  FigureType: new
+
+- Class: figure
+  Output: 正如你可以在箱形图中看到的，“中型”汽车的价格数据在15到62之间变化，包括大约50的范围。这比“小”汽车的变化要大得多 5至15，范围大约为10.
+          因此，由于“中型”汽车的行驶里程要大得多，“中型”汽车的价格与“小型”汽车的价格相比要高得多。
+  Figure: mod1_boxplot.R
+  FigureType: new
+
+- Class: mult_question
+  Output: 现在轮到你了！ “大”型轿车的价格变动是高于还是低于“小”型轿车？
+  AnswerChoices: "higher; lower; the same"
+  CorrectAnswer: "higher"
+  AnswerTests: omintest=(correctVal="higher")
+  Hint: 看看“大”型汽车的范围是大于还是小于“小”型汽车的范围。
+
+- Class: text
+  Output: 你们已经正式掌握了分散的概念，并且已经完全学会了如何阅读和解释箱线图。 这些是每天在描述性统计中使用的两个非常有价值的工具。

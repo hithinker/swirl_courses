@@ -1,0 +1,198 @@
+- Class: meta
+  Course: Regression_Models
+  Lesson: Count_Outcomes
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 许多数据都是以计数的形式出现的，这些数据可能是呼叫中心的呼叫，一个地区的流感病例数量，或者通过桥梁的汽车数量，
+    也可能是比率的形式，例如通过考试的孩子百分比。在本课中，我们将使用泊松回归来分析随着网站的流行程度的增长，一个网站的日访问量，
+    并分析来自不同网站访问的百分比。
+
+- Class: text
+  Output: 访问网站往往是在一段时间内以一定的平均速度独立发生。泊松分布描述了这种类型的随机过程，泊松过程的特征是单一参数，预期的发生率，
+    通常被称为lambda。在我们的例子中，lambda会被期望每天访问，当然，随着网站变得越来越流行，lambda会增长，换句话说，lambda将取决于时间，
+    我们将使用Poisson回归模拟这种依赖
+
+- Class: cmd_question
+  Output: 有一点非常明显，泊松过程的方差与它的平均值λ相同，你可以通过使用R的rpois（n，lambda）从泊松过程生成n = 1000个样本并计算方差。
+    例如，输入var（rpois（1000，50）），样本方差当然不会完全等于理论值，但是它会相当接近
+  CorrectAnswer: 'var(rpois(1000, 50))'
+  AnswerTests: expr_uses_func('var');expr_uses_func('rpois')
+  Hint: 尝试输入var（rpois（1000，50））
+
+- Class: mult_question  
+  Output: 一个着名的定理是随着样本数量增长，独立同分布随机变量的归一化总和将趋于正态分布，那么这个定理是什么？
+  AnswerChoices: The Central Limit Theorem;The Gauss-Markov BLUE Theorem;The Pythagorean Theorem
+  CorrectAnswer: The Central Limit Theorem
+  AnswerTests: omnitest(correctVal= 'The Central Limit Theorem')
+  Hint: 它处理有限
+
+- Class: figure
+  Output: 严格地说，由泊松过程产生的计数与中心极限定理的归一化总和略有不同。随着λ增加，但是在给定的时间内，计数将代表更大数量的项的和。
+    事实上，可以正式表明，对于大的λ，一个泊松分布很好地用一个正态分布来近似。图例说明了这个效应，
+    它显示了，lambda在2到100，从左边一个稀疏的不对称的泊松概率函数到右边一个稠密的钟形 - 
+  Figure: poisson_2_normal.R
+  FigureType: new
+
+- Class: figure
+  Output: 在一个泊松回归中，lambda的对数被假定为预测因子的线性函数，因为我们将试图建立一个网站访问的增长模型，
+    lambda的对数将是日期的线性函数：log（lambda）= b0 + b1 * date这意味着每天的平均访问数lambda对于日期是指数的：
+    lambda = exp（b0）* exp（b1）^date。通过数据绘制出平滑的黑色曲线，因此exp（b1）代表每天访问量的增长倍数。
+  Figure: hits.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 我们的数据位于数据框hits中，使用View(hits)，head(hits)或者tail(hits)来检查数据
+  CorrectAnswer: 'View(hits)'
+  AnswerTests: ANY_of_exprs('View(hits)', 'head(hits)', 'tail(hits)')
+  Hint: View(hits), head(hits), or tail(hits)，任何这些都可以
+
+- Class: text
+  Output: 有三列数据分别标记为date, visits, 和 simplystats，simplystats记录了来自另一个站点简单统计博客的访问次数，
+    稍后我们将回到该列。现在，我们对date, visits感兴趣，date将成为我们的预测变量
+
+- Class: cmd_question
+  Output: 我们的日期是用R的类Date来表示的，通过输入class（hits [，'date']）或类似的东西来验证
+  CorrectAnswer: class(hits[,'date'])
+  AnswerTests: ANY_of_exprs("class(hits[,'date'])", 'class(hits[,"date"])', 'class(hits[,1])', 'class(hits$date)')
+  Hint: 输入class(hits[,'date'])
+  
+- Class: cmd_question
+  Output: R的Date类表示1970年1月1日之前或之后的天数，它们基本上是数字，在某种程度上可以这样对待。日期可以例如加或减，
+    或者很容易转换成数字输入as.integer（head（hits [，'date']）），尝试一下这个表达式
+  CorrectAnswer: class(hits[,'date'])
+  AnswerTests: ANY_of_exprs("as.integer(head(hits[,'date']))", 'as.integer(head(hits[,"date"]))', 'as.integer(head(hits[,1]))', 'as.integer(head(hits$date))')
+  Hint: 输入as.integer（head（hit [，'date']）
+
+- Class: cmd_question
+  Output: 日期的算术属性允许我们将它们用作预测因子，我们将使用泊松回归来预测log（lambda）作为日期date的线性函数，
+    以最大化我们实际看到的计数的可能性。使用公式visits ~ date。因为我们的结果（visits）是计数，所以我们family参数将是'poisson'，
+    我们的第三个参数将是数据，hits。创建这样一个模型，并使用以下表达式将其存储在一个名为mdl的变量中，
+    mdl <- glm(visits ~ date, poisson, hits)
+  CorrectAnswer: mdl <- glm(visits ~ date, poisson, hits)
+  AnswerTests: creates_glm_model('mdl <- glm(visits ~ date, poisson, hits)')
+  Hint: 输入mdl <- glm(visits ~ date, poisson, hits)
+
+- Class: figure
+  Output: 这个图表明我们的泊松回归很好地符合数据，黑线是估计的lambda或平均每天访问次数，我们看到每天的平均访问数从2011年初的5左右
+    增加到了10左右到了2013年底，将达到20左右，每年大约翻一番
+  Figure: model_1.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 输入summary（mdl）来检查估计的系数及其意义
+  CorrectAnswer: summary(mdl)
+  AnswerTests: omnitest('summary(mdl)')
+  Hint: 只需输入summary（mdl）
+
+- Class: text
+  Output: 这两个系数都是显着的，远远大于零两个标准差的范围，剩余偏差也显着小于Null偏差，表明一个强大的效应（回想一下，
+    Null和残差之间的差异大致是卡方（1自由度）。截距b0仅代表R的日期0（即1970年1月1日）的对数平均访问率，
+    我们将忽略它并集中在日期系数b1上，因为exp（b1）将估计平均每天访问量增加的百分比
+
+- Class: cmd_question
+  Output: 通过exp(confint(mdl, 'date'))获得exp（b1）的95％置信区间
+  CorrectAnswer: exp(confint(mdl, 'date'))
+  AnswerTests: ANY_of_exprs("exp(confint(mdl, 'date'))", 'exp(confint(mdl, "date"))', "exp(confint(mdl,2))")
+  Hint: 只要输入exp（confint（mdl，'date'））或exp（confint（mdl，2））
+
+- Class: text
+  Output: 访问量估计每天增加到1.002192倍到1.002399倍之间，即每天增加在0.2192％和0.2399％之间，实际上每年增加一倍以上。
+
+- Class: figure
+  Output: 我们的模型看起来像是一个相当好的数据描述，但没有一个模型是完美的，我们经常可以通过查找模型的缺点来了解数据生成过程，
+    如图所示，在该网站有访问之前，我们的模型有一点是在2011年1月的前两周，该模型系统地高估了访问次数。
+    不太明显的是，数据的标准偏差随着lamda的增长快于泊松模型允许的速度。可以在最右边的图中看到这种可能性，
+    通过视觉比较绿点的分布和模型预测的标准偏差（黑色破折号）。此外，还有四个或五个受欢迎的突发，
+    其中数量访问远远超过平均水平两个标准差，也许这是由于在上边提到来自另一个网站的访问导致的
+  Figure: shortcomings.R
+  FigureType: new
+  
+- Class: figure
+  Output: 看起来至少有一部分是这样的，我们数据的simplystats列记录了来自相关站点"Simply Statistics"的的访问次数
+   （即，通过点击出现在Simply Statisics的链接）
+  Figure: bursts.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 在图中，最大访问次数发生在2012年下半年，来自"Simply Statistics"博客的访问量也在当天达到了最大访问量。为了找到确切的日期，
+    我们可以使用which.max（hits [，'visits'] ）现在就这样做
+  CorrectAnswer: which.max(hits[,'visits'])
+  AnswerTests: omnitest("which.max(hits[,'visits'])", 704)
+  Hint: 输入which.max(hits[,'visits'])
+
+- Class: cmd_question
+  Output: 最大访问次数记录在我们数据框的第704行，通过输入hits[704,]来打印该行。
+  CorrectAnswer: hits[704,]
+  AnswerTests: omnitest(correctExpr='hits[704,]')
+  Hint: 只需输入hits[704,]。
+
+- Class: cmd_question
+  Output: 2012年12月4日发生的最大访问次数为94次，其中64次来自Simply Statistics博客，我们可能会认为64次访问是一个特殊事件，
+    超过正常水平。 94-64 = 30次访问，是按照我们的模型估算的正常流量归属？为了验证，我们将需要在2012年12月4日的lambda值。
+    这将是我们模型的fitted.values元素的第704个数据项，通过mdl$fitted.values[704]获取并将其存储在名为lambda的变量中
+  CorrectAnswer: lambda <- mdl$fitted.values[704]
+  AnswerTests: omnitest(correctExpr='lambda <- mdl$fitted.values[704]');expr_creates_var('lambda')
+  Hint: 只需输入lambda <- mdl$fitted.values[704]。
+
+- Class: cmd_question
+  Output: 我们模型解释的2012年12月4日的访问次数是一个平均值为λ的泊松随机变量，我们可以使用qpois（.95，lambda）找到这个分布的第95个百分点，
+   现在就试试吧。
+  CorrectAnswer: qpois(.95, lambda)
+  AnswerTests: ANY_of_exprs('qpois(.95, lambda)', 'qpois(0.95, lambda)')
+  Hint: 输入qpois（.95，lambda）或qpois（0.95，lambda）
+
+- Class: text
+  Output: 所以，95％的时间我们会看到33次或更少的访问次数，因此根据我们的模型，30次访问不会是罕见的。看起来在2012年12月4日，
+    访问量非常高，由于来自Simply Statistics的引用访问。为了评估来自Simply Statistics访问的重要性，我们可能希望对这些引用的访问的
+    流量比例进行建模，这样做也将说明glm参数offset的使用对频率和比例建模。
+
+- Class: text
+  Output: 一个泊松过程产生计数，计数是整数，0,1,2,3等等。一个比例是一个分数，那么一个泊松过程如何模拟一个比例？诀窍是包含分数的分母，
+    更确切地说是它的对数作为offset.回想一下，在我们的数据集中，“simplystats”是来自"Simply Statistics"的访问量，
+    'visits'是总访问次数。我们想要对分数simplystats / visits进行建模 ，但是为了避免被零除，我们实际上会使用simplystats /（visits + 1）。
+    泊松模型假设log（lambda）是预测变量的线性组合。我们假设log(lambda) = log(visits+1) + b0 + b1*date。换句话说，
+    如果我们坚持log（visit+ 1）的系数等于1，我们预测来自Simply Statistics的访问的平均数对数占访问总数的比例：
+    log(lambda/(visits+1)) = b0 + b1*date.
+
+- Class: cmd_question
+  Output: glm的参数偏移量恰好具有这种效果，它将偏移量的系数固定为1.为了创建来自Simply Statistics的访问比例的模型，
+    我们让offset = log(visits+1)。创建这个泊松模型，并将其存储为一个名为mdl2的变量中
+  CorrectAnswer: mdl2 <- glm(simplystats ~ date, poisson, hits, offset=log(visits+1))
+  AnswerTests: creates_glm_model('mdl2 <- glm(simplystats ~ date, poisson, hits, offset=log(visits+1))')
+  Hint: 输入mdl2 <- glm（formula = simplystats~date，family = poisson，data = hits，offset = log（visits + 1））
+
+- Class: cmd_question
+  Output: 虽然summary（mdl2）会显示估计的系数与零显著不同，但模型实际上并不令人印象深刻，我们可以通过再次查看2012年12月4日来说明原因，
+    当天有64次实际访问来自Simply Statistics。然而根据mdl2，64次访问是非常不可能的。你可以通过找到当天的第95个百分点来验证模型的这个缺陷。
+    回想2012年12月4日是样本704，找到qpois（.95， MDL2$fitted.values [704]）。
+  CorrectAnswer: qpois(.95, mdl2$fitted.values[704])
+  AnswerTests: ANY_of_exprs('qpois(.95, mdl2$fitted.values[704])', 'qpois(0.95, mdl2$fitted.values[704])')
+  Hint: 只需输入qpois（.95，mdl2$fitted.values [704]）
+
+- Class: mult_question  
+  Output: 一个lambda = 1000的泊松分布将很好地用一个正态分布来近似，这个正态分布的方差是多少？
+  AnswerChoices: lambda;lambda squared;the square root of lambda.
+  CorrectAnswer: lambda
+  AnswerTests: omnitest(correctVal= 'lambda')
+  Hint: 泊松分布的均值和方差是相等的。
+
+- Class: mult_question  
+  Output: 将计数结果建模为泊松过程时，将什么建模为预测变量的线性组合
+  AnswerChoices: The log of the mean;The mean;The counts
+  CorrectAnswer: The log of the mean
+  AnswerTests: omnitest(correctVal= 'The log of the mean')
+  Hint: 计数结果和他们的均值永远不是负值，但预测变量的线性组合可能会有负值。
+
+- Class: mult_question  
+  Output: glm函数的哪个参数允许你包含一个系数固定为1的预测因子？
+  AnswerChoices: offset;data;b0;family;formula
+  CorrectAnswer: offset
+  AnswerTests: omnitest(correctVal= 'offset')
+  Hint: 在计算mdl2时，我们使用这个参数来包含log(visits+1)。
+
+- Class: text
+  Output: 这就完成了泊松glm的例子，谢谢你坚持下去

@@ -1,0 +1,139 @@
+- Class: meta
+  Course: GGplot_02
+  Lesson: Themes
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 现在，你已经建立了高品质的图形，是时候让他们变漂亮。 这是绘制数据图形过程中的最后一步。 主题图层将使您能够直接在R中制作高质量图形
+
+- Class: cmd_question
+  Output: 我们已经为你预定义了图形变量z,在控制台中输入z，则可以将其检出。
+  CorrectAnswer: z
+  AnswerTests: omnitest(correctExpr='z', correctVal=VAL)
+  Hint: 命令提示处直接输入z即可。
+
+- Class: cmd_question
+  Output: 给z添加一个theme()函数。在这个theme（）函数中，指定plot.background参数。 将其设置为element_rect（fill = myPink）。
+    myPink已经在你的工作区中可用了
+  CorrectAnswer: z+theme(plot.background=element_rect(fill=myPink))
+  AnswerTests: omnitest(correctExpr='z+theme(plot.background=element_rect(fill=myPink))')
+  Hint: z+theme(plot.background=element_rect(fill=myPink))
+
+- Class: cmd_question
+  Output: 复制上一个练习的结果并将边框添加到plot.background。 通过向theme（）中的element_rect（）函数添加2个参数来实现这一点：color和size。 
+    设置为"black"和3
+  CorrectAnswer: z+theme(plot.background=element_rect(fill=myPink,color="black",size=3))
+  AnswerTests: omnitest(correctExpr='z+theme(plot.background=element_rect(fill=myPink,color="black",size=3))')
+  Hint: 在element_rect添加color="black",size=3。
+
+- Class: text
+  Output: 要继续探索自定义绘图更新，现在转向线条lines。 要更改线条的外观，请使用element_line（）函数。
+
+- Class: cmd_question
+  Output: 定义一个新的图形对象new_plot,它是我们为你预定义的图形对象z添加粉红色背景以后的图形。
+  CorrectAnswer: new_plot <- z+theme(plot.background=element_rect(fill=myPink))
+  AnswerTests: omnitest(correctExpr='new_plot <- z+theme(plot.background=element_rect(fill=myPink))')
+  Hint: 回顾我们之前练习输入的指令。
+
+- Class: cmd_question
+  Output: 从new_plot开始，添加一个theme（）函数来：删除网格线,通过正确指定panel.grid参数来做到这一点;添加黑色的轴线,使用element_line()和
+    color参数来指定axis.line参数;改变刻度标记为黑色,指定axis.ticks参数，类似于您指定axis.line的方式
+  CorrectAnswer: new_plot+theme(panel.grid = element_blank(),axis.line=element_line(color="black"),axis.ticks=element_line(color="black"))
+  AnswerTests: omnitest(correctExpr='new_plot+theme(panel.grid = element_blank(),axis.line=element_line(color="black"),axis.ticks=element_line(color="black"))')
+  Hint: 设置panel.grid = element_blank();设置axis.line和axis.ticks均为element_line(color = "black")
+  
+- Class: cmd_question
+  Output: 将上一个绘制的图形保存在图形对象line_plot中。
+  CorrectAnswer: line_plot <- new_plot+theme(panel.grid = element_blank(),axis.line=element_line(color="black"),axis.ticks=element_line(color="black"))
+  AnswerTests: omnitest(correctExpr='new_plot+theme(panel.grid = element_blank(),axis.line=element_line(color="black"),axis.ticks=element_line(color="black"))')
+  Hint: 将上一个练习的结果赋值给变量line_plot。
+
+- Class: text
+  Output: 接下来，我们可以使图形上的文字更漂亮，更容易被发现。 您可以通过element_text（）函数并在theme（）函数内传递适当的参数来完成此操作。
+
+- Class: cmd_question
+  Output: 在上一个图形的基础上进行操作。更改条形文本的外观，即文本条中的文本，用element_text（）指定strip.text，文本的大小应该是16，颜色应该是红色；
+    更改轴标题，使用element_text（）函数指定axis.title.y和axis.title.x来定义它们，将颜色设置为红色，将hjust设置为0（将文本置于左下角）并"face"设置为"italic";
+   使轴文本变黑,指定axis.text参数来执行此操作
+  CorrectAnswer: line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))
+  AnswerTests: omnitest(correctExpr='line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))')
+  Hint: line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))
+  
+- Class: text
+  Output: ggplot2非常擅长创建适合你的图形的图例。 当然，主题图层也允许您指定这些图例的外观和位置。 在本练习中，你将尝试一些技巧来移动
+    图例并更改其结构。
+  
+- Class: cmd_question
+  Output: 首先，为了以后使用的方便，将我们上一个绘图指令的图形对象存储在text_plot中
+  CorrectAnswer: text_plot <- line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))
+  AnswerTests: omnitest(correctExpr='text_plot <- line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))')
+  Hint: text_plot <- line_plot+theme(strip.text=element_text(size=16,color="red"),axis.title.y=element_text(color="red",hjust=0,face="italic"),axis.title.x=element_text(color="red",hjust=0,face="italic"),axis.text=element_text(color="red"))
+
+- Class: cmd_question
+  Output: 将一个theme（）函数添加到text_plot以更改图例的位置。 通过将legend.position参数指定为c（0.85,0.85）来完成此操作。 这将使图例出现在情节
+    在图形的第三个小图形内的右上方。
+  CorrectAnswer: text_plot+theme(legend.position=c(0.85,0.85))
+  AnswerTests: omnitest(correctExpr='text_plot+theme(legend.position=c(0.85,0.85))')
+  Hint: 添加theme并设置参数legend.position=c(0.85,0.85)
+
+- Class: cmd_question
+  Output: 在text_plot的基础上做出修改,将图例的方向设置为水平，通过设置theme()函数的legend.direction 参数为 "horizontal"
+  CorrectAnswer: text_plot+theme(legend.direction="horizontal")
+  AnswerTests: omnitest(correctExpr='text_plot+theme(legend.direction="horizontal")')
+  Hint: 添加theme并设置参数legend.direction="horizontal"
+
+- Class: cmd_question
+  Output: 在text_plot的基础上做出修改,你还可以通过名称更改图例的位置：将legend.position设置为“bottom”
+  CorrectAnswer: text_plot+theme(legend.position="bottom")
+  AnswerTests: omnitest(correctExpr='text_plot+theme(legend.position="bottom")')
+  Hint: 添加theme并设置参数legend.position="bottom"
+
+- Class: cmd_question
+  Output: 你也可以完全删除图例，将legend.position设置为"none"
+  CorrectAnswer: text_plot+theme(legend.position="none")
+  AnswerTests: omnitest(correctExpr='text_plot+theme(legend.position="none")')
+  Hint: text_plot+theme(legend.position="none")
+
+- Class: text
+  Output: 你的图形的不同矩形之间有间距。 这些facets之间，轴标签和绘图矩形之间，绘图矩形和整个面板背景之间都有间距，让我们来试验一下！
+  
+- Class: cmd_question
+  Output: 将前边没有图例的图形对象存储为legend_plot。
+  CorrectAnswer: legend_plot <- text_plot+theme(legend.position="none")
+  AnswerTests: omnitest(correctExpr='legend_plot <- text_plot+theme(legend.position="none")')
+  Hint: legend_plot <- text_plot+theme(legend.position="none")
+  
+- Class: cmd_question
+  Output: 假设你想在不同的facet之间有更多的空间。 您可以通过添加到legend_plot的theme()函数中指定panel.spacing.x来控制此操作。 对于参数值，
+    您应该传递一个unit对象。unit位于grid包中，已经在工作环境中为你加载了。 接下来，将panel.spacing.x设置为unit（2，"cm"）。
+  CorrectAnswer: legend_plot + theme(panel.spacing.x=unit(2,"cm"))
+  AnswerTests: omnitest(correctExpr='legend_plot + theme(panel.spacing.x=unit(2,"cm"))')
+  Hint: 你需要添加 panel.spacing.x参数
+
+- Class: cmd_question
+  Output: 修改先前的绘图命令：删除任何多余的绘图边界空间，将plot.margin设置为unit(c(0,0,0,0),"cm")。 
+  CorrectAnswer: legend_plot + theme(panel.spacing.x=unit(2,"cm"),plot.margin=unit(c(0,0,0,0),"cm"))
+  AnswerTests: omnitest(correctExpr='legend_plot + theme(panel.spacing.x=unit(2,"cm"),plot.margin=unit(c(0,0,0,0),"cm"))')
+  Hint: inside a theme()函数内设置plot.margin =
+
+- Class: text
+  Output: 在ggplot2中默认有很多主题：theme_bw（），theme_classic（），theme_gray（）等等。可以将主题应用到下面所有的theme_set():
+    theme_set（theme_bw（），但是你也可以把它们应用在一个特定的图形中: + theme_bw（）接下来，用自己的修改来扩展这些主题是完全可能的，
+    也是非常容易的。 在这个练习中，你将试验这个，并使用ggthemes包中的一些预设模板。 
+
+- Class: cmd_question
+  Output: 应用theme_tufte()到legend_plot
+  CorrectAnswer: legend_plot+theme_tufte()
+  AnswerTests: omnitest(correctExpr='legend_plot+theme_tufte()')
+  Hint: legend_plot+theme_tufte()
+
+- Class: cmd_question
+  Output: 将theme_tufte（）应用于legend_plot，并使用带有以下参数的theme（）命令进行拓展：将legend.position设置为c（0.9，0.9）;
+    将legend.title设置为大小为12的"italic"文本,使用element_text(face = ___，size = ___);将axis.title设置为大小为14的"bold"文本,
+    使用element_text（face = ___，size = ___）。
+  CorrectAnswer: legend_plot+theme_tufte()+theme(legend.position=c(0.9,0.9),legend.title=element_text(face="italic",size=12),axis.title=element_text(face="bold",size=14))
+  AnswerTests: omnitest(correctExpr='legend_plot+theme_tufte()+theme(legend.position=c(0.9,0.9),legend.title=element_text(face="italic",size=12),axis.title=element_text(face="bold",size=14))')
+  Hint: 扩展绘图指令：theme(legend.position = ___, legend.title = ___, axis.title = ___)。构造参数替换"——".

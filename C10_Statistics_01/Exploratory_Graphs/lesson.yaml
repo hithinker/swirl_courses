@@ -1,0 +1,397 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: Exploratory_Graphs
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+  
+- Class: text
+  Output: 在本课中，我们将讨论为什么图形是数据科学家的一个重要工具，以及探索性
+    图形在数据分析领域扮演的特殊角色。
+
+- Class: text
+  Output: 图形给我们提供了一些可视化的数据形式，而且由于我们的大脑非常擅长查看模式，图形给我们提供了一种简洁的方式来显示数据，
+    并找到或显示可能存在的任何模式。
+
+- Class: text
+  Output: 探索性图与图大部分功能相同。他们帮助我们找到数据模式并理解其属性。他们建议建模策略并帮助调试分析。
+    我们不使用探索性图表来表现结果。
+
+- Class: text
+  Output: 相反，探索图是调查的第一步，是用来指导数据科学家在富有成效的方向上工作的工具。科学家可能需要制作大量探索性图表，
+    以便对所研究的问题有个人的理解。稍后将逐步清晰诸如坐标轴，图例，颜色和大小的绘图细节，以美学上令人愉悦的方式传达更多信息。
+ 
+- Class: cmd_question
+  Output: 为了展示这些想法，我们已经从美国环境保护署（EPA）拷贝了一些数据，这些数据为室外空气污染制定了国家环境空气质量标准。
+    这些标准规定，对于细颗粒物污染（PM2.5），“3年以上平均值”不得超过每立方米12微克。我们将美国环保局网站上的数据存储在数据框'pollution'中。
+    使用R函数head查看污染的前几个条目。
+  CorrectAnswer: head(pollution)
+  AnswerTests: omnitest(correctExpr='head(pollution)')
+  Hint: 在命令提示符处head(pollution)。
+
+- Class: text
+  Output: 我们马上看到，至少有一个县超过了EPA标准每立方米12微克。我们还看到了什么？
+
+- Class: cmd_question
+  Output:  我们看到5列数据。污染计数在第一栏标为pm25。我们将主要处理这一栏的数据。其他4列是（美国）联邦信息处理标准(FIPS)代码
+    (具体含义是国家（前两位数字）和县（后三位数字）），相关区域（东或西），以及区域的经度和纬度。现在运行R命令dim函数，
+    'pollution'作为参数，看看表格有多长。
+  CorrectAnswer: dim(pollution)
+  AnswerTests: omnitest(correctExpr='dim(pollution)')
+  Hint: 在命令提示符下输入dim(pollution)。
+
+- Class: text
+  Output: 所以有576个污染项目。我们想调查一下“美国有没有细小颗粒污染超过国家标准（每立方米12微克）的的县？我们将看几个数据的一维摘要来调查这个问题。
+
+- Class: cmd_question
+  Output: 我们看到5列数据。污染计数在第一栏标为pm25。我们将主要用这个工作。其他4列是代表州（前两位数字）和县（后三位数字）的fips代码，
+    相关区域（东或西），以及区域的经度和纬度。现在运行summary函数，pollution作为参数，看看表格有多长。
+  CorrectAnswer: summary(pollution$pm25)
+  AnswerTests: omnitest(correctExpr='summary(pollution$pm25)')
+  Hint: 在命令提示符下输入summary(pollution$pm25)。
+
+- Class: text
+  Output: 向我们显示关于pm25数据的基本信息，即最小值（0百分位数）和最大值（百分位数）值，以及三个四分位数据。除了这5个数字之外，
+    我们还可以看到576个县的颗粒物污染的平均值。
+
+- Class: mult_question
+  Output: 测量的一半县的污染水平小于或等于多少每立方米微克的数量？
+  AnswerChoices: 8.549; 10.050; 9.836; 11.360 
+  CorrectAnswer: 10.050
+  AnswerTests: omnitest(correctVal='10.050')
+  Hint: 中位数表示50％的污染值。
+
+- Class: cmd_question
+  Output: 为了节省输入时间，我们在变量ppm中存储了pollution$pm25。现在可以使用ppm来代替较长的表达式。
+    现在尝试它作为R命令quantile函数的参数。查看结果如何与summary命令的输出结果非常相似。
+  CorrectAnswer: quantile(ppm)
+  AnswerTests: omnitest(correctExpr='quantile(ppm)')
+  Hint: 在命令提示符处输入quantile(ppm)。
+
+- Class: mult_question
+  Output: 看看结果如何与summary返回的结果相似？quantile函数输出四分位数，对吧？与summary函数相比，quantile这个分位数输出中缺少的一个值是什么？
+  AnswerChoices: the mean; the minimum value; the maximum value; the median 
+  CorrectAnswer: the mean
+  AnswerTests: omnitest(correctVal='the mean')
+  Hint: 最小值是0％分位数，最大值是100％分位数。中位数是50％的分位数。这只剩下一个选择。
+
+- Class: cmd_question
+  Output: 现在我们将绘制一张图片-boxplot。以ppm为输入运行R函数boxplot。另外指定颜色参数col等于“蓝色”。
+  CorrectAnswer: boxplot(ppm,col="blue")
+  AnswerTests: omnitest(correctExpr='boxplot(ppm,col="blue")')
+  Hint: 在命令提示符处输入boxplot（ppm，col =“blue”）。
+
+- Class: text
+  Output: boxplot向我们显示summary函数和quantile函数所输出的相同的四分位数据。蓝框的下边缘和上边缘分别显示25％和75％分位数的值
+
+- Class: mult_question
+  Output: 你认为盒子里的水平线代表什么？
+  AnswerChoices: the mean; the minimum value; the maximum value; the median 
+  CorrectAnswer: the median
+  AnswerTests: omnitest(correctVal='the median')
+  Hint: 这不是最小或最大，只剩下平均（平均）或中位数。 boxlot中的方框显示四分位数（25,50和75），上下边缘分别显示25和75百分位数。这意味着内线表示第50百分位。
+
+- Class: text
+  Output: 盒子的“胡须”（盒子上方和下方的垂直线）与boxplot的范围参数有关。盒子的高度是四分位距，第75和第25个分位数之间的差。
+    本例下，差是2.8。晶须的长度为四分位距* 2.8或1.5 * 2.8。这大致向我们显示了有多少（如果有的话）数据点是离群值，即超出了这个数值范围。
+
+- Class: text
+  Output: 请注意boxplot是R的基本绘图包的一部分。这个软件包提供了一个很好的功能，就是它有覆盖功能。也就是说，你可以添加（注释）一个现有的图形。
+
+- Class: cmd_question
+  Output: 运行参数h等于12的R函数abline。回想一下，12是空气质量的EPA标准:abline(h=12)
+  CorrectAnswer: abline(h = 12)
+  AnswerTests: omnitest(correctExpr='abline(h = 12)')
+  Hint: 在命令提示符下输入abline（h = 12）。
+  
+- Class: mult_question
+  Output: 你觉得这个命令做了什么？
+  AnswerChoices: drew a vertical line at 12; drew a horizontal line at 12; nothing; hid 12 random data points
+  CorrectAnswer: drew a horizontal line at 12
+  AnswerTests: omnitest(correctVal='drew a horizontal line at 12')
+  Hint: 唯一的刻度是在图的左边，所以12的线必须是水平的。
+
+- Class: text
+  Output: 所以“通过在当前绘图添加一条或多条直线”。我们从图中看到，大部分测量县都符合标准，因为它们大部分位于标记标准的直线的下方。
+  
+- Class: cmd_question
+  Output: 现在使用参数ppm的R命令hist（来自基础包的另一个函数）。指定等于“green”的颜色参数col。这将绘制数据的直方图。
+  CorrectAnswer: hist(ppm, col = "green")
+  AnswerTests: omnitest(correctExpr='hist(ppm, col = "green")')
+  Hint: 在命令提示符处输入hist（ppm，col =“green”）。
+
+- Class: text
+  Output: 直方图为我们提供了一些有关我们数据的更详细的信息，特别是污染计数的分布，或每个测量区间中有多少个县。
+
+- Class: mult_question
+  Output: 什么是最频繁的污染计数？
+  AnswerChoices: between 6 and 8; between 9 and 12; between 12 and 14; under 5
+  CorrectAnswer: between 9 and 12
+  AnswerTests: omnitest(correctVal='between 9 and 12')
+  Hint: 最高的区间是哪一个？
+
+- Class: cmd_question
+  Output: 现在用参数ppm运行R命令rug。
+  CorrectAnswer: rug(ppm)
+  AnswerTests: omnitest(correctExpr='rug(ppm)')
+  Hint: 在命令提示符处输入rug(ppm)。
+
+- Class: text
+  Output: 这个具有灰度表示的一维图给出了关于每个桶中有多少个数据点以及它们在桶内的位置的更详细的信息。它显示（通过刻度的密度），就像直方图那样，最大浓度的县每立方米有9到12微克。
+
+- Class: cmd_question
+  Output: 为了进一步说明这一点，我们为您定义了两个向量，分别是high（低于15）和low（低于5）的污染数据。现在看low，看看它rug的输出有什么关系。
+  CorrectAnswer: low
+  AnswerTests: omnitest(correctExpr='low')
+  Hint: 在命令提示符下输入low。
+
+- Class: cmd_question
+  Output: 确认3到4之间有两个数据点，4到5之间有很多数据点。现在看high。
+  CorrectAnswer: high
+  AnswerTests: omnitest(correctExpr='high')
+  Hint: 在命令提示符下输入high。
+
+- Class: text
+  Output: 同样，我们看到一个数据点大于18，一个在17和18之间，几个在16和17之间，两个在15和16之间，验证rug函数的输出。
+
+- Class: cmd_question
+  Output: 现在用3个参数重新运行hist，ppm作为其第一个，col等于“绿色”，参数break等于100。
+  CorrectAnswer: hist(ppm, col = "green", breaks = 100)
+  AnswerTests: omnitest(correctExpr='hist(ppm, col = "green", breaks = 100)')
+  Hint: 在命令提示符处输入hist（ppm，col =“green”，breaks = 100）。
+
+- Class: mult_question
+  Output: 在这种情况下，你认为break参数指定了什么？
+  AnswerChoices: the number of buckets to split the data into; the number of data points to graph; the number of stars in the sky; the number of counties exceeding the EPA standard
+  CorrectAnswer: the number of buckets to split the data into
+  AnswerTests: omnitest(correctVal='the number of buckets to split the data into')
+  Hint: 在这个图中有更多的条状图形，对吧？也许100左右吧？
+
+- Class: cmd_question
+  Output: 所以这个更多桶的直方图并不像前一个那样平滑。事实上，看清分布有点过于困难。当您绘制直方图时，为了获得数据分布的，您可能需要多尝试几次参数break。现在用参数ppm重新运行R命令rug。
+  CorrectAnswer: rug(ppm)
+  AnswerTests: omnitest(correctExpr='rug(ppm)')
+  Hint: 在命令提示符处输入rug(ppm)。
+
+- Class: text
+  Output: 看看rug如何与现有的图形一起发挥作用？它会自动将其容器大小调整为最后绘制的绘图大小。
+
+- Class: cmd_question
+  Output: 现在用ppm重新运行hist作为数据，col等于“绿色”。
+  CorrectAnswer: hist(ppm, col = "green")
+  AnswerTests: omnitest(correctExpr='hist(ppm, col = "green")')
+  Hint: 在命令提示符处输入hist（ppm，col =“green”）。
+
+- Class: cmd_question
+  Output: 现在运行命令abline，参数v等于12，参数lwd等于2。
+  CorrectAnswer: abline(v = 12, lwd=2)
+  AnswerTests: omnitest(correctExpr='abline(v = 12, lwd=2)')
+  Hint: 在命令提示符下键入abline（v = 12，lwd = 2）。
+
+- Class: cmd_question
+  Output: 坐标12处的垂直线？不是很明显，即使你指定了线2宽。使用等于median（ppm）作参数v运行abline，参数col等于"magenta"，参数lwd等于4。
+  CorrectAnswer: abline(v = median(ppm), col = "magenta", lwd = 4)
+  AnswerTests: omnitest(correctExpr='abline(v = median(ppm), col = "magenta", lwd = 4)')
+  Hint: 在命令提示符下输入abline（v = median（ppm），col =“magenta”，lwd = 4）。
+  
+- Class: text
+  Output: 更好，对吗？更粗，更鲜明的颜色对比。这表明虽然中位数（50％）低于标准，但美国有相当数量的县污染水平高于标准。
+
+- Class: cmd_question
+  Output:  现在回想一下，我们的污染数据有5栏信息。到目前为止，我们只看到pm25列。我们也可以查看其他信息。运行的R函数names,'pollution'作参数。
+  CorrectAnswer: names(pollution)
+  AnswerTests: omnitest(correctExpr='names(pollution)')
+  Hint: 在命令提示符处输入names(pollution)。
+
+- Class: cmd_question
+  Output: 经度和纬度听起来并不令人感兴趣，并且每一个fips都是唯一的，因为它标识了州（前两位）和县（后三位）。
+    我们来看看region那一栏，看看那里有什么。在该列上运行R函数table,使用结构体 pollution$region作参数。将结果存储在变量reg中。
+  CorrectAnswer: reg <- table(pollution$region)
+  AnswerTests: expr_creates_var("reg"); omnitest(correctExpr='reg <- table(pollution$region)')
+  Hint: 在命令提示符下输入reg < - table（pollution $ region）。
+  
+- Class: cmd_question
+  Output: 现在看看reg。 
+  CorrectAnswer: reg
+  AnswerTests: omnitest(correctExpr='reg')
+  Hint: 在命令提示符下输入reg。
+
+- Class: cmd_question
+  Output: 东部比西部多得多。我们将使用R命令barplot（另一种类型的一维摘要）来绘制这些信息。用reg作为第一个参数调用barplot，参数col等于“wheat”，参数main等于字符串“每个区域中的县数”。
+  CorrectAnswer: barplot(reg, col = "wheat", main = "Number of Counties in Each Region")
+  AnswerTests: omnitest(correctExpr='barplot(reg, col = "wheat", main = "Number of Counties in Each Region")')
+  Hint: 在命令提示符下键入barplot（reg，col =“wheat”，main ="Number of Counties in Each Region"）
+
+- Class: mult_question
+  Output: 你认为参数main指定了什么？
+  AnswerChoices: the title of the graph; the x axis label; the y axis label; I can't tell
+  CorrectAnswer: the title of the graph
+  AnswerTests: omnitest(correctVal='the title of the graph')
+  Hint: 由main指定的字符串在图形的顶部以粗体显示，它告诉图形显示的是什么信息。
+
+- Class: text
+  Output: 所以我们已经看到了一些总结数据的一维图的例子。二维图包括散点图，多个图，我们将看到更多的例子，还有一些R包如lattice和ggplot2提供覆盖一维图，。
+
+- Class: text
+  Output: 一些图形具有多于二维的。这些包括覆盖或多个二维图和旋转图。一些三维图很难理解，所以应用有限。
+    现在我们将看到一些更复杂图形的示例，特别是我们将一起显示两个图形。
+
+- Class: text
+  Output: 首先，我们将展示如何使用一条线和基础绘图来显示多个箱形图。我们只是简单地说明我们希望将污染数据视为区域的函数。我们知道，我们的污染数据表征了576个条目中的每一个属于两个地区（东部和西部）之一。
+
+- Class: cmd_question
+  Output: 我们使用R公式y~x来表示y（在这个例子中是pm25）依赖于x（区域）。由于两者都来自同一个数据框（pollution），我们可以指定一个等于pollution数据集的数据参数集。通过这样做，我们不必输入pollution$pm25（或ppm）和pollution$region。我们可以指定公式pm25~region。现在用这个公式作为参数来调用boxplot，数据等于pollution，col等于“red”。
+  CorrectAnswer: boxplot(pm25 ~ region, data = pollution, col = "red")
+  AnswerTests: ANY_of_exprs('boxplot(pm25 ~ region, data = pollution, col = "red")','boxplot(ppm ~ region, data = pollution, col = "red")')
+  Hint: 在命令提示符处键入boxplot（pm25~region，data = pollution，col =“red”）。
+  
+- Class: cmd_question
+  Output: 两个花一个的价格！同样，我们可以在一个绘图中绘制多个直方图，但要做到这一点，我们必须使用多个R命令。首先，我们必须用R命令par来设置绘图窗口，这个窗口指定了我们想要如何布置这些绘图，比如一个在另一个之上。我们还使用par来指定页边距，一个长4的向量表示底部，左侧，顶部和右侧的行数。现在输入R命令par（mfrow = c（2,1），mar = c（4,4,2,1））。不要期望看到任何新的结果。
+  CorrectAnswer: par(mfrow = c(2, 1), mar = c(4, 4, 2, 1))
+  AnswerTests: omnitest(correctExpr='par(mfrow = c(2, 1), mar = c(4, 4, 2, 1))')
+  Hint: 在命令提示符处输入par（mfrow = c（2，1），mar = c（4,4,2,1））。
+
+- Class: cmd_question
+  Output: 所以我们用mfrow参数设置了两行和一列的绘图窗口。 mar说法建立了边距向量。在我们绘制直方图之前，让我们来探索R命令subset，
+    这并不奇怪，“返回满足条件的向量，矩阵或数据帧的子集”。我们将使用subset来提取我们想要绘制的数据。调用subset现在pollution作为其第一个参数,一个布尔表达式--测试区域是否为东，作为第二个参数。把结果放在变量east。
+  CorrectAnswer: east <- subset(pollution,region=="east")
+  AnswerTests: expr_creates_var("east"); omnitest(correctExpr='east <- subset(pollution,region=="east")')
+  Hint: 在命令提示符处输入east < - subset(pollution,region=="east"）。
+
+- Class: cmd_question
+  Output: 用head函数查看east的前几个条目。
+  CorrectAnswer: head(east)
+  AnswerTests: omnitest(correctExpr='head(east)')
+  Hint: 在命令提示符处输入head(east)。
+
+- Class: cmd_question
+  Output: 所以east拥有比我们需要更多的信息。我们只是想绘制pm25部分的直方图。现在用east的pm25部分作为第一个参数调用hist，col等于“green”作为第二个参数。
+  CorrectAnswer: hist(east$pm25, col = "green")
+  AnswerTests: omnitest(correctExpr='hist(east$pm25, col = "green")')
+  Hint: 在命令提示符下键入hist（east$pm25，col =“green”）。
+
+- Class: figure
+  Output: 命令par告诉R我们将有1列2行，所以它把这个直方图放在最上面的位置。
+  Figure: goodPlot1.R
+
+- Class: cmd_question
+  Output: 现在，这对你来说是一个挑战。使用一个R命令绘制来自西方的县的直方图。让适当的subset命令（以pm25指定的部分）作为第一个参数，col（等于“green”）第二个参数。为了减少你的输入，使用向上箭头键来获得你的最后一个命令，并替换subset命令里的“east”。确保布尔参数检查region和"west"之间的相等性。
+  CorrectAnswer: hist(subset(pollution,region=="west")$pm25, col = "green")
+  AnswerTests: omnitest(correctExpr='hist(subset(pollution,region=="west")$pm25, col = "green")')
+  Hint: 在命令提示符处键入hist(subset(pollution,region=="west")$pm25, col = "green")。
+
+
+- Class: figure
+  Output: 看看R如何为你做所有的标签？请注意，标题是不同的，因为我们对这两个地块使用了不同的命令。现在看一些散点图。
+  Figure: goodPlot2.R
+
+- Class: figure
+  Output: 散点图是显示两个变量（通常是x和y）之间关系的二维图。我们来看一个散点图，显示纬度和pm25数据之间的关系。我们将使用R的基本绘图包中的函数plot。
+  Figure: clearPlot.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 我们已经看到，当调用另一个函数时，我们可以使用函数调用作为参数。当我们用纬度和pm25这两个来自我们数据框'pollution'的参数来调用plot时，
+    我们会再次这样做。我们使用R函数with从内部调用plot，with函数的原理是从由数据构造的环境中去执行R表达式。我们会用'pollution'作为第一个参数，第二个是plot表达式。
+    这使我们可以避免在绘图的参数之前键入“pollution$”，这样可以节省我们一些打字的时间，并增加了您的R知识基础。现在试试这个。
+    命令为：with(pollution, plot(latitude, pm25))
+  CorrectAnswer: with(pollution, plot(latitude, pm25))
+  AnswerTests: omnitest(correctExpr='with(pollution, plot(latitude, pm25))')
+  Hint: 在命令提示符下输入with(pollution, plot(latitude, pm25))。
+  
+- Class: cmd_question
+  Output: 请注意，第一个参数沿着x轴绘制，第二个沿着y绘制。现在使用abline在12处添加水平线。使用两个额外的参数，lwd等于2，lty也等于2.看看会发生什么。
+  CorrectAnswer: abline(h = 12, lwd = 2, lty = 2)
+  AnswerTests: omnitest(correctExpr='abline(h = 12, lwd = 2, lty = 2)')
+  Hint: 在命令提示符下输入abline(h = 12, lwd = 2, lty = 2)。
+
+- Class: cmd_question
+  Output: 看看如何lty = 2如何起作用?现在让我们重新绘制散点图。这一次，而不是使用，直接调用3个参数的情节。前2是pollution$latitude和ppm。第三个参数col，我们将使用添加颜色和更多的信息到我们的情节。设置这个参数（col）等于region，看看会发生什么。
+  CorrectAnswer:  plot(pollution$latitude, ppm, col = pollution$region)
+  AnswerTests: omnitest(correctExpr='plot(pollution$latitude, ppm, col = pollution$region)')
+  Hint: 在命令提示符下输入plot(pollution$latitude, ppm, col = pollution$region)。
+
+- Class: mult_question
+  Output: 我们在地图上有两种颜色来区分东部和西部的县。我们能弄清楚哪一种颜色是东方的，哪个是西方的？看到高（大于50）和低（小于25）的纬度都是红色的。纬度表示与赤道的距离，那么美国（东或西）的哪一半在最南端和南端都有县？
+  AnswerChoices: east; west
+  CorrectAnswer: west
+  AnswerTests: omnitest(correctVal='west')
+  Hint: 阿拉斯加和夏威夷处于极端纬度。
+
+
+- Class: cmd_question
+  Output: 如前所述，使用abline在12处添加水平线。使用另外两个参数，lwd等于2，lty也等于2。
+  CorrectAnswer: abline(h = 12, lwd = 2, lty = 2)
+  AnswerTests: omnitest(correctExpr='abline(h = 12, lwd = 2, lty = 2)')
+  Hint: 在命令提示符下输入abline（h = 12，lwd = 2，lty = 2）。
+
+- Class: text
+  Output: 我们看到很多县都超过了环保局设定的健康标准，但是很难说整体，哪个地区，哪个地区，哪个地区，哪个地区更差。
+
+- Class: figure
+  Output: 我们绘制两个区域的散点图
+  Figure: clearPlot.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 正如我们用多个直方图所做的那样，我们首先必须用R命令par设置绘图窗口。这一次，让我们并排绘制散点图（一行两列）。我们还需要使用不同的边距。现在输入R命令par（mfrow = c（1，2），mar = c（5，4，2，1））。不要期望看到任何新的结果。
+  CorrectAnswer: par(mfrow = c(1, 2), mar = c(5, 4, 2, 1))
+  AnswerTests: omnitest(correctExpr='par(mfrow = c(1, 2), mar = c(5, 4, 2, 1))')
+  Hint: 在命令提示符下输入par（mfrow = c（1，2），mar = c（5，4，2，1））。
+
+- Class: cmd_question
+  Output: 对于第一个散点图，在左边，我们将绘制来自西部地区的纬度和PM25个计数。我们已经拿出已经获得了东部地区的信息。
+    现在让我们获得西部地区的信息。使用'pollution'作为subset函数的第一个参数，适当的布尔值作为第二个参数来创建变量west。
+  CorrectAnswer: west <- subset(pollution,region=="west")
+  AnswerTests: expr_creates_var("west"); omnitest(correctExpr='west <- subset(pollution,region=="west")')
+  Hint: 在命令提示符下输入west <- subset(pollution,region=="west")。
+
+- Class: cmd_question
+  Output: 现在用三个参数调用plot。这些是west$latitude (x-axis), west$pm25 (y-axis)，参数main等于字符串“West”（title）。现在就做这个。
+  CorrectAnswer: plot(west$latitude, west$pm25, main = "West")
+  AnswerTests: omnitest(correctExpr='plot(west$latitude, west$pm25, main = "West")')
+  Hint: 在命令提示符处输入plot（west $ latitude，west $ pm25，main =“West”）。
+  
+- Class: figure
+  Output: 对于右边的第二个散点图，我们将绘制来自东部地区的latitude和pm25计数。
+  Figure: goodPlot3.R
+
+- Class: cmd_question
+  Output:  像以前一样，使用向上箭头键，变量替换为east,并将标题“West”字符串更改为“East”。
+  CorrectAnswer: plot(east$latitude, east$pm25, main = "East")
+  AnswerTests: omnitest(correctExpr='plot(east$latitude, east$pm25, main = "East")')
+  Hint: 在命令提示符下输入plot(east$latitude, east$pm25, main = "East")
+
+- Class: figure
+  Output: 看看R如何处理您的所有细节？很好，对吧？看起来东部还有更多的污染较严重的县，而西部则存在计算情况（大于15）。
+  Figure: goodPlot4.R
+
+- Class: figure
+  Output:  让我们总结和审查。
+  Figure: clearPlot.R
+  FigureType: new
+
+- Class: mult_question
+  Output: 以下哪项描述了探索性绘图？
+  AnswerChoices: slow and clean; quick and dirty; quick and dead; slow and steady
+  CorrectAnswer: quick and dirty
+  AnswerTests: omnitest(correctVal='quick and dirty')
+  Hint: 我们做得很快，对不对？这只剩下两个选择。其中只有一个是有道理的。
+
+- Class: mult_question
+  Output: 对或者错？plots总结数据（通常是图形的形式），并突出显示任何明显的特征
+  AnswerChoices: True; False
+  CorrectAnswer: True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 真的吗？
+  
+- Class: mult_question
+  Output: 下列哪个是plot绘图不能做的？
+  AnswerChoices: Summarize the data (usually graphically) and highlight any broad features; Explore basic questions and hypotheses (and perhaps rule them out); Suggest modeling strategies for the "next step"; Conclude that you are ALWAYS right
+  CorrectAnswer: Conclude that you are ALWAYS right
+  AnswerTests: omnitest(correctVal='Conclude that you are ALWAYS right')
+  Hint: 请做出正确的选择。
+
+- Class: text
+  Output: 祝贺！你已经结束了在图形上探索这一课。我们希望你没有发现它太快或肮脏。 

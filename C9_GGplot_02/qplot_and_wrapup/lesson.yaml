@@ -1,0 +1,122 @@
+- Class: meta
+  Course: GGplot_01
+  Lesson: qplot_and_wrapup
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本章中，您将学习qplot; 这是ggplot2的一个快速的形式。 它不像完整的ggplot（）函数那样直观，但在特定情况下可能会有用。 
+
+- Class: text
+  Output: 对于简单的探索性图形，可以使用各种功能。 ggplot2提供了一个功能强大而且多样化的函数，但是qplot（）允许快速绘图。 
+    另外，你也应该熟悉基本的绘图符号。
+
+- Class: cmd_question
+  Output:  使用mtcars数据集和ggplot（）创建图形，绘制y轴上的mpg与x轴上的wt的散点图。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()')
+  Hint: ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()
+
+- Class: cmd_question
+  Output: 使用qplot（）创建相同的图。使用带有3个参数的qplot（）：第一个是wt，第二个是mpg，数据设置为mtcars。
+  CorrectAnswer: qplot(wt,mpg,data=mtcars)
+  AnswerTests: omnitest(correctExpr='qplot(wt,mpg,data=mtcars)')
+  Hint: qplot(wt,mpg,data=mtcars)
+
+- Class: text
+  Output: 您已经看到了一些图形属性只适用于分类变量，如shapelinetypes。 但是，正因为其他，如size和color（还有fill），
+    可以适用于分类变量和连续变量，并不意味着它们适用于两者。
+
+- Class: cmd_question
+  Output: 在上个练习中，我们已经绘制了mtcars数据框中的wt决定mpg的散点图，现在继续添加属性，将分类变量cyl映射到size。 请记住，
+    必须将变量名称包含在factor（）函数中才能转换为分类变量。
+  CorrectAnswer: qplot(wt,mpg,data=mtcars,size=factor(cyl))
+  AnswerTests: omnitest(correctExpr='qplot(wt,mpg,data=mtcars,size=factor(cyl))')
+  Hint: qplot(wt,mpg,data=mtcars,size=factor(cyl))
+  
+- Class: cmd_question
+  Output: 承接上一个练习，将连续变量hp映射到color上。
+  CorrectAnswer: qplot(wt,mpg,data=mtcars,size=factor(cyl),color=hp)
+  AnswerTests: omnitest(correctExpr='qplot(wt,mpg,data=mtcars,size=factor(cyl),color=hp)')
+  Hint: qplot(wt,mpg,data=mtcars,size=factor(cyl),color=hp)
+  
+- Class: text
+  Output: qplot会根据给定的数据类型自动为我们图形种类，但是您可以自己指定geom
+
+- Class: cmd_question
+  Output: 使用qplot（）快速绘制图。 使用mtcars数据集并将唯一因子（cyl）绘制到x上。 qplot（）选择哪个几何图形？
+  CorrectAnswer: qplot(x=factor(cyl),data=mtcars)
+  AnswerTests: omnitest(correctExpr='qplot(x=factor(cyl),data=mtcars)')
+  Hint: qplot(x=factor(cyl),data=mtcars)
+
+- Class: cmd_question
+  Output: 扩展先前的qplot（）命令，以便将factor（vs）映射到y。 qplot（）现在使用哪个几何？
+  CorrectAnswer: qplot(x=factor(cyl),y=factor(vs),data=mtcars)
+  AnswerTests: omnitest(correctExpr='qplot(x=factor(cyl),y=factor(vs),data=mtcars)')
+  Hint: qplot(x=factor(cyl),y=factor(vs),data=mtcars)
+
+- Class: cmd_question
+  Output: 上一个绘图有重叠点。 复制上一条qplot（），但在qplot（）中手动将geom设置为“jitter”
+  CorrectAnswer: qplot(x=factor(cyl),y=factor(vs),data=mtcars,geom="jitter")
+  AnswerTests: omnitest(correctExpr='qplot(x=factor(cyl),y=factor(vs),data=mtcars,geom="jitter")')
+  Hint: qplot(x=factor(cyl),y=factor(vs),data=mtcars,geom="jitter")
+
+- Class: text
+  Output: 一些命名约定：散点图：连续x，连续y。点图：分类x，连续y。
+    您可以使用geom_point()来绘制两种绘图类型。抖动位置在geom_point（）图层中设置。
+    但是，要创建一个“真正的”点图，可以使用geom_dotplot（）。 与geom_point（）不同的是，geom_dotplot（）使用分箱统计。 分箱意味着将连续变量
+    （在这种情况下是y）切割成离散的“箱”。 你已经看到使用geom_histogram（）进行分箱。有一点要注意的是， 与geom_point（）相比，
+    geom_dotplot（）使用不同的绘图符号。对于这些符号,color改变了其边界的颜色,fill改变了其内部的颜色。
+    让我们来看看这两个geom比较。
+
+- Class: cmd_question
+  Output:  使用geom_point()绘制点图。cyl（categorical）被映射到x上，而wt（continuous）被映射到y上，将am转换为一个因子变量，映射到color。
+    在geom_point中指定position = position_jitter(0.2, 0))
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_point(position=position_jitter(0.2,0))
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_point(position=position_jitter(0.2,0))')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_point(position=position_jitter(0.2,0))
+
+- Class: cmd_question
+  Output: 重新绘制上一练习的点图。通过调用geom_dotplot（）添加一个dotplot几何图形。设置参数stackdir ="center"和binaxis ="y"。
+    这些是我们的标准设置，但请查看帮助页面并尝试不同的设置以熟悉这些参数
+  CorrectAnswer: ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_dotplot(stackdir ="center",binaxis ="y")
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_dotplot(stackdir ="center",binaxis ="y")')
+  Hint: ggplot(mtcars,aes(x=factor(cyl),y=wt,color=factor(am)))+geom_dotplot(stackdir ="center",binaxis ="y")
+
+- Class: cmd_question
+  Output: 将之前的ggplot（）命令转换为qplot（）命令
+  CorrectAnswer: qplot(x=factor(cyl),y=wt,data=mtcars,color=factor(am),geom="dotplot",stackdir="center",binaxis="y")
+  AnswerTests: omnitest(correctExpr='qplot(x=factor(cyl),y=wt,data=mtcars,color=factor(am),geom="dotplot",stackdir="center",binaxis="y")')
+  Hint: qplot(x=factor(cyl),y=wt,data=mtcars,color=factor(am),geom="dotplot",stackdir="center",binaxis="y")
+
+- Class: text
+  Output: ChickWeight数据集是一个数据框，代表几只雏鸡的体重增长过程。 小鸡每个都有特定的饮食。 有四种类型的饮食和农民想知道哪一个使鸡雏长得最快。
+    现在是时候使用您在本课程中学到的技术对数据框架进行一些探索性统计！ 让我们来做一些ggplot-ing！
+
+- Class: cmd_question
+  Output: head（ChickWeight）来检查这个数据集的前几行。 看起来数据很整洁
+  CorrectAnswer: head(ChickWeight)
+  AnswerTests: omnitest(correctExpr='head(ChickWeight)')
+  Hint: head(ChickWeight)
+
+- Class: cmd_question
+  Output: 为每只小鸡绘制一条线。使用ggplot（），并把aes（）函数中的Time映射到x和weight映射到y。在最后添加geom_line（）来画线。
+     要为每个小鸡绘制一条线，将group = Chick添加到geom_line（）的aes（）。
+  CorrectAnswer: ggplot(ChickWeight,aes(x=Time,y=weight))+geom_line(aes(group=Chick))
+  AnswerTests: omnitest(correctExpr='ggplot(ChickWeight,aes(x=Time,y=weight))+geom_line(aes(group=Chick))')
+  Hint: ggplot(ChickWeight,aes(x=Time,y=weight))+geom_line(aes(group=Chick))
+
+- Class: cmd_question
+  Output: 上一个练习的基础上添加color = Diet在ggplot（）的aes（）中
+  CorrectAnswer: ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick))
+  AnswerTests: omnitest(correctExpr='ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick))')
+  Hint: ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick))
+
+- Class: cmd_question
+  Output: 接上个练习并添加geom_smooth（），将属性lwd设置为2，并将se设置为FALSE。 在geom_line（）里面，设置alpha为0.3
+  CorrectAnswer: ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick),alpha=0.3)+geom_smooth(lwd=2,se=FALSE)
+  AnswerTests: omnitest(correctExpr='ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick),alpha=0.3)+geom_smooth(lwd=2,se=FALSE)')
+  Hint: ggplot(ChickWeight,aes(x=Time,y=weight,color=Diet))+geom_line(aes(group=Chick),alpha=0.3)+geom_smooth(lwd=2,se=FALSE)
+

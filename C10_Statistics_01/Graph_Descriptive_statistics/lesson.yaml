@@ -1,0 +1,147 @@
+- Class: meta
+  Course: Data_Analysis
+  Lesson: Data_Visualization
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 1.0.0
+
+- Class: text
+  Output: 现在您已经学习了用于描述数据集的基本技术和统计计算，下一步就是弄清楚如何有效地说明和可视化数据。
+
+- Class: text
+  Output: 在统计人员对数据集进行彻底分析之前，首先将数据可视化是有用的。在本课中，我们将学习有用的技术来显示数值变量。
+
+- Class: text
+  Output: 通过将数据组织成PLOT或GRAPH，统计人员可以探索和总结数据集的一些基本属性。 定量描述数据集主要性质的学科被称为描述性统计(DESCRIPTIVE STATISTICS)。
+
+- Class: text
+  Output: 最简单的绘图类型是DOT PLOT，它用来可视地传达一个变量的值。 在点图中，只有一个水平的x轴，数据点表示为该轴上的点。
+
+- Class: figure
+  Output: 这是一个使用我们的“cars”数据集中的变量“price”创建的点图。 
+    您可能会注意到，价格沿着x轴以$ 1000s为单位，轴上的每个点代表我们数据集中54个车中的一个的价格。
+  Figure: mod1_dotplot.R
+  FigureType: new
+
+- Class: range_question
+  Output: 看这个点图时，在什么价位（1000$）附近，数据点的密度似乎是最高的？
+  CorrectAnswer: 7; 13
+  AnswerTests: range=7-13
+  Hint: 看看图中最黑最密集的部分。
+
+- Class: text
+  Output: 由于点图能够有效地显示数据集中每个人的一个变量的具体数值，因此在分析较小的数据集时特别有用。
+
+- Class: text
+  Output: HISTOGRAM与点图类似，但不是显示每个特定的值，而是将数据的值分割成若干个分区，从而提供更加精简的数据表示。
+
+- Class: figure
+  Output: 在这里，我创建了一个使用每加仑汽油行驶里程数的直方图。 您可能会注意到，沿x轴的MPG值被划分为5个范围的区域。例如，
+    第二个区域将所有在城市中获得21-25 MPG的汽车组合在一起，等等。 请注意，左边的直条图区域包含20 MPG的汽车，因为这个值不能在两个直条图区域中计数。 
+    沿着Y轴报告每个区域中的值的频率或每个间隔中的汽车的数量。
+  Figure: mod1_histogram.R
+  FigureType: new
+
+- Class: text
+  Output: 较高的条表示大部分数据所在的值的范围，而较短的条表示一小部分数据所在的值的范围。 
+    换句话说，直方图提供了数据密度的视图。
+
+- Class: mult_question
+  Output: 通过简单地看这个直方图，你能告诉我哪个MPG间隔有最高的频率值吗？例如，值的最低频率出现在区间36-40,41-45和46-50。
+  AnswerChoices: 16-20; 21-25; 26-30; 31-35; 36-40; 41-45; 46-50
+  CorrectAnswer: 16-20
+  AnswerTests: word= 16-20
+  Hint: 查找直方图中对应于最高的数据范围
+
+- Class: exact_question
+  Output: 这个城市有多少辆汽车能达到16-20 MPG？
+  CorrectAnswer: '25'
+  AnswerTests: exact=25
+  Hint: 看看“16-20”条到达的y轴的最高值。
+
+- Class: figure
+  Output: 在我们的直方图上绘制了一条红线，说明上一题的答案。
+  Figure: mod1_histogram_add.R
+  FigureType: addition
+
+- Class: text
+  Output: 直方图在查看和描述数据分布的形状时特别有用。 数据分布可能有左倾斜，右倾斜或完全不倾斜。 
+    SKEWNESS是衡量数据的分布在多大程度上“偏向”一侧或另一侧的程度。“
+
+- Class: figure
+  Output: 有左倾斜的分布是其中左侧尾部的情节较长的分布。换句话说，在直方图上，大部分分布位于均值的右边。
+  Figure: mod1_leftskew.R
+  FigureType: new
+
+- Class: text
+  Output: 当分布偏左时，MEAN的值小于MEDIAN的值，因此MEAN位于分布的左侧。 在这个图中，绿线表示中值，蓝线表示平均值。
+
+- Class: figure
+  Output: 另一方面，具有右倾斜的分布是右直线更长的分布，使得当在直方图上观看时大部分数据落在均值的左侧。
+  Figure: mod1_rightskew.R
+  FigureType: new
+
+- Class: text
+  Output: 当分布右偏斜时，MEAN的值大于MEDIAN的值，因此MEAN位于分布的右侧。 在这个图中，绿线表示中值，蓝线表示平均值。
+
+- Class: figure
+  Output: 一个没有倾斜的图形是平均两边的尾巴平衡的一个图形，被称为对称。 当分布是对称的时候，MEAN和MEDIAN的值是大致相等的。“
+  Figure: mod1_symmetric.R
+  FigureType: new
+
+- Class: text
+  Output: 在这个图中，绿线表示中值，蓝线表示平均值。 绿线是唯一可见的，因为均值和中值接近于相同的值。
+
+- Class: figure
+  Output: “现在让我们回顾一下我们之前制作的直方图，它代表我们的”汽车“数据集中的54辆汽车中每辆汽车的城市MPG值的分布。“
+  Figure: mod1_histogram.R
+  FigureType: new
+
+- Class: mult_question
+  Output: 你将如何分类这个直方图表示的分布的形状？
+  AnswerChoices: "Symmetric; Right-skewed; Left-skewed"
+  CorrectAnswer: "Right-skewed"
+  AnswerTests: omnitest=(correctVal="Right-skewed")
+  Hint: 看看尾巴的哪一端更长。 数据将朝这个方向倾斜。 或者，看看尾巴是否延伸到每边相对相同的长度。
+
+- Class: mult_question
+  Output: 参考上面的直方图，并牢记分布的真实形状，你会期望MEDIAN大于，小于或等于MEAN？
+  AnswerChoices: "Greater than; Less than; Equal to"
+  CorrectAnswer: "Less than"
+  AnswerTests: omnitest=(correctVal="Less than")
+  Hint: 重读上面的内容，以便弄清中位数的价值是什么，而分配是右倾的。
+
+- Class: text
+  Output: 一种特殊类型的直方图被称为STEM-AND-LEAF PLOT。 该小区按照小数位值的顺序组织数值数据。 图的左侧列包含STEMS，或者每个数据点的十位数字的数值按照升序排列。
+    LEAVES位于图的右侧列，是相应茎的每个数据点的个位数的值，按升序水平排列。
+
+- Class: text
+  Output: 在一个茎叶图中，树叶的数量等于数据集中的所有样本数量。 理解茎叶情节最简单的方法就是看一个！
+
+- Class: figure
+  Output: 我已经使用与我们刚刚用于我们的直方图的“mpgCity”变量相同的值创建了上面的茎叶图。 正如您所看到的，如果您想查看数据的特定值的频率，则茎叶图是一种有用的直方图类型。
+    通常情况下，每个十位数字只能有一个bin，但在这种情况下，R给了我们与我们在直方图中看到的相同的bin。
+  Figure: mod1_stem.R
+  FigureType: new
+
+- Class: exact_question
+  Output: 在这个茎叶图上显示，在这个特定的数据集中出现了多少“22”值？
+  CorrectAnswer: '4'
+  AnswerTests: exact=4
+
+- Class: figure
+  Output: 可用于描述离散或连续变量的最终图形被称为箱线图(BOX PLOT)，也被称为BOX-AND-WHISKER PLOT。 正如您以前所了解的那样，这个图用于总结特定数据集的主要描述性统计量，
+    并帮助说明可变性的概念。我已经创建了一个盒子和晶须的情节，让你可以提醒它看起来像什么。
+  Figure: mod1_boxplot.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 盒图用于直观地表示数据集的最小值，第一个四分位值（Q3），中间值，第三个四分位值（Q3）和最大值。 
+    R命令的 summary(cars$price)返回这些主要描述性统计的值。 现在试试这个。
+  CorrectAnswer: summary(cars$price)
+  AnswerTests: swirl1cmd=summary(cars$price)
+
+- Class: text
+  Output: “到目前为止，我所介绍的每一个情节只涉及一个连续的或离散的变量。在未来的课程中，我们将了解用于分类变量和多个变量的图表。"
+

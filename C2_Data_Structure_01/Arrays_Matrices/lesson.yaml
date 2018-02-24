@@ -1,0 +1,380 @@
+- Class: meta
+  Course: Data_structure_01
+  Lesson: Array_Matrix
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 1.0
+  
+- Class: text
+  Output: 这门课程是要介绍R 的矩阵(matrix)和向量。是R里线性代数的重要组成部分理解R 的线性代数系统，无论是对于撰写自己的算法，
+    或是了解开源的算法，都是非常重要的。
+- Class: cmd_question
+  Output: 我们先来复习R 中的向量。请同学建立一个型态为numeric，由1到18的向量。
+  CorrectAnswer: '1:18'
+  AnswerTests: omnitest(correctVal = '1:18')
+  Hint: '1:18'
+- Class: cmd_question
+  Output: 我们可以利用`matrix`这个函数来建立一个矩阵。举例来说，`matrix(1:18, 6, 3)`就可以建立一个6 乘3 的矩阵。
+    请同学试试看，并把这个矩阵赋给变量x 。
+  CorrectAnswer: x <- matrix(1:18, 6, 3)
+  AnswerTests: any_of_exprs('x <- matrix(1:18, 6, 3)', 'x = matrix(1:18, 6, 3)')
+  Hint: x <- matrix(1:18, 6, 3)
+- Class: cmd_question
+  Output: 要了解`matrix`，请先打开matrix的帮助页面。
+  CorrectAnswer: help(matrix)
+  AnswerTests: any_of_exprs('help(matrix)', '?matrix', 'help("matrix")', "help('matrix')")
+  Hint: help(matrix)
+- Class: mult_question
+  Output: 根据matrix的帮助页面，请问以下哪些不是matrix的参数呢？
+  AnswerChoices: data;nrow;ncol;byrow;dimnames;dim
+  CorrectAnswer: dim
+  AnswerTests: omnitest(correctVal = 'dim')
+  Hint: 请参考matrix的说明页面的Usage。
+- Class: cmd_question
+  Output: 数学上来说，一个矩阵除了值之外，需要的就是维度的定义。而`matrix`这个函数中，`data`的参数代表该矩阵的值，
+    `nrow`的代表该矩阵的行数，而`ncol`的部份则代表该矩阵的列数。根据上述的逻辑，`matrix(1:18, 6, 3)`会产生一个6 行3 列（简称6 乘3 ）的矩阵。
+    请同学输入`x` 看一下R 是如何打印x 这个6 乘3 的矩阵。
+  CorrectAnswer: x
+  AnswerTests: omnitest('x')
+  Hint: x
+- Class: cmd_question
+  Output: 请同学看看x 的属性。 
+  CorrectAnswer: attributes(x)
+  AnswerTests: omnitest('attributes(x)')
+  Hint: attributes(x)
+- Class: text
+  Output: 有一个名字叫做"dim"的属性，值是`c(6, 3)`，代表这是一个6 乘3 的矩阵。 
+- Class: cmd_question
+  Output: 重要的属性，R 都会提供内建函数来方便存取。 `dim`就是可以存取矩阵维度的函数。请同学试试看：`dim(x)`
+  CorrectAnswer: dim(x)
+  AnswerTests: omnitest(correctExpr='dim(x)')
+  Hint: dim(x)
+- Class: cmd_question
+  Output: 也可以利用`dim(x) <- c(3, 6)`来更改x 的维度。请同学试试看。
+  CorrectAnswer: dim(x) <- c(3, 6)
+  AnswerTests: any_of_exprs('dim(x) <- c(3, 6)', 'dim(x) = c(3, 6)')
+  Hint: dim(x) <- c(3, 6)
+- Class: cmd_question
+  Output: 可以把x 打印出来看看。
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: x
+- Class: cmd_question
+  Output: R 的除了矩阵(matrix)之外，还有高维度的数组。我们可以直接更改x 的维度到更高维。请同学试试看：`dim(x) <- c(3, 3, 2)`。
+  CorrectAnswer: dim(x) <- c(3, 3, 2)
+  AnswerTests: any_of_exprs('dim(x) <- c(3, 3, 2)', 'dim(x) = c(3, 3, 2)')
+  Hint: dim(x) <- c(3, 3, 2)
+- Class: cmd_question
+  Output: 请同学把x 印出来看看
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: x
+- Class: cmd_question
+  Output: 也可以利用`array(1:18, c(3, 3, 2))`来建立一个高维矩阵。这里很清楚可以看到，`array`的第二个参数就是维度。我们请同学试试看输入array(1:18, c(3, 3, 2))。   
+  CorrectAnswer: array(1:18, c(3, 3, 2))
+  AnswerTests: omnitest(correctExpr='array(1:18, c(3, 3, 2))')
+  Hint: array(1:18, c(3, 3, 2))
+  
+- Class: cmd_question
+  Output: 创建矩阵y,矩阵元素为1-20的所有整数，5行4列
+  CorrectAnswer: y<-matrix(1:20,c(5,4))
+  AnswerTests: omnitest(correctExpr='y<-matrix(1:20,c(5,4))')
+  Hint: 注意使用matrix()函数，矩阵元素可以使用":"运算符。
+  
+- Class: cmd_question
+  Output: 命名矩阵的列。我们已经为你定义了字符向量col_names
+  CorrectAnswer: colnames(y) <- col_names
+  AnswerTests: omnitest(correctExpr='colnames(y) <- col_names')
+  Hint: 注意使用colnames()函数
+  
+- Class: cmd_question
+  Output: 命名矩阵的行。我们已经为你定义了字符向量row_names
+  CorrectAnswer: rownames(y) <- row_names
+  AnswerTests: omnitest(correctExpr='rownames(y) <- row_names')
+  Hint: 注意使用rownames()函数
+  
+- Class: cmd_question
+  Output: 计算矩阵的每一行的值使用函数rowSums,保存到变量rs。同样也有对应的colSums()函数，请查看其帮助文档自行学习。
+  CorrectAnswer: rs <- rowSums(y)
+  AnswerTests: omnitest(correctExpr='rs <- rowSums(y)')
+  Hint: 注意使用rowSums(y)函数
+ 
+- Class: text
+  Output: 从一个向量里获取我们想要的元素，我们可以使用坐标，也可以使用逻辑向量。
+    在矩阵和数组上，还是可以用这两种方式从矩阵或数组中挑选一部分的值。
+- Class: text
+  Output: 我们可以利用中括号`[`来取出矩阵或数组中部分的值。举例来说，如果x 是矩阵，`x[2,1]`会取出x 第二行第一列的值。
+    数组也是类似的。`x[1,2,3]`则会拿出第一个维度的第1 个方向，第二个维度的第2 个方向，第三个维度的第3 个方向。
+    这就是以坐标的方式做挑选。
+- Class: mult_question
+  Output: 我们来测测看同学是否理解刚刚的说明。目前相当于`array(1:18, c(3, 3, 2))`的x , `x[1,2,2]`的值会是多少呢？
+  AnswerChoices: 1;10;13;18
+  CorrectAnswer: 13
+  AnswerTests: omnitest(correctVal = as.character(x[1,2,2]))
+  Hint: 可以往上，看一看x 的输出，在`, , 2` 底下的 `[1,]` 和 `[,2]` 的交汇点。
+- Class: mult_question
+  Output: 在R 中，矩阵的数据顺序是：`c(x[1,1], x[2,1], x[3,1], ...)`。也就是说，如果我们用指令：`matrix(1:18, 3, 6)`，
+    则x[1,1]会是1, x[2,1]会是2, x[3,1]是3, x[1,2]是4, 以此类推。高维度的数组也是类似。
+    我们来试试看，目前的x 是一个高维数组，请问：x[3,1,1]的值会是多少呢？
+  AnswerChoices: 1;3;7;10;18
+  CorrectAnswer: 3
+  AnswerTests: omnitest(correctVal = as.character(x[3,1,1]))
+  
+- Class: cmd_question
+  Output: 如果给一个数组，而只是要取单一个方向的向量，也可以适当的使用`[`完成取出。
+    请同学再打印x 一次。
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: x
+- Class: cmd_question
+  Output: 我们可以看到，`, , 2` 之后，显示出一个3 乘3 的矩阵。这个矩阵即是沿着第三个维度的第2个方向所切面出来的矩阵，
+    这就是`, , 2`所代表的意思。而在R 中，我们可以利用`x[,,2]`取得这个矩阵。请取得这个矩阵，并把它存到变量x2中。
+  CorrectAnswer: x2 <- x[,,2]
+  AnswerTests: any_of_exprs('x2 <- x[,,2]', 'x2 = x[,,2]')
+  Hint: x2 <- x[,,2]
+  
+- Class: cmd_question
+  Output: 我们先打印出x2来看看。
+  CorrectAnswer: x2
+  AnswerTests: omnitest(correctExpr='x2')
+  Hint: x2
+  
+- Class: cmd_question
+  Output: 如果我们要选出第一行，只要输入`x2[1,]`就可以了。请看一下x2的输出，在第一行的左方有`[1,]`的图示，即是提示可以用`x2[1,]`来选出第一行。
+    我们请同学试试看选出`x2[1,]`
+  CorrectAnswer: x2[1,]
+  AnswerTests: omnitest(correctExpr='x2[1,]')
+  Hint: x2[1,]
+  
+- Class: cmd_question
+  Output: 如果要直接从x 中获取` , , 2` 之下矩阵里的第一行，我们可以使用：`x[1,,2]`。
+    这里的矩阵，在左方有`[1,]`、`[2,]`和`[3,]`，代表着若要取出对应的行，我们要分别使用：`x[1,]` 、`x[2,]`和`x[3,]`这样的符号。
+    由于目前x 是一个三个维度的数组，最后，还需要加上上述的：`, , 2`。
+    所以若是要执行「获取` , , 2` 之下矩阵里的第一行」，就会变成：`x[1, , 2]`。请同学试试看。
+  CorrectAnswer: x[1,,2]
+  AnswerTests: omnitest(correctExpr='x[1,,2]')
+  Hint: x[1,,2]
+  
+- Class: cmd_question
+  Output:  回答下一个问题之前，我们先打印出x。
+  CorrectAnswer: x
+  AnswerTests:  omnitest(correctExpr='x')
+  Hint: x
+  
+- Class: mult_question
+  Output: 请问`x[,3,1]`的值会是什么呢？
+  AnswerChoices: c(7,8,9);c(3,6,9);c(16,17,18);c(12,15,18)
+  CorrectAnswer: c(7,8,9)
+  AnswerTests: omnitest(correctVal = "c(7,8,9)")
+  
+- Class: text
+  Output: 也可以利用中括号`[]`搭配逻辑向量，取出矩阵或数组中的值。R 会根据逻辑向量在`[]`中的位置，选择该维度，
+    只挑出该逻辑向量为TRUE的坐标。
+- Class: mult_question
+  Output: 请问同学，依照上述的说明，`x[c(TRUE, TRUE, FALSE), , ]`的效果等同于以下哪一个代码呢？
+  AnswerChoices: x[1:2,,];x[,1:2,];x[,,1:2]
+  CorrectAnswer: x[1:2,,]
+  AnswerTests: omnitest(correctVal = "x[1:2,,]")
+- Class: text
+  Output: 接着我们介绍如何修改矩阵和数组的元素。
+- Class: cmd_question
+  Output: 如果我们要修改矩阵的值，只需要搭配使用`[]`和`<-`就可以了。
+    首先，如果我们要将`x[1,1,1]`的值更改为2，
+    我们可以使用`x[1,1,1] <- 2`。请同学试试看。
+  CorrectAnswer: x[1,1,1] <- 2
+  AnswerTests: any_of_exprs('x[1,1,1] <- 2', 'x[1,1,1] = 2')
+  Hint: x[1,1,1] <- 2
+  
+- Class: cmd_question
+  Output: 我们可以打印出`x[1,1,1]`（不是印出全部的x）确认数值是否被修改成功。
+  CorrectAnswer: x[1,1,1]
+  AnswerTests: omnitest('x[1,1,1]', 2)
+  Hint: x[1,1,1]
+  
+- Class: cmd_question
+  Output: 要更改一整排的数据也是类似的方法。举例来说，`x[,1,1] <- 3`可以把`, , 1`底下矩阵的`[,1]`该列改成`c(3,3,3)`向量。
+    这样的运算也是向量式，R 会自动重复3 直到把x[,1,1]填满。
+  CorrectAnswer: x[,1,1] <- 3
+  AnswerTests: any_of_exprs('x[,1,1] <- 3', 'x[,1,1] = 3')
+  Hint: x[,1,1] <- 3
+  
+- Class: cmd_question
+  Output: 我们可以把`x[,,1]`打印出来看看更改后的效果
+  CorrectAnswer: x[,,1]
+  AnswerTests:  omnitest('x[,,1]')
+  Hint: x[,,1]
+  
+- Class: text
+  Output: 希望这样的说明可以让同学了解R 如何存取矩阵和数组的数据。
+  
+- Class: text
+  Output: 接下来说明的是数组和矩阵的向量式运算。先复习一下在向量的状况下，R 的向量式运算
+- Class: mult_question
+  Output: 请问`c(1,2,3) + c(2,4,6)`的结果会是？
+  AnswerChoices: c(3,6,9);c(3);c(3,4,5)
+  CorrectAnswer: c(3,6,9)
+  AnswerTests: omnitest(correctVal = 'c(3,6,9)')
+  Hint: 向量式运算，就是R 会对两向量的对应位置做运算。
+  
+- Class: mult_question
+  Output: 请问`c(1,2,3) + 2`的结果会是？
+  AnswerChoices: c(3,4,5);c(3,2,3);c(3)
+  CorrectAnswer: c(3,4,5)
+  AnswerTests: omnitest(correctVal = 'c(3,4,5)')
+  Hint: 当长度不相等的向量做运算时，长度比较短的向量会重复
+  
+- Class: cmd_question
+  Output: 先针对矩阵的向量式运算进行说明。它和向量的运算非常类似，在运算时R 也会自动比对位置，并且在相同运算位置上做运算。
+    请同学先印出`x[,,1]`。
+  CorrectAnswer: x[,,1]
+  AnswerTests: omnitest('x[,,1]')
+  Hint: x[,,1]
+  
+- Class: cmd_question
+  Output: 再请同学印出`x[,,2]`。
+  CorrectAnswer: x[,,2]
+  AnswerTests: omnitest('x[,,2]')
+  Hint: x[,,2]
+  
+- Class: cmd_question
+  Output: 再请同学试试看：`x[,,1] + x[,,2]`
+  CorrectAnswer: x[,,1] + x[,,2]
+  AnswerTests: omnitest('x[,,1] + x[,,2]')
+  Hint: x[,,1] + x[,,2]
+- Class: text
+  Output:  这里相加的结果，就是将`x[,,1]`和`x[,,2]`对应的位置做相加。同学可以比对前面的输出结果。
+  
+- Class: cmd_question
+  Output: 而当维度不相同的时候，R 会自动重复维度较低的那方。举例来说，当一边是矩阵，一边是单值的时候，运算相对简单。
+    请同学试试看：`x[,,1] + 1`
+  CorrectAnswer: x[,,1] + 1
+  AnswerTests: omnitest('x[,,1] + 1')
+  Hint: x[,,1] + 1
+  
+- Class: mult_question
+  Output: 但是，当两边都是矩阵或数组，并且长度不一样时，就不容易了。先跟同学复习一下，数组的值的排列方式。
+    如果`y <- array(1:8, c(2, 2, 2))`，那`y[1,1,1]`是1 、`y[2,1,1]`是2 。R 会将`1:8`的值依照列、行到第三个维度，一个一个填入。
+    以此类推，所以`y[1,2,1]`的值会是？
+  AnswerChoices: 3;4;5;6;7
+  CorrectAnswer: 3
+  AnswerTests: omnitest(correctVal = '3')
+  
+- Class: cmd_question
+  Output: 当数组和向量相加的时候，R 会一直重复向量，直到向量的长度和数组需要的长度相符合。举例来说，一个3 乘2 乘2 的数组需要12个值。
+    接着，R 会把这个向量转换成和数组一样的维度，然后在对应的位置做相加。请同学试试看：`matrix(1:4, 2, 2) + 1:2`
+  CorrectAnswer: matrix(1:4, 2, 2) + 1:2
+  AnswerTests: omnitest('matrix(1:4, 2, 2) + 1:2')
+  Hint: matrix(1:4, 2, 2) + 1:2
+  
+- Class: cmd_question
+  Output: 另外提及一件重要的事情，属性的概念。现在的变量x 也是个R 对象，也有属性。请同学查一下它的属性。
+  CorrectAnswer: attributes(x)
+  AnswerTests: omnitest('attributes(x)')
+  Hint: 请用`attributes`这个函数。
+  
+- Class: cmd_question
+  Output: 同学是否有看到名称叫做dim 的一个整数向量呢？这个dim 属性非常重要，所有的矩阵和数组，都是一般的向量加上dim 这个属性。
+    R 也提供了`dim` 这个函数让使用者可以存取dim 属性。举例来说，`dim(x)`会印出x 的维度。而我们可以透过`dim(x) <- NULL`来移除x 的dim 属性。
+    请同学试试看`dim(x) <- NULL`。
+  CorrectAnswer: dim(x) <- NULL
+  AnswerTests: omnitest('dim(x) <- NULL')
+  Hint: dim(x) <- NULL
+  
+- Class: cmd_question
+  Output: 请同学印出`x`来看看。
+  CorrectAnswer: x
+  AnswerTests: omnitest('x')
+  Hint: x
+  
+- Class: text
+  Output: 是不是就变成向量了呢？
+  
+- Class: text
+  Output:  R 中的数组和向量的向量式运算，也可以回到两个向量的运算。差别在于它们多了维度的属性，所以当维度差异太大的时候，
+    R 会认为向量式运算无效。所以一般来说只会拿单值或向量去和数组做运算，或是维度相同的矩阵或数组进行运算。
+
+- Class: text
+  Output: 基本上，`+`、`-`、`*`和`/`都会使用向量式运算。
+  
+- Class: cmd_question
+  Output:  在R 中，使用`cbind`和`rbind`则可以合并两个矩阵。举例来说，`cbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))`会将两个矩阵的列合并，
+    运算之后会变成2 乘 4的矩阵。请同学试试看。
+  CorrectAnswer: cbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))
+  AnswerTests: omnitest('cbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))')
+  Hint: cbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))
+  
+- Class: cmd_question
+  Output: 使用`rbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))`则会把两个矩阵的行合并，运算之后会变成4 乘 2的矩阵。请同学试试看。
+  CorrectAnswer: rbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))
+  AnswerTests: omnitest('rbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))')
+  Hint: rbind(matrix(1:4, 2, 2), matrix(1:4, 2, 2))
+  
+- Class: text
+  Output: 最后，我们介绍一些和线性代数相关的运算子和函数。如果对线性代数不熟悉的同学，可以在看过反矩阵之后跳过（使用`skip()`）后面的课程。
+- Class: cmd_question
+  Output: 在R 中两个矩阵要作矩阵乘法，就是使用`%*%`这个运算符号。请同学试试看：`matrix(1:6, 2, 3) %*% matrix(3:8, 3, 2)`
+  CorrectAnswer: matrix(1:6, 2, 3) %*% matrix(3:8, 3, 2)
+  AnswerTests: omnitest('matrix(1:6, 2, 3) %*% matrix(3:8, 3, 2)', matrix(1:6, 2,
+    3) %*% matrix(3:8, 3, 2))
+  Hint: matrix(1:6, 2, 3) %*% matrix(3:8, 3, 2)
+  
+- Class: cmd_question
+  Output: 当两个向量使用`%*%`做运算，会得到他们的内积。举例来说：`1:3 %*% 1:3`会得到什么呢？请同学试试看。
+  CorrectAnswer: 1:3 %*% 1:3
+  AnswerTests: omnitest('1:3 %*% 1:3')
+  Hint: 1:3 %*% 1:3
+  
+- Class: cmd_question
+  Output: 当矩阵乘向量的时候，单一向量会被视为行向量，最后会得到矩阵每个列和单一向量的内积，形成一个新的行向量。举例来说：
+    `matrix(1:9,3,3) %*% 1:3` 会得到什么呢？请同学试试看。
+  CorrectAnswer: matrix(1:9,3,3) %*% 1:3
+  AnswerTests: omnitest('matrix(1:9,3,3) %*% 1:3')
+  Hint: matrix(1:9,3,3) %*% 1:3
+  
+- Class: text
+  Output: 在R 中，线性代数运算的底层是透过BLAS等函数库做运算的，所以效能远胜过自己用C 写的线性代数运算。另外，R 预设的BLAS库为比较被广泛验证过正确性的版本，而非速度比较快版本。
+    这是因为，R core Team认为正确性比较重要，所以目前是采用比较旧，但是也比较可靠的BLAS库。
+
+- Class: cmd_question
+  Output: 在R 中，要对一个矩阵做转置，可以用`t`这个函数。请同学先印出`matrix(1:4, 2, 2)`
+  CorrectAnswer: matrix(1:4, 2, 2)
+  AnswerTests: omnitest("matrix(1:4, 2, 2)")
+  Hint: matrix(1:4, 2, 2)
+  
+- Class: cmd_question
+  Output: 再打印出：`t(matrix(1:4, 2, 2))`
+  CorrectAnswer: t(matrix(1:4, 2, 2))
+  AnswerTests: omnitest('t(matrix(1:4, 2, 2))')
+  Hint: t(matrix(1:4, 2, 2))
+  
+- Class: cmd_question
+  Output: 我们可以用`diag`快速建构对角化的矩阵。举例来说：`diag(1, 3)`会建立出3 乘3 的单位矩阵。请试试看。
+  CorrectAnswer: diag(1, 3)
+  AnswerTests: omnitest("diag(1, 3)")
+  Hint: diag(1, 3)
+  
+- Class: cmd_question
+  Output: 如果已知` A %*% x = b `，给定`A` 和`b` ，我们就可以用`solve` 解出 x 。举例来说，若`A`是`matrix(1:4, 2, 2)`、b 是`c(3, 8)`，`solve(A, b)`即可以给出`x`。
+    变量`A`和`b`已经存在了，所以请同学直接解出`x`并且把它存到`x`之中。
+  CorrectAnswer: x <- solve(A, b)
+  AnswerTests: any_of_exprs('x <- solve(A, b)', 'x = solve(A, b)')
+  Hint: x <- solve(A, b)
+  
+- Class: cmd_question
+  Output: 我们来验算一下，`A %*% x`的结果是否真的是`b`呢?
+  CorrectAnswer: A %*% x
+  AnswerTests: omnitest('A %*% x')
+  Hint: A %*% x
+- Class: cmd_question
+  Output: 如果直接使用`solve(A)`，则R 会算出A 的逆矩阵。请同学试试看。
+  CorrectAnswer: solve(A)
+  AnswerTests: omnitest('solve(A)')
+  Hint: solve(A)
+- Class: cmd_question
+  Output: 使用`eigen(A)`则可以解出A 的特征值(eigenvalues)和特征向量(eigenvectors)。我们可以试试看： `A %*% eigen(A)$vectors[,1] / eigen(A)$vectors[,1]`
+    是不是相除后，会拿到一模一样的值呢？
+  CorrectAnswer: A %*% eigen(A)$vectors[,1] / eigen(A)$vectors[,1]
+  AnswerTests: omnitest('A %*% eigen(A)$vectors[,1] / eigen(A)$vectors[,1]')
+  Hint: A %*% eigen(A)$vectors[,1] / eigen(A)$vectors[,1]
+

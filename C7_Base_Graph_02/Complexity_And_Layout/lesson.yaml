@@ -1,0 +1,217 @@
+- Class: meta
+  Course: Base_Graph_02
+  Lesson: Complexity_And_Layout
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+
+- Class: text
+  Output: 正如我们所看到的，基础R图形提供了创建具有多行，不同形状和大小的点以及添加文本以及多个图的数组的巨大灵活性。 
+    如果我们试图向一个图表添加太多的细节，或者向一个数组添加太多的图表，结果会变得太复杂而无法使用。 
+    本章着重讨论如何管理这种视觉复杂性，以便结果对我们自己和其他人有用。
+
+- Class: text
+  Output: 将plot（）函数应用于数据框架，产生散列图阵列，数据框架中的每一对数据列都有一个散点图。 因此，此数组中的图的数量等于数据框中的列数的平方。
+    这意味着如果我们将plot（）函数应用于多列数据框架，我们将生成大量的散点图，每个散点图都太小而无法使用。 
+    
+- Class: text
+  Output: 将plot（）函数应用于具有k列的数据框将创建k*k个由散点图k阵列。
+  
+- Class: cmd_question
+  Output: 如果我们用Cars93数据框作参数调用plot()函数，使用ncol()函数计算此数组中的图的数量。 只需将结果打印到控制台
+  CorrectAnswer: ncol(Cars93)^2
+  AnswerTests: omnitest(correctExpr='ncol(Cars93)^2')
+  Hint: ncol(Cars93)^2
+
+- Class: cmd_question
+  Output: 调用Cars93上的plot（）来生成scatterplot阵列。 你能证实你的计算是正确的吗？
+  CorrectAnswer: plot(Cars93)
+  AnswerTests: omnitest(correctExpr='plot(Cars93)')
+  Hint: plot(Cars93)
+
+- Class: text
+  Output: 可以使用matplot（）函数轻松生成在同一组轴上具有多个散点图的图形。 默认情况下，这些散点图中的点由数字1到n表示，
+    其中n是包含散点图的总数，但是plot（）函数的大多数选项也可以通过指定适当的参数来实现。设置一个包含四个这样的多个散点图显示的绘图阵列，
+    每个散点图都包含比前一个更多的散点图。 
+
+- Class: cmd_question
+  Output: 我们已经为你创建了一个keep_vars的字符向量，该字符向量命名UScereal数据框中的六个变量。打印看一下。
+  CorrectAnswer: keep_vars
+  AnswerTests: omnitest(correctExpr='keep_vars')
+  Hint: keep_vars
+
+- Class: cmd_question
+  Output: 使用keep_vars这个变量名称向量，从UScereal数据框中提取仅包含这些变量的数据框df
+  CorrectAnswer: df <- UScereal[,keep_vars]
+  AnswerTests: omnitest(correctExpr='df <- UScereal[,keep_vars]')
+  Hint: df <- UScereal[,keep_vars]
+
+- Class: cmd_question
+  Output: 使用par()函数来设置mfrow参数，以生成一个2*2的plot数组。
+  CorrectAnswer: par(mfrow=c(2,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(2,2))')
+  Hint: par(mfrow=c(2,2))
+
+- Class: cmd_question
+  Output: 使用matplot()函数构造一个双散点图显示protein和fat与calories的关系。使用main给这个图表标题“Two scatterplots”。
+    标记X轴"calories" 和Y轴 "" 以摆脱默认的Y轴标签。
+  CorrectAnswer: matplot(df$calories,df[,c("protein","fat")],main="Two scatterplots",xlab="calories",ylab="")
+  AnswerTests: omnitest(correctExpr='matplot(df$calories,df[,c("protein","fat")],main="Two scatterplots",xlab="calories",ylab="")')
+  Hint: matplot(df$calories,df[,c("protein","fat")],main="Two scatterplots",xlab="calories",ylab="")
+
+- Class: cmd_question
+  Output: 使用matplot()函数构造一个三散点图显示,显示protein, fat,fibre 和 calories的关系。给这个图形标题"Three scatterplots"。
+    同样，标记X轴"calories"和Y轴""。
+  CorrectAnswer: matplot(df$calories,df[,c("protein","fat","fibre")],main="Three scatterplots",xlab="calories",ylab="")
+  AnswerTests: omnitest(correctExpr='matplot(df$calories,df[,c("protein","fat","fibre")],main="Three scatterplots",xlab="calories",ylab="")')
+  Hint: matplot(df$calories,df[,c("protein","fat","fibre")],main="Three scatterplots",xlab="calories",ylab="")
+
+- Class: cmd_question
+  Output: 使用matplot（）函数构造一个四散点图显示,protein, fat, fibre , carbo 和 calories的关系。给这个阴谋题目 "Four scatterplots"。
+    再次标记X轴"calories"和Y轴""
+  CorrectAnswer: matplot(df$calories,df[,c("protein","fat","fibre","carbo")],main="Four scatterplots",xlab="calories",ylab="")
+  AnswerTests: omnitest(correctExpr='matplot(df$calories,df[,c("protein","fat","fibre","carbo")],main="Four scatterplots",xlab="calories",ylab="")')
+  Hint: matplot(df$calories,df[,c("protein","fat","fibre","carbo")],main="Four scatterplots",xlab="calories",ylab="")
+
+- Class: cmd_question
+  Output: 使用matplot（）函数构造一个五散点图显示,protein, fat, fibre, carbo, sugars 和calories的关系。给这个图形标题"Five scatterplots"。
+    一定要重新标记X轴"calories"和Y轴""
+  CorrectAnswer: matplot(df$calories,df[,c("protein","fat","fibre","carbo","sugars")],main="Five scatterplots",xlab="calories",ylab="")
+  AnswerTests: omnitest(correctExpr='matplot(df$calories,df[,c("protein","fat","fibre","carbo","sugars")],main="Five scatterplots",xlab="calories",ylab="")')
+  Hint: matplot(df$calories,df[,c("protein","fat","fibre","carbo","sugars")],main="Five scatterplots",xlab="calories",ylab="")
+
+- Class: text
+  Output: 要显示散点图阵列如果被允许变得太复杂，或者包含太多的图，或者试图在一组轴上包含太多的散点图，就会失去效用。更一般地说，
+    如果数据可视化过于复杂，任何数据可视化都会失去效用。用wordcloud来考虑这个问题，根据它们的频率显示不同大小的单词。
+    也就是说，更频繁的单词出现在显示器中较大，而较少的单词出现在较小的字体中。在R中，使用wordcloud软件包中的wordcloud（）函数很容易
+    生成wordcloud。这个函数用单词的字符向量来调用，第二个数字向量给出了每个单词出现在用于生成wordcloud的字符向量中的次数。这个函数的另外
+    两个有用的参数是scale和min.freq。比例参数是一个双分量数值向量，给出显示中最大的单词的相对大小和最小的单词的相对大小。
+    wordcloud只包含集合中至少出现min.freq次的单词，默认值为3。wordcloud软件包已经加载到您的工作环境中了
+
+- Class: cmd_question
+  Output: 使用table()函数创建变量mfr_table，该变量列出Manufacturer变量的每个水平出现在Cars93数据框中的次数。
+  CorrectAnswer: mfr_table <- table(Cars93$Manufacture)
+  AnswerTests: omnitest(correctExpr='mfr_table <- table(Cars93$Manufacture)')
+  Hint: mfr_table <- table(Cars93$Manufacture)
+
+- Class: cmd_question
+  Output: 使用wordcloud()函数来显示制造商Manufacturer数据，将scale参数设置为c（2，0.25）以使wordcloud适合显示窗口。
+  CorrectAnswer: wordcloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25))
+  AnswerTests: omnitest(correctExpr='cloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25))')
+  Hint: cloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25))
+
+- Class: cmd_question
+  Output: 默认情况下，wordcloud()函数仅显示出现3次或更多次的单词。 使用min.freq参数获取包含wordcloud中所有制造商值的显示。
+  CorrectAnswer: wordcloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25),min.freq=3)
+  AnswerTests: omnitest(correctExpr='wordcloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25),min.freq=3)')
+  Hint: wordcloud(words=names(mfr_table),freq=as.numeric(mfr_table),scale=c(2,0.25),min.freq=3)
+
+- Class: cmd_question
+  Output: 使用table()函数创建变量model_table，该变量用于列出Model变量的每个水平出现在Cars93数据框中的次数。
+  CorrectAnswer: model_table <- table(Cars93$Model)
+  AnswerTests: omnitest(correctExpr='model_table <- table(Cars93$Model)')
+  Hint: model_table <- table(Cars93$Model)
+
+- Class: cmd_question
+  Output: 使用scalecl参数设置为c（0.75,0.25）的wordcloud()函数，并将min.freq参数设置为显示所有模型值。 
+  CorrectAnswer: wordcloud(words=names(model_table),freq=as.numeric(model_table),scale=c(o.75,0.25),min.freq=1)
+  AnswerTests: omnitest(correctExpr='wordcloud(words=names(model_table),freq=as.numeric(model_table),scale=c(o.75,0.25),min.freq=1)')
+  Hint: wordcloud(words=names(model_table),freq=as.numeric(model_table),scale=c(o.75,0.25),min.freq=1)
+
+- Class: text
+  Output: 使用多个图来给出数据集的多个视图。除了比较之外，图形阵列的另一个有用的应用是呈现相同数据集的多个相关视图。
+    接下来的几个练习给出了相同数据集的四个视图：原始数据值本身的图，这些数据值的直方图，密度图和正常的QQ图。
+    MASS和car包已预先加载，使间geyser 数据和truehist（）和qqPlot（）功能可供您使用。
+
+- Class: cmd_question
+  Output: 使用par()函数为2乘2绘图数组设置mfrow参数。
+  CorrectAnswer: par(mfrow=c(2,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(2,2))')
+  Hint: par(mfrow=c(2,2))
+
+- Class: cmd_question
+  Output: 在左上方，使用plot（）函数显示geyser数据集中duration变量的值，使用主要参数将plot标题指定为"Raw data"。
+  CorrectAnswer: plot(geyser$duration,main="Raw data")
+  AnswerTests: omnitest(correctExpr='plot(geyser$duration,main="Raw data")')
+  Hint: plot(geyser$duration,main="Raw data")
+
+- Class: cmd_question
+  Output: 在右上角，使用truehist（）函数来生成duration数据的直方图，使用主要参数给这个图表标题 "Histogram"。
+  CorrectAnswer: truehist(geyser$duration,main="Histogram")
+  AnswerTests: omnitest(correctExpr='truehist(geyser$duration,main="Histogram")')
+  Hint: truehist(geyser$duration,main="Histogram")
+
+- Class: cmd_question
+  Output: 在左下方，使用plot（）和density（）函数来显示duration值的密度，使用主要参数给这个图表标题"Density".。
+  CorrectAnswer: plot(density(geyser$duration))
+  AnswerTests: omnitest(correctExpr='plot(density(geyser$duration))')
+  Hint: plot(density(geyser$duration))
+
+- Class: cmd_question
+  Output: 在右下方，使用汽车包装中的qqPlot()函数显示duration数据的正态QQ图，使用主要参数给这个图标题"QQ-plot"。
+  CorrectAnswer: qqPlot(geyser$duration,main="QQ-plot")
+  AnswerTests: omnitest(correctExpr='qqPlot(geyser$duration,main="QQ-plot")')
+  Hint: qqPlot(geyser$duration,main="QQ-plot")
+  
+- Class: text
+  Output: 构建和显示布局矩阵。layout（）函数设置一个布局矩阵，以创建一个plot阵列。您可以将布局矩阵视为绘图窗格，其中0表示空白，
+    其他数字表示绘图编号，由可视化函数调用的顺序决定。例如，布局矩阵中的1表示首先调用的可视化，2表示第二个可视化调用的图形等。
+    创建自己的3 x 2布局矩阵，使用c（ ）函数将数字连接成向量，形成矩阵的行。然后，您将使用matrix（）函数将这些行转换为矩阵，
+    并应用layout（）函数来设置所需的绘图数组。然后可以使用函数layout.show（）来验证plot数组是否具有所需的形状。
+  
+- Class: cmd_question
+  Output: 使用matrix（）函数，创建一个名为layoutMatrix的三行两列的矩阵：第一行指定一个左边的空图，右图1。第二行指定左边的图形2和
+    右边的空心图形。第三行指定一个左边的空图，右边的图3。
+  CorrectAnswer: layoutmatrix <- matrix(c(0,1,2,0,0,3),byrow=TRUE,nrow=3)
+  AnswerTests: omnitest(correctExpr='layoutmatrix <- matrix(c(0,1,2,0,0,3),byrow=TRUE,nrow=3)')
+  Hint: layoutmatrix <- matrix(c(0,1,2,0,0,3),byrow=TRUE,nrow=3)
+
+- Class: cmd_question
+  Output: 使用layout（）函数来设置所需的绘图数组。
+  CorrectAnswer: layout(layoutmatrix)
+  AnswerTests: omnitest(correctExpr='layout(layoutmatrix)')
+  Hint: layout(layoutmatrix)
+  
+- Class: cmd_question
+  Output: 使用layout.show（）函数显示所有三个图的排列。
+  CorrectAnswer: layout.show(3)
+  AnswerTests: omnitest(correctExpr='layout.show(3)', correctVal=VAL)
+  Hint: layout.show(3)
+
+- Class: text
+  Output: 前边我们已经创建了一个布局阵列，使用这个布局给出whiteside数据框的三个不同的视图。
+    绘图阵列右上方的第一个绘图使用来自whiteside的所有数据显示了Gas和Temp的关系。 绘图数组中心左侧的第二个绘图显示了使用Insul等于"Before"
+    的数据的两个变量的关系。 最后，绘图阵列左下方的第三个绘图显示了使用Insul等于"After"之后的数据的关系。
+    不能使用mfrow参数以这种格式构造这样的一个plot布局，因为这个数组不是矩形的。
+
+- Class: cmd_question
+  Output: 构造一个向量indexB，该索引只指向whiteside数据框中Insul值为“Before”的记录。
+  CorrectAnswer: indexB <- which(whiteside$Insul=="Before")
+  AnswerTests: omnitest(correctExpr='indexB <- which(whiteside$Insul=="Before")')
+  Hint: indexB <- which(whiteside$Insul=="Before")
+  
+- Class: cmd_question
+  Output: 构造一个向量indexA，该索引只指向whiteside数据框中Insul值为“After”的记录
+  CorrectAnswer: indexA <- which(whiteside$Insul=="After")
+  AnswerTests: omnitest(correctExpr='indexA <- which(whiteside$Insul=="After")')
+  Hint: indexA <- which(whiteside$Insul=="After")
+  
+- Class: cmd_question
+  Output: 使用y轴限制c（0,8），绘制数组右上角的indexB数据中的Gas与Temp的关系曲线。 给这个图形标题"Before data only"。
+  CorrectAnswer: plot(whiteside$Temp[indexB],whiteside$Gas[indexB],main="Before data only",ylim=c(0,8))
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp[indexB],whiteside$Gas[indexB],main="Before data only",ylim=c(0,8))')
+  Hint: plot(whiteside$Temp[indexB],whiteside$Gas[indexB],main="Before data only",ylim=c(0,8))
+  
+- Class: cmd_question
+  Output: 使用与第一个图相同的y轴限制，绘制来自中心左侧图中的完整数据集的Gas与Temp。 给这个图形的标题"Complete dataset"。
+  CorrectAnswer: plot(whiteside$Temp,whiteside$Gas,main="Complete dataset",ylim=c(0,8))
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp,whiteside$Gas,main="Complete dataset",ylim=c(0,8))')
+  Hint: plot(whiteside$Temp,whiteside$Gas,main="Complete dataset",ylim=c(0,8))
+  
+- Class: cmd_question
+  Output: 使用相同的y轴极限，绘制右下角图中indexA数据的Gas与Temp。 给这个图形标题"After data only"
+  CorrectAnswer: plot(whiteside$Temp[indexA],whiteside$Gas[indexA],main="After data only",ylim=c(0,8))
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp[indexA],whiteside$Gas[indexA],main="After data only",ylim=c(0,8))')
+  Hint: plot(whiteside$Temp[indexA],whiteside$Gas[indexA],main="After data only",ylim=c(0,8))

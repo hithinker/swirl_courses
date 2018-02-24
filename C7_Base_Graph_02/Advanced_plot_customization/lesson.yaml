@@ -1,0 +1,121 @@
+- Class: meta
+  Course: Base_Graph_02
+  Lesson: Advanced_plot_customization
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 一些图形函数也返回有用的信息。调用barplot（）函数有创建我们想要的图，但是它也返回一个数值向量， 其中每个条的中心位置在图中。
+    这个值是不可见的，所以我们通常不会看到它，但是我们可以用一个赋值语句捕获它。当我们想要在水平条形图的条上
+    叠加文本时，这些返回值可能特别有用。 然后，我们捕获返回值，并在随后调用text（）函数时将它们用作y参数，从而允许我们将文本放置在
+    我们想要的任何x位置，叠加在每个水平条的中间。 来自MASS软件包的Cars93数据框已经在您的工作区中可用。
+
+- Class: cmd_question
+  Output: 使用table（）函数生成对象tbl，该对象总结列出Cars93数据框中的Cylinders变量的每个值的记录数。
+  CorrectAnswer: tbl <- table(Cars93$Cylinders)
+  AnswerTests: omnitest(correctExpr='tbl <- table(Cars93$Cylinders)')
+  Hint: tbl <- table(Cars93$Cylinders)
+
+- Class: cmd_question
+  Output: 使用horiz参数设置为TRUE的barplot（）函数来构造此记录摘要的水平barplot，指定条的颜色为“透明”，
+    并返回给定每个条的中心的垂直位置的向量mids。 将names.arg参数指定为""来抑制此图上的y轴图例。
+  CorrectAnswer: mids <- barplot(tbl,horiz=TRUE,col="transparent",names.arg="")
+  AnswerTests: omnitest(correctExpr='mids <- barplot(tbl,horiz=TRUE,col="transparent",names.arg="")')
+  Hint: mids <- barplot(tbl,horiz=TRUE,col="transparent",names.arg="")
+
+- Class: cmd_question
+  Output: 使用text()函数在水平位置20处为条形图中的每个条形图标注Cylinders值。names()函数在这里可能证明是有用的。
+  CorrectAnswer: text(20,mids,labels=names(tbl))
+  AnswerTests: omnitest(correctExpr='text(20,mids,labels=names(tbl))')
+  Hint: text(20,mids,labels=names(tbl))
+
+- Class: cmd_question
+  Output: 使用text（）函数列出水平位置35处每个柱面值的Cylinders计数。这里，as.numeric（）函数可能是有用的。
+  CorrectAnswer: text(35,mids,labels=as.numeric(tbl))
+  AnswerTests: omnitest(correctExpr='text(35,mids,labels=as.numeric(tbl))')
+  Hint: text(35,mids,labels=as.numeric(tbl))
+
+- Class: text
+  Output: 使用symbols（）函数显示两个以上变量之间的关系。散点图允许我们看到一个数值变量如何随着第二个数值变量的值而变化。 
+    symbols（）函数允许我们扩展散点图以显示其他变量的影响。使用定义散点图的变量x和y以及指定几种可能形状之一的另一个参数调用此函数。 
+    在这里，要求使用circles参数来创建一个bubbleplot，其中每个数据点由一个半径依赖于由该参数的值指定的第三个变量的圆来表示。
+    MASS软件包的Cars93数据帧已经在您的工作区中可用。
+    
+- Class: cmd_question
+  Output: 使用symbols（）函数及其默认设置和适当的参数从Cars93数据框中创建MPG.city与Horsepower的气泡图，其中气泡区域circles由Price变量指定。 
+    请注意，这意味着气泡半径应该与Price的平方根成比例。
+  CorrectAnswer: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price)
+  AnswerTests: omnitest(correctExpr='symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price)')
+  Hint: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price)
+
+- Class: cmd_question
+  Output: 重新创建上一个绘图，但将可选参数inches设置为0.1
+  CorrectAnswer: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inch=0.1)
+  AnswerTests: omnitest(correctExpr='symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inch=0.1)')
+  Hint: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inch=0.1)
+
+- Class: text
+  Output: 将绘图结果保存为文件。在交互式R课程中，我们通常会生成一组不同的图形，通常使用结果来帮助我们决定如何继续进行分析。
+    在探索性数据分析的早期阶段尤其如此，但是一旦我们产生了一个我们想要与他人分享的图形，重要的是将其保存在外部文件中。
+    R支持以多种不同的外部文件格式（包括jpeg，png，tiff或pdf文件）保存图形结果。另外，我们可以使用Sweave（）函数或knitr包等工具将图形结果
+    合并到外部文档中。一个特别方便的方法是创建一个R Markdown文档。由于png文件可以很容易地共享，并可以作为电子邮件附件查看，
+    并可以合并到许多幻灯片准备软件（例如Microsoft Powerpoint）中，因此本练习会要求您创建一个绘图并将其保存为png文件。这个过程的基础是
+    png（）函数，它指定了要生成的png文件的名称，并设置了一个特殊的环境，捕获所有的图形输出，直到我们用dev.off（）命令退出这个环境。
+
+- Class: cmd_question
+  Output: 使用png（）函数将所有后续绘图结果指向外部文件bubbleplot.png。
+  CorrectAnswer: png("bubbleplot.png")
+  AnswerTests: omnitest(correctExpr='png("bubbleplot.png")')
+  Hint: png("bubbleplot.png")
+- Class: cmd_question
+  Output: 运行代码重新创建上一练习中的第二个气泡图。
+  CorrectAnswer: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inches=0.1)
+  AnswerTests: omnitest(correctExpr='symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inches=0.1)')
+  Hint: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Price,inches=0.1)
+- Class: cmd_question
+  Output: 退出png（）环境，通过调用dev.off（）将图形控制返回到会话。
+  CorrectAnswer: dev.off()
+  AnswerTests: omnitest(correctExpr='dev.off()')
+  Hint: dev.off()
+- Class: cmd_question
+  Output: 使用提供的list.files（）代码验证是否创建了bubbleplot.png。 为此，需要将“png”指定为list.files（）的pattern参数的值。
+  CorrectAnswer: list.files(pattern="png")
+  AnswerTests: omnitest(correctExpr='list.files(pattern="png")')
+  Hint: list.files(pattern="png")  
+
+- Class: text
+  Output: 使用颜色来增强气泡图。在之前的练习中，您看到了如何使用symbols（）函数来生成一个气泡图，以显示三个变量
+   （具体来说，Cars93数据框中的Horsepower，MPG.city和Price）之间的关系。在那里，基本格式是MPG.city与Horsepower的散点图，
+     点大小为由Price定义大小的气泡。在这里，你被要求在这个图上创建一个变量，使用因子变量Cylinders来确定气泡的大小和颜色。
+     要做到这一点，请注意as.numeric（Cars93 $ Cylinders）会生成一个从1到6的数值序列，用于指定Cylinders的六个唯一等级。
+     在颜色是选项的情况下，除了符号大小之外，通过使用颜色，可以大大改善该气泡图的清晰度。由于Cylinders变量具有六个独特的值
+     ，所以需要六种颜色来进行这种改进。MASS包中的Cars93数据框在您的工作区中可用，并且我们已经预定义了长为6的代表颜色的字符向量IScolors。
+
+- Class: cmd_question
+  Output: 创建向量CylinderLevels，赋予Cylinders变量的唯一值数字标签。
+  CorrectAnswer: CylinderLevels <- as.numeric(Cars93$Cylinders)
+  AnswerTests: omnitest(correctExpr='CylinderLevels <- as.numeric(Cars93$Cylinders)')
+  Hint: CylinderLevels <- as.numeric(Cars93$Cylinders)
+
+- Class: cmd_question
+  Output: 使用symbols（）函数，重新创建MPG.city与Horsepower的气泡图，气泡大小由cylinder变量的属性值指定。指定0.2英寸的最大圆半径。
+    使用bg参数根据Cylinders变量（即Cylinders等级值）的数值级别，使用我们颜色向量。
+  CorrectAnswer: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Cylinders,bg=IScolors[CylinderLevels],inches=0.2)
+  AnswerTests: omnitest(correctExpr='symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Cylinders,bg=IScolors[CylinderLevels],inches=0.2)')
+  Hint: symbols(Cars93$Horsepower,Cars93$MPG.city,circles=Cars93$Cylinders,bg=IScolors[CylinderLevels],inches=0.2)
+
+- Class: text
+  Output: 使用颜色来增强堆叠的条形图。最常见的barplot由垂直条的集合组成，每个垂直条表示有限数量的数据集或数据子集之一的某个特征。
+    先前的几个练习已经说明了这种不太常见的横向barplot的用处，部分原因在于它允许文本横向显示在横条上。标准条形图的另一个有用的变体是
+    堆叠条形图，其中，图形中的每个条被划分为表征由条表示的数据部分的段。使用barplot（）函数也可以生成堆积的柱状图。在这里，
+    每个小节由一个矩阵指定，其列指定每个小节中小节的高度。默认情况下，barplot（）函数为图中每个小节的不同段使用不同灰度阴影生成堆积条形
+    图。这个练习的目的是要表明，如果我们可以使用它，颜色可以是一个更有效的选择
+
+- Class: cmd_question
+  Output: 从颜色IScolors在工作区中仍然可用。创建表tbl，给出每个Origin值的每个Cylinders值的记录计数（该表应该有6行和2列）。
+    使用barplot（）函数，创建一个使用IScolors汇总此信息的堆叠barplot。使用col指定颜色。
+  CorrectAnswer: barplot(table(Cars93$Cylinders,Cars93$origin),col=IScolors)
+  AnswerTests: omnitest(correctExpr='barplot(table(Cars93$Cylinders,Cars93$origin),col=IScolors)', correctVal=VAL)
+  Hint: barplot(table(Cars93$Cylinders,Cars93$origin),col=IScolors)

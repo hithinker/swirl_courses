@@ -1,0 +1,385 @@
+- Class: meta
+  Course: Base_Graph_01
+  Lesson: details_to_plots
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 大多数基本的R图形函数支持许多可选的参数，使我们能够自定义我们的图以得到我们想要的。 在这一章中，
+    我们将学习如何修改点的形状和大小，线条的类型和宽度，给曲线添加点和线，添加说明文本和生成多个绘图数组。
+
+- Class: text
+  Output: 我们先看par()函数简介。前边已经使用过par()函数的mfrow参数在一个窗格中绘制多个图形。 par（）函数还允许您设置许多其他图形参数，
+    这些参数的值将保持有效，直到它们被后续的par（）调用重置为止。具体来说，调用par（）函数时不指定任何参数将返回一个列表，其元素名称分别
+    指定一个图形参数，其元素值指定这些参数的相应默认值。 这些参数可以通过par（name = value）形式的调用来设置，其中name是要设置的参数的名称，
+    value是要分配给此参数的值。我们会给出这些图形参数是什么的概念。 在随后的练习中，我们将展示如何使用这些参数中的一些来增强绘图结果。
+
+- Class: cmd_question
+  Output: 捕获par（）函数的返回值作为字符向量plot_pars。
+  CorrectAnswer: plots <- plot_pars
+  AnswerTests: omnitest(correctExpr='plots <- plot_pars')
+  Hint: plots <- plot_pars
+
+- Class: cmd_question
+  Output: 通过调用plot_pars上的names（）来显示这些图形参数的名称。
+  CorrectAnswer: names(plot_pars)
+  AnswerTests: omnitest(correctExpr='names(plot_pars)')
+  Hint: names(plot_pars)
+
+- Class: cmd_question
+  Output: 通过调用length（）来显示这个列表中的参数个数
+  CorrectAnswer: length(plot_pars)
+  AnswerTests: omnitest(correctExpr='length(plot_pars)')
+  Hint: 求长度使用length()函数
+  
+- Class: text
+  Output: 我们看一些探索类型选项。可以使用par（）函数设置的一个重要的图形参数是mfrow，它指定了一系列图中的行数和列数。 
+    该参数的有效值是二元数值向量，其第一个元素指定了plot数组中的行数，第二个元素指定了列数。现在，请注意，要指定一个三行一列的图形数组，
+    命令将是par（mfrow = c（3，1））。以下练习还介绍了plot（）命令的"type"参数，该参数指定绘图的绘制方式。 
+    这里使用的具体类型值是："p"为"points"、"l"表示"lines"、"o"表示"overlaid"（即，用点覆盖的线）"s"表示"step"
+  
+- Class: cmd_question
+  Output: 使用par（）函数为2乘2绘图数组设置mfrow参数。
+  CorrectAnswer: par(mfrow=c(2,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(2,2))')
+  Hint: par(mfrow=c(2,2))
+
+- Class: cmd_question
+  Output: 从Animals2数据框生成一个变量brian的图，通过使用main参数将观察结果绘制为点和标题“points”。Animals2位于包robustbase中，已经为你加载到
+    工作环境中去了。
+  CorrectAnswer: plot(Animals2$brain,type="p",main="points")
+  AnswerTests: omnitest(correctExpr='plot(Animals2$brain,type="p",main="points")')
+  Hint: plot(Animals2$brain,type="p",main="points")
+  
+- Class: cmd_question
+  Output: 绘制Animals2数据框变量brian为线条(lines)和标题“lines”。
+  CorrectAnswer: plot(Animals2$brain,type="l",main="lines")
+  AnswerTests: omnitest(correctExpr='plot(Animals2$brain,type="l",main="lines")')
+  Hint: plot(Animals2$brain,type="l",main="lines")
+  
+- Class: cmd_question
+  Output: 绘制Animals2数据框变量brian为线条和标题“线条”。
+  CorrectAnswer: plot(Animals2$brain,type="o",main="overlaid")
+  AnswerTests: omnitest(correctExpr='plot(Animals2$brain,type="o",main="overlaid")')
+  Hint: plot(Animals2$brain,type="o",main="overlaid")
+  
+- Class: cmd_question
+  Output: 重复，观察绘制Animals2数据框变量brian为线条和标题“线条”。
+  CorrectAnswer: plot(Animals2$brain,type="s",main="step")
+  AnswerTests: omnitest(correctExpr='plot(Animals2$brain,type="s",main="step")')
+  Hint: plot(Animals2$brain,type="s",main="step")
+
+- Class: text
+  Output: type = "n"选项的惊人效用。这个选项特别有用的是，当我们在一组公共轴上绘制来自多个源的数据时。 在这种情况下，
+    我们可以计算x轴和y轴的范围，以便所有数据点都会出现在图上，然后根据需要随后调用points（）或lines（）来添加数据。
+    生成一个绘图，用于比较来自两个不同来源的mileage vs. horsepower数据：datasets包中的mtcars数据框和MASS包中的Cars93数据框
+    (已经加载到工作环境中)。 为了区分这些数据源的不同结果，图形参数pch用于指定点形状。 
+    请参阅？points以获得一些pch值及其相应点形状的完整列表。
+
+- Class: cmd_question
+  Output: 计算max_hp作为来自Cars93数据框的Horsepower和来自mtcars数据框的hp的最大值。
+  CorrectAnswer: max_hp <- max(Cars93$Horsepower,mtcars$hp)
+  AnswerTests: omnitest(correctExpr='max_hp <- max(Cars93$Horsepower,mtcars$hp)')
+  Hint: max_hp <- max(Cars93$Horsepower,mtcars$hp)
+
+- Class: cmd_question
+  Output: 计算max_mpg作为来自Cars93数据框的MPG.city和来自该数据框的MPG.highway以及来自mtcars数据框的mpg的最大值。
+  CorrectAnswer: max_mpg <- max(Cars93$MPG.city,Cars93$MPG.highway,mtcars$mpg)
+  AnswerTests: omnitest(correctExpr='max_mpg <- max(Cars93$MPG.city,Cars93$MPG.highway,mtcars$mpg)')
+  Hint: max_mpg <- max(Cars93$MPG.city,Cars93$MPG.highway,mtcars$mpg)
+
+- Class: cmd_question
+  Output: 使用type =“n”选项，调用plot，其中x轴从零到max_hp，y轴从零到max_mpg,x轴和y轴分别标记为"Horsepower"和"Miles per gallon"。
+    使用xlim、ylim标记x轴he y轴的范围，使用xlab、ylab设置x轴、y轴的标签。
+  CorrectAnswer: plot(Cars93$Horsepower,Cars93$MPG.city,type="n",xlim=c(0.max_hp),ylim=(0,max_mpg,xlab="Horsepower",ylab="Miles per gallon")
+  AnswerTests: omnitest(correctExpr='plot(Cars93$Horsepower,Cars93$MPG.city,type="n",xlim=c(0.max_hp),ylim=(0,max_mpg,xlab="Horsepower",ylab="Miles per gallon")')
+  Hint: plot(Cars93$Horsepower,Cars93$MPG.city,type="n",xlim=c(0.max_hp),ylim=(0,max_mpg,xlab="Horsepower",ylab="Miles per gallon")
+
+- Class: cmd_question
+  Output: 使用points（）函数，将mpg vs. hp从mtcars数据框添加到图中作为空心圆（pch = 1）
+  CorrectAnswer: points(mtcars$hp,mtcars$mpg,pch=1)
+  AnswerTests: omnitest(correctExpr='points(mtcars$hp,mtcars$mpg,pch=1)')
+  Hint: points(mtcars$hp,mtcars$mpg,pch=1)
+
+- Class: cmd_question
+  Output: 使用points（）函数，将MPG.city vs. Horsepower从Cars93数据框添加到图中作为实心方块（pch=15）
+  CorrectAnswer: points(Cars93$Horsepower,Cars93$MPG.city,pch=15)
+  AnswerTests: omnitest(correctExpr='points(Cars93$Horsepower,Cars93$MPG.city,pch=15)')
+  Hint: points(Cars93$Horsepower,Cars93$MPG.city,pch=15)
+
+- Class: cmd_question
+  Output: 使用points（）函数，将MPG.highway vs.Horsepower从Cars93数据框添加到图中空心向上三角形（pch=2）。
+  CorrectAnswer: points(Cars93$Horsepower,Cars93$MPG.highway,pch=2)
+  AnswerTests: omnitest(correctExpr='points(Cars93$Horsepower,Cars93$MPG.highway,pch=2)')
+  Hint: points(Cars93$Horsepower,Cars93$MPG.highway,pch=2)
+
+- Class: text
+  Output: lines()函数和line类型。数值数据通常被假设为近似符合高斯概率分布，以钟形曲线为特征。 
+    这个练习的一个要点是要显示这个钟形曲线看起来像什么样的精确的高斯数据，另一个是显示如何使用lines（）函数将线添加到现有的绘图。
+    这里要求绘制的曲线具有相同的基本形状，但细节不同（具体而言，这些高斯分布的均值和标准差是不同的）。 出于这个原因，
+    用不同的线条类型绘制这些曲线是有用的，以帮助我们区分它们。请注意，线型由lty参数设置，默认值lty = 1指定实线，lty = 2指定虚线，
+    lty = 3指定点线。 另请注意，lwd参数指定相对宽度。
+
+- Class: cmd_question
+  Output: 使用seq创建一个具有200个均匀间隔值（从0到10）的数值向量x。
+  CorrectAnswer: x<-seq(1,10,length=200)
+  AnswerTests: omnitest(correctExpr='x<-seq(1,10,length=200)')
+  Hint: x<-seq(1,10,length=200)
+
+- Class: cmd_question
+  Output: 使用dnorm()函数，为x向量的所有值生成一个高斯概率密度向量gauss1，平均值为2，标准偏差为0.2。
+  CorrectAnswer: gauss1 <- dnorm(x,mean=2,sd=0.2)
+  AnswerTests: omnitest(correctExpr='gauss1 <- dnorm(x,mean=2,sd=0.2)')
+  Hint: gauss1 <- dnorm(x,mean=2,sd=0.2)
+
+- Class: cmd_question
+  Output: 使用dnorm()函数为x向量的所有值生成一个高斯概率密度向量gauss2，平均值为4，标准偏差为0.5。
+  CorrectAnswer: gauss2 <- dnorm(x,mean=4,sd=0.5)
+  AnswerTests: omnitest(correctExpr='gauss2 <- dnorm(x,mean=4,sd=0.5)')
+  Hint: gauss2 <- dnorm(x,mean=4,sd=0.5)
+
+- Class: cmd_question
+  Output: 生成gauss1与x的关系图,标签设置为"高斯概率密度",图形类型为"line"。
+  CorrectAnswer: plot(x,gauss1,type="l")
+  AnswerTests: omnitest(correctExpr='plot(x,gauss1,type="l")')
+  Hint: plot(x,gauss1,type="l")
+
+- Class: cmd_question
+  Output: 使用lines（）函数，为gauss2添加第二条线，表示gauss2与x的关系，线型为虚线，使用相对宽度为3（选择lty参数为2）。
+  CorrectAnswer: lines(x,gauss2,lwd=2,lty=2)
+  AnswerTests: omnitest(correctExpr='lines(x,gauss2,lwd=2,lty=2)')
+  Hint: lines(x,gauss2,lwd=2,lty=2)
+
+- Class: text
+  Output: points()函数和点类型。指定pch参数的一个优点是，在调用诸如plot（）或points（）之类的函数时，允许我们根据数据集中的变量生成pch。
+    这提供了用不同的点形状或符号指示不同数据子集的简单方法。本练习要求您从数据集包中的mtcars数据框中生成两幅mpg与hp的关系图。 
+    第一个曲线图使用mtcars数据框中由cyl变量定义的pch参数的数值指定点形状。 第二个曲线说明了这样一个事实，
+    即可以将pch指定为单字符的向量，从而将每个点绘制为相应的字符。
+
+- Class: cmd_question
+  Output: 使用mtcars数据框中的type =“n”选项创建一个mpg与hp的空图，并标记轴标签为“Horsepower”和“Gas mileage”。
+  CorrectAnswer: plot(hp,mpg,data=mtcars,type="n",xlab="Horsepower",ylab="Gas mileage")
+  AnswerTests: omnitest(correctExpr='plot(hp,mpg,data=mtcars,type="n",xlab="Horsepower",ylab="Gas mileage")')
+  Hint: plot(hp,mpg,data=mtcars,type="n",xlab="Horsepower",ylab="Gas mileage")
+
+- Class: cmd_question
+  Output: 使用points（）函数，添加mpg与hp的关系，并使用由cyl的数值指定的pch。
+  CorrectAnswer: points(mtcars$hp,mtcars$mpg,pch=mtcars$cyl)
+  AnswerTests: omnitest(correctExpr='points(mtcars$hp,mtcars$mpg,pch=mtcars$cyl)')
+  Hint: points(mtcars$hp,mtcars$mpg,pch=mtcars$cyl)
+
+- Class: text
+  Output: 从线性回归模型添加趋势线。低级绘图函数abline（）将直线添加到现有绘图。该线由截距参数a和斜率参数b指定，
+    并且直接设置这些参数的最简单方法。例如，命令abline（a = 0，b = 1）会添加一个零截距和单位（即1）斜率的等同参考线：
+    y = x落在该参考线上的点，而y> x的点落在它上面，y <x的点落在它下面。指定这些参数的另一种方法是通过线性回归模型，从数据中确定它们。
+    一个常见的应用是生成y对x的散点图，然后拟合从x预测y的线性模型，最后调用abline（）将该最适合的线添加到图中。
+    本练习使用MASS软件包中的whiteside数据框中输入Gas和Temp数据。符合线性回归模型的标准R函数是lm（），它支持公式formula接口。
+    例如，为了拟合在数据帧df中从x预测y的线性模型，调用将是lm（y~x，data = df）。这个调用返回一个线性模型对象，
+    然后可以将其作为参数传递给abline（）函数，以在我们的图上绘制所需的线。
+
+- Class: cmd_question
+  Output: 使用lm（）函数创建linear_model，linear_model是一个线性回归模型，用于从whiteside数据框中预测Gas from Temp。
+  CorrectAnswer: linear_model <- lm(Gas~Temp,data=whiteside)
+  AnswerTests: omnitest(correctExpr='linear_model <- lm(Gas~Temp,data=whiteside)')
+  Hint: linear_model <- lm(Gas~Temp,data=whiteside)
+
+- Class: cmd_question
+  Output: 生成气体与温度的散点图。
+  CorrectAnswer: plot(whiteside$Temp,whiteside$Gas)
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Gas,whiteside$Temp)')
+  Hint: hint
+
+- Class: cmd_question
+  Output: 使用abline（）函数，添加一个虚线参考线，显示linear_model的预测
+  CorrectAnswer: abline(linear_model)
+  AnswerTests: omnitest(correctExpr='abline(linear_model)')
+  Hint: abline(linear_model)
+
+- Class: text
+  Output: 使用text（）函数标记绘图要素。text（）函数的主要用途之一是将信息标签添加到数据图中。 text（）函数有三个参数：
+    x，它指定了x变量的值，y，它指定了y变量的值，label，它指定x-y值对的标签。
+
+- Class: cmd_question
+  Output: 从Cars93数据框中创建MPG.city与Housepower关系的散点图，点表示为实心方块。实心方块的pch值是15。
+  CorrectAnswer: plot(Cars93$Horsepower,Cars93$MPG.city,pch=15)
+  AnswerTests: omnitest(correctExpr='plot(Cars93$Horsepower,Cars93$MPG.city,pch=15)')
+  Hint: plot(Cars93$Horsepower,Cars93$MPG.city,pch=15)
+
+- Class: cmd_question
+  Output: 使用which（）函数创建变量index3标识所有3缸(由Cylinders变量标识)汽车的。
+  CorrectAnswer: index3 <- which(Cars93$Cylinders==3)
+  AnswerTests: omnitest(correctExpr='index3 <- which(Cars93$Cylinders==3)')
+  Hint: index3 <- which(Cars93$Cylinders==3)
+
+- Class: cmd_question
+  Output: 使用text()函数为Cars93数据框中的每个3缸汽车加上标签，标签值为其对应的make值。 使用adj参数来指定标签中的文本左对齐。
+  CorrectAnswer: text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=0)
+  AnswerTests: omnitest(correctExpr='text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=0)')
+  Hint: text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=0)
+
+- Class: text
+  Output: 调整文本的位置，大小和字体。前面的练习在scatterplot中添加了说明文字。此练习通过修改文本位置，增加文本大小以及以粗体显示文本来
+    改善图形。text（）函数的adj参数决定了文本的水平位置，它可以取0到1之间的任何值。
+    实际上，这个参数可以取值在这个范围之外。也就是说，使这个值为负值会导致文本从指定的x位置开始。类似地，使adj大于1会使文本结束到x位置的
+    左侧。text（）函数的另一个有用的可选参数是cex，它缩放默认的文本大小。作为一个具体的例子，相对于默认值，设置cex = 1.5会使文本大小
+    增加50％。类似地，指定cex = 0.8会将文本大小减少20％。最后，这里使用的第三个可选参数是font，它可以用来指定四种文本字体中的一种：
+    font = 1是默认文本字体（既不是斜体也不是粗体），font = 2指定粗体文本，font = 3指定斜体文本和font = 4指定粗体和斜体文本。
+
+- Class: cmd_question
+  Output: 从Cars93数据框中创建MPG.city与Horsepower的关系图，数据表示为空心圆圈(pch=1)。
+  CorrectAnswer: plot(Cars93$Horsepower,Cars93$MPG.city,pch=1)
+  AnswerTests: omnitest(correctExpr='plot(Cars93$Horsepower,Cars93$MPG.city,pch=1)')
+  Hint: plot(Cars93$Horsepower,Cars93$MPG.city,pch=1)
+
+- Class: cmd_question
+  Output: 使用我们在前边创建的index3，使用points（）函数在代表3缸汽车的图的所有点之上叠加实心圆(pch=19)。
+  CorrectAnswer: points(Cars93$Horsepower[index3],Cars93$MPG.city[index3],pch=19)
+  AnswerTests: omnitest(correctExpr='points(Cars93$Horsepower[index3],Cars93$MPG.city[index3],pch=19)')
+  Hint: points(Cars93$Horsepower[index3],Cars93$MPG.city[index3],pch=19)
+
+- Class: cmd_question
+  Output: 像以前一样使用Make变量的值和text（）函数在3汽缸汽车右侧添加标签，但现在使用adj = -0.2将标签向右移动，使用cex参数来增加标签尺寸 
+    百分之二十，并使用字体参数，使标签粗体斜体。
+  CorrectAnswer: text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=-0.2,cex=1.2,font=4)
+  AnswerTests: omnitest(correctExpr='text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=-0.2,cex=1.2,font=4)')
+  Hint: text(Cars93$Horsepower[index3],Cars93$MPG.city[index3],labels=Cars93$Make[index3],adj=-0.2,cex=1.2,font=4)
+  
+- Class: text
+  Output: 用srt参数旋转文本。除了前面练习中使用的可选参数之外，text（）函数还支持一些可用于增强文本的其他可选参数。
+    本练习使用cex参数来减小文本大小并引入两个新的参数。第一个是指定用于显示文本的颜色的col参数，第二个是允许我们旋转文本的srt参数。
+    以前的几个练习中已经使用了颜色来指定点颜色，第5章将进一步讨论颜色的有效使用。本练习的要点之一是显示用text（）函数指定文本颜色与
+    plot（）函数的点颜色的规格基本相同。作为一个具体的例子，在text（）函数中设置col =“green”会使文本显示为绿色。如果未指定col，
+    则文本将显示为par（）函数设置的默认颜色，通常为黑色。srt参数允许我们通过以度数指定的角度来旋转文本。典型的默认值（由par（）函数设置）
+    为0，导致文本水平显示，从左至右阅读。指定srt = 90会使文本逆时针旋转90度，以便从下到上读取文本，而不是从左到右读取。
+  
+- Class: cmd_question
+  Output: 从whiteside数据框中创建Gas与Temp关系的散点图，pch=2，三角形。
+  CorrectAnswer: plot(whiteside$Temp,whiteside$Gas,pch=2)
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp,whiteside$Gas,pch=2)')
+  Hint: plot(whiteside$Temp,whiteside$Gas,pch=2)
+
+- Class: cmd_question
+  Output: 使用which（）函数创建一个向量indexB，指向Insul具有值“Before”的所有数据观察值。
+  CorrectAnswer: indexB <- which(whiteside$Insul=="Before")
+  AnswerTests: omnitest(correctExpr='indexB <- which(whiteside$Insul=="Before")')
+  Hint: indexB <- which(whiteside$Insul=="Before")
+
+- Class: cmd_question
+  Output: 使用which（）函数创建一个向量indexA，指向Insul具有“After”值的所有数据观察值。
+  CorrectAnswer: indexA <- which(whiteside$Insul == "After")
+  AnswerTests: omnitest(correctExpr='indexA <- which(whiteside$Insul == "After")')
+  Hint: indexA <- which(whiteside$Insul == "After")
+
+- Class: cmd_question
+  Output: 使用text（）函数将文字“Before”叠加在适当的点上，以蓝色旋转30度，将文本大小减少到默认的80％。
+  CorrectAnswer: text(whiteside$Temp[indexB],whiteside$Gas[indexB],labels="Before",srt=30,cex=0.8)
+  AnswerTests: omnitest(correctExpr='text(whiteside$Temp[indexB],whiteside$Gas[indexB],labels="Before",srt=30,cex=0.8)')
+  Hint: text(whiteside$Temp[indexB],whiteside$Gas[indexB],labels="Before",srt=30,cex=0.8)
+
+- Class: cmd_question
+  Output: 使用text（）函数将文字“After”叠加在适当的点上，以红色旋转-20度，将文字大小减少到默认的80％。
+  CorrectAnswer: text(whiteside$Temp[indexA],whiteside$Gas[indexA],labels="After",srt=-20,cex=0.8)L
+  AnswerTests: omnitest(correctExpr='text(whiteside$Temp[indexA],whiteside$Gas[indexA],labels="After",srt=-20,cex=0.8)L')
+  Hint: text(whiteside$Temp[indexA],whiteside$Gas[indexA],labels="After",srt=-20,cex=0.8)L
+
+- Class: text
+  Output: 使用legend（）函数。下边的几个练习描述和说明了legend（）函数的用法，以便将一个说明文字添加到一个图中。首先创建散点图，
+    然后使用此函数为标识两个不同数据子集的点形状添加说明文本。
+
+- Class: cmd_question
+  Output: 在plot()调用中使用type =“n”选项绘制whiteside数据框中Gas vs Temp的散点图。
+  CorrectAnswer: plot(whiteside$Temp,whiteside$Gas,type="n",xlab="Outside temperature",ylab="Heating gas consumption")
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp,whiteside$Gas,type="n",xlab="Outside temperature",ylab="Heating gas consumption")')
+  Hint: plot(whiteside$Temp,whiteside$Gas,type="n",xlab="Outside temperature",ylab="Heating gas consumption")
+
+- Class: cmd_question
+  Output: 使用我们之前创建的变量indexB和points()函数，将“Before”点添加到图中，以实心三角形(pch值为17)表示。
+  CorrectAnswer: points(whiteside$Temp[indexB],whiteside$Gas[indexB],pch=17)
+  AnswerTests: omnitest(correctExpr='points(whiteside$Temp[indexB],whiteside$Gas[indexB],pch=17)')
+  Hint: points(whiteside$Temp[indexB],whiteside$Gas[indexB],pch=17)
+
+- Class: cmd_question
+  Output: 使用我们之前创建的变量indexA和points()函数，将“After”点添加到图中，表示为空心圆(pch值为1)。
+  CorrectAnswer: points(whiteside$Temp[indexA],whiteside$Gas[indexA],pch=1)
+  AnswerTests: omnitest(correctExpr='points(whiteside$Temp[indexA],whiteside$Gas[indexA],pch=1)')
+  Hint: points(whiteside$Temp[indexA],whiteside$Gas[indexA],pch=1)
+
+- Class: cmd_question
+  Output: 使用legend()函数，在图的右上角(设置参数x为"topright")添加一个图例，名称为“之前”和“之后”，并且适当的点形状指示。命名图例使用legend
+    指定图例中的文字标签，然后用pch=c(17,1)说明我们的图例中说明的是我们的pch的形状。
+  CorrectAnswer:  legend(x="topright",legend=c("Before","After"),pch=c(17,1))
+  AnswerTests: omnitest(correctExpr=' legend(x="topright",legend=c("Before","After"),pch=c(17,1))')
+  Hint: legend(x="topright",legend=c("Before","After"),pch=c(17,1))
+
+- Class: text
+  Output: 使用axis（）函数添加自定义轴。像boxplot（）这样的典型基本图形函数默认提供x轴和y轴，在图的下方有一个x轴标签，在图的左边有一个
+    用于y轴标签的标签。这些标签是从用于生成图的变量名自动生成的。有时候，我们要提供自己的轴标签，而R可以分两步进行：首先，
+    我们通过指定axes = FALSE来禁止默认的轴;然后，我们调用低级图形函数axis（）来创建我们想要的轴。要求你使用axis（）函数和side，at和labels参数
+    创建自己的标签。 side参数告诉函数创建哪个轴：值为1会在图下添加一个轴; 2在左边添加一个轴; 3越过顶部; 4把它放在右边。第二个参数at是
+    一个向量，它定义了在轴上绘制刻度线的点。第三个参数labels是一个向量，它在每个刻度标记处定义标签。显示MASS包中UScereal数据框中
+    sugars变量和shelf变量之间的关系。
+
+- Class: cmd_question
+  Output: 使用boxplot（）函数可以从MASS包中的UScereal数据框中创建不同货架shelf的sugars变量的盒状图，并不产生轴。
+  CorrectAnswer: boxplot(sugars~shelf,data=UScereal,axes=FALSE)
+  AnswerTests: omnitest(correctExpr='boxplot(sugars~shelf,data=UScereal,axes=FALSE)')
+  Hint: hint
+
+- Class: cmd_question
+  Output: 使用指定边参数的axis（）函数在框图左侧添加y轴标签显示sugars值范围的。
+  CorrectAnswer: axis(side=2)
+  AnswerTests: omnitest(correctExpr='axis(side=2)')
+  Hint: axis(side=2)
+
+- Class: cmd_question
+  Output: 在第二次调用axis（）时，在底部添加一个x轴标签，并指定at参数，以在标记为1，2和3的数字货架shelf值上添加刻度标记。
+  CorrectAnswer: axis(side=1,at=c(1,2,3))
+  AnswerTests: omnitest(correctExpr='axis(side=1,at=c(1,2,3))')
+  Hint: hint
+
+- Class: cmd_question
+  Output: 在第三次调用axis（）时，在顶部添加另一个x轴标签，并指定labels参数以显示物理机架位置（“floor”，“middle”，“top”）。
+  CorrectAnswer: axis(side=3,at=c(1,2,3),label=c("floor","middle","top"))
+  AnswerTests: omnitest(correctExpr='axis(side=3,at=c(1,2,3),label=c("floor","middle","top"))')
+  Hint: axis(side=3,at=c(1,2,3),label=c("floor","middle","top"))
+
+- Class: text
+  Output: 使用supsmu（）函数添加平滑趋势曲线一些散点图显示非线性的相当明显的趋势。 在这种情况下，我们可能需要添加一条突出显示数据行为的
+    曲线趋势线，并且supsmu（）函数表示这样做的一种方式。要使用这个函数，我们需要为所需的参数x和y指定值，但是它也有一些可选的参数。 
+    在这里，我们考虑可选的 bass 参数，该参数控制所得到的趋势曲线中的平滑程度。 默认值为0，但指定较大的值（最大值为10）会导致更平滑的曲线。
+    使用supsmu（）函数将两个趋势线添加到散点图，一个使用默认参数，另一个使用平滑度增加的值。
+
+- Class: cmd_question
+  Output: 从Cars93数据框中创建MPG.city与Horsepower的散点图。
+  CorrectAnswer: plot(Cars93$Horsepower,Cars93$MPG.city)
+  AnswerTests: omnitest(correctExpr='plot(Cars93$Horsepower,Cars93$MPG.city)')
+  Hint: plot(Cars93$Horsepower,Cars93$MPG.city)
+
+- Class: cmd_question
+  Output: 创建名为trend1的supsmu（）对象，bass参数的最小值（默认值）为1。别忘了指定x和y值
+  CorrectAnswer: trend1  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=1)
+  AnswerTests: omnitest(correctExpr='trend1  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=1)')
+  Hint: trend1  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=1)
+  
+- Class: cmd_question
+  Output: 使用lines()函数将trend1曲线作为实线添加到图中。不需提供额外的参数。
+  CorrectAnswer: lines(trend1)
+  AnswerTests: omnitest(correctExpr='lines(trend1)')
+  Hint: lines(trend1)
+
+- Class: cmd_question
+  Output: 创建名为trend2的supsmu（）对象，其贝司参数最大值为10。
+  CorrectAnswer: trend2  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=10)
+  AnswerTests: omnitest(correctExpr='trend2  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=10)')
+  Hint: trend2  <- supsmu(Cars93$Horsepower,Cars93$MPG.city,bass=10)
+
+- Class: cmd_question
+  Output: 使用lines()函数将trend2曲线添加到绘图，作为两倍标准宽度的虚线。
+  CorrectAnswer: lines(trend2,lty=2)
+  AnswerTests: omnitest(correctExpr='lines(trend2,lty=2)', correctVal=VAL)
+  Hint: lines(trend2,lty=2)
+
+- Class: text
+  Output: 本节课到这。希望你已经能够掌握了这些内容。

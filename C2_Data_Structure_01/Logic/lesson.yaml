@@ -1,0 +1,291 @@
+- Class: meta
+  Course: R_base
+  Lesson: Logic
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+  
+- Class: text
+  Output: 本课旨在简要介绍R中的逻辑运算。
+
+- Class: text
+  Output: R中有两个逻辑值，也称为布尔值。他们是TRUE和FALSE。在R中，您可以构造逻辑表达式，其值将为TRUE或FALSE。
+
+- Class: text
+  Output: 本课中的许多问题将涉及计算逻辑表达式。在可以的情况下打开第二个R终端将会起到很大的帮助尝试一下这些表达方式。
+
+- Class: cmd_question
+  Output: 创建逻辑表达式需要逻辑运算符。你可能很熟悉算术运算符如“+”，“ - ”，“*”和“/”。我们要去的第一个逻辑运算符讨论的是相等运算符，由两个等号“==”表示。
+    使用相等运算符看一下TRUE是否等于TRUE。
+  CorrectAnswer: TRUE == TRUE
+  AnswerTests: omnitest(correctExpr='TRUE == TRUE')
+  Hint: 联系使用相等运算符， 输入 TRUE == TRUE
+
+- Class: text
+  Output: 就像算术一样，逻辑表达式可以用圆括号分组，以便整个表达式（TRUE == TRUE）== TRUE的计算结果为TRUE 
+
+- Class: cmd_question
+  Output: To test out this property, try evaluating (FALSE == TRUE) == FALSE .
+  CorrectAnswer: (FALSE == TRUE) == FALSE
+  AnswerTests: omnitest(correctExpr='(FALSE == TRUE) == FALSE')
+  Hint: 尝试输入：（FALSE == TRUE）== FALSE
+
+- Class: cmd_question
+  Output: 相等运算符也可以用来比较数字。使用'=='查看6是否等于7。
+  CorrectAnswer: 6 == 7
+  AnswerTests: omnitest(correctExpr='6 == 7')
+  Hint: 使用相等运算符并输入6 == 7
+
+- Class: text
+  Output: 以前的表达式计算结果为FALSE，因为6小于7.存在不等的运算符，它允许我们测试一个值是否小于或大于另一个值。
+
+- Class: cmd_question
+  Output: 小于运算符`<`测试运算符左侧的数字（称为左操作数）小于操作符右侧的数字（称为“左操作数”）。
+    写一个表达式来测试6是否小于7。
+  CorrectAnswer: 6 < 7
+  AnswerTests: omnitest(correctExpr='6 < 7')
+  Hint: 使用小于运算符'<'并输入6 <7
+
+- Class: cmd_question
+  Output: 还有一个小于或等于运算符`<=`测试左边的操作数小于或等于右操作数。写一个表达式来测试10是否小于或等于10。
+  CorrectAnswer: 10 <= 10
+  AnswerTests: omnitest(correctExpr='10 <= 10')
+  Hint: 使用`<=`运算符并输入10 <= 10
+
+- Class: text
+  Output: 请记住，有相应的大于'>'和大于或等于'>='运算符。
+- Class: mult_question
+  Output: 以下哪一项结果为假
+  CorrectAnswer: 9 >= 10
+  AnswerChoices: 9 >= 10; 7 == 7; 6 < 8; 0 > -36 
+  AnswerTests: omnitest(correctVal='9 >= 10')
+  Hint: 如果需要，可以在单独的R会话中计算每个表达式以找到正确的答案。
+
+- Class: mult_question
+  Output: 以下哪一项评估为真？
+  CorrectAnswer: -6 > -7
+  AnswerChoices: 9 >= 10; 7 == 9; 57 < 8; -6 > -7 
+  AnswerTests: omnitest(correctVal='-6 > -7')
+  Hint: 如果需要，可以在单独的R窗口测试每个表达式以找到正确的答案。
+
+- Class: cmd_question
+  Output: 我们将要讨论的下一个运算符是'！='所代表的“不等于”运算符。不等于测试两个值不相等，所以TRUE！= FALSE的值为TRUE。
+    像相等运算符一样，'！='也可以与数字一起使用。尝试写一个表达式，看看5是不是等于7。
+  CorrectAnswer: 5 != 7
+  AnswerTests: omnitest(correctExpr='5 != 7')
+  Hint: 使用'!='运算符并输入5！= 7
+
+- Class: cmd_question
+  Output: 为了否定布尔表达式，你可以使用NOT运算符。一个感叹号'！'将会导致！TRUE（不正确）评估为FALSE和！FALSE（不是false）评估为TRUE。
+    尝试使用!运算符和'=='运算符找出5是否等于7的相反。
+  CorrectAnswer: !5 == 7
+  AnswerTests: any_of_exprs('!5 == 7', '!(5 == 7)')
+  Hint: 这个表达式可能有点棘手，所以考虑否定表达式5 == 7（你需要的只是一个感叹号点在前面）。
+
+- Class: text
+  Output: 等号运算符'=='测试两个布尔值或数字是否相等，不等于运算符'！='测试两个布尔值或数字是否不相等，
+    NOT运算符'！'否定逻辑表达式，以便TRUE表达式变为FALSE，FALSE表达式变为TRUE。
+
+- Class: mult_question
+  Output: 以下哪项计算结果为FALSE？
+  CorrectAnswer: "!(0 >= -1)"
+  AnswerChoices: "!(0 >= -1); !FALSE; 7 != 8; 9 < 10"
+  AnswerTests: omnitest(correctVal='!(0 >= -1)')
+  Hint: 如果需要，可以在单独的R会话中评估每个表达式以找到正确的答案。
+
+- Class: mult_question
+  Output: 你认为下面的表达式会评估为什么？（TRUE！= FALSE）==！（6 == 7）
+  CorrectAnswer: TRUE
+  AnswerChoices: TRUE; FALSE; Can there be objective truth when programming?; %>%
+  AnswerTests: omnitest(correctVal='TRUE')
+  Hint: 试着单独计算每个表达式，并建立一个答案。
+
+- Class: text
+  Output: 在某些时候，您可能需要检查多个逻辑表达式之间的关系。这是AND运算符和OR运算符参与运算的地方。
+
+- Class: cmd_question
+  Output: 我们来看看AND运算符是如何工作的。 R中有两个AND运算符，'＆'和'&&'。两个操作符的工作方式都是相似的,如果AND的左右操作数都是TRUE，那么表达式为TRUE，否则为FALSE。
+    例如，TRUE&TRUE结果为TRUE。输入FALSE & FALSE 查看结果.
+  CorrectAnswer: FALSE & FALSE
+  AnswerTests: omnitest(correctExpr='FALSE & FALSE')
+  Hint: 只是为了说明AND运算符的工作方式：FALSE＆FALSE
+
+- Class: cmd_question
+  Output: 你可以使用'＆'运算符来在向量间应用AND。AND的'&&'版本只取的第一个成元素进行计算。我们来测试两个练习。
+    输入表达式TRUE＆c（TRUE，FALSE，FALSE）。
+  CorrectAnswer: TRUE & c(TRUE, FALSE, FALSE)
+  AnswerTests: omnitest(correctExpr='TRUE & c(TRUE, FALSE, FALSE)')
+  Hint: 现在看看AND运算符如何处理向量，请输入：TRUE＆c（TRUE，FALSE，FALSE）
+
+- Class: text
+  Output: 在这种情况下发生的事情是左边的操作数TRUE被循环同右操作数向量中的每个元素进行AND。效果等同于c(TRUE, TRUE, TRUE) & c(TRUE, FALSE, FALSE). 。
+
+- Class: cmd_question
+  Output: 现在我们将输入相同的表达式，但这里我们使用&&操作符。输入表达式TRUE && c（TRUE，FALSE，FALSE）
+  CorrectAnswer: TRUE && c(TRUE, FALSE, FALSE)
+  AnswerTests: omnitest(correctExpr='TRUE && c(TRUE, FALSE, FALSE)')
+  Hint: 你会发现AND的&&版本的工作方式不同，输入：TRUE && c（TRUE，FALSE，FALSE）
+
+- Class: text
+  Output: 在这种情况下，左边的操作数只同右操作数（向量）第一个元素来进行AND。向量中的其余元素在这个表达式中根本没有参与运算。
+    
+- Class : text
+  Output: 或运算符遵循一组类似的规则。 OR的'|'版本整个向量的所有元素都参与运算，而OR的||版本只有向量的第一个元素参与运算。
+    
+- Class : text
+  Output: 使用OR运算符的表达式，将在左操作数为TRUE或右操作数为TRUE。如果两者都是TRUE，表达式结果将会为TRUE，但是如果两者都不是TRUE，
+    则表达式将是FALSE。
+    
+- Class: cmd_question
+  Output: 我们来测试OR运算符的向量化版本。输入表达式TRUE | c（TRUE，FALSE，FALSE）。
+  CorrectAnswer: TRUE | c(TRUE, FALSE, FALSE)
+  AnswerTests: omnitest(correctExpr='TRUE | c(TRUE, FALSE, FALSE)')
+  Hint: 通过输入：TRUE | c（TRUE，FALSE，FALSE）来测试向量化的OR运算符
+  
+- Class: cmd_question
+  Output: 现在让我们尝试OR运算符的非向量化版本表达式TRUE || c（TRUE，FALSE，FALSE）。
+  CorrectAnswer: TRUE || c(TRUE, FALSE, FALSE)
+  AnswerTests: omnitest(correctExpr='TRUE || c(TRUE, FALSE, FALSE)')
+  Hint: 你会看到OR的版本||没有向量化，输入：TRUE || c（TRUE，FALSE，FALSE）
+  
+- Class : text
+  Output: 逻辑运算符可以像算术运算符一样链接在一起。表达式：“6！= 10 && FALSE && 1> = 2”或“TRUE ||” 5 <9.3|| “FALSE”完全正常。
+  
+- Class : cmd_question
+  Output: 你可能还记得，算术有一个操作的顺序，所以逻辑表达式也是这样。所有AND运算符在OR运算符之前被计算。我们来看看一个例子。输入：5> 8 || 6！= 8 && 4> 3.9
+  CorrectAnswer: 5 > 8 || 6 != 8 && 4 > 3.9
+  AnswerTests: omnitest(correctExpr='5 > 8 || 6 != 8 && 4 > 3.9')
+  Hint: 通过输入以下内容查看操作顺序：5> 8 || 6！= 8 && 4> 3.9
+  
+- Class : text
+  Output: 让我们来看看上述例子的操作顺序。首先AND运算符的左和右操作数参与运算。 6不等于8，4大于3.9，因此两个操作数都是TRUE，因此得到的表达式
+    TRUE && TRUE结果为TRUE。那么OR运算符的左操作数是：5不大于8，所以整个表达式减少到FALSE||TRUE。由于这个表达式的右操作数是TRUE,因此整个表达式
+    结果为TRUE
+    
+- Class: mult_question
+  Output: 下列哪个表达式计算结果为TRUE？
+  CorrectAnswer: "TRUE && FALSE || 9 >= 4 && 3 < 6"
+  AnswerChoices: "TRUE && FALSE || 9 >= 4 && 3 < 6; TRUE && 62 < 62 && 44 >= 44; 99.99 > 100 || 45 < 7.3 || 4 != 4.0; FALSE || TRUE && FALSE"
+  AnswerTests: omnitest(correctVal='TRUE && FALSE || 9 >= 4 && 3 < 6')
+  Hint: 试着单独计算每个表达式，并得到一个答案
+  
+- Class: mult_question
+  Output: 下列哪个表达式计算结果为FALSE？
+  CorrectAnswer: "FALSE && 6 >= 6 || 7 >= 8 || 50 <= 49.5"
+  AnswerChoices: "FALSE && 6 >= 6 || 7 >= 8 || 50 <= 49.5; FALSE || TRUE && 6 != 4 || 9 > 4; !(8 > 4) ||  5 == 5.0 && 7.8 >= 7.79; 6 >= -9 && !(6 > 7) && !(!TRUE)"
+  AnswerTests: omnitest(correctVal='FALSE && 6 >= 6 || 7 >= 8 || 50 <= 49.5')
+  Hint: 试着单独计算每个表达式，并得到一个答案
+  
+- Class : text
+  Output: 现在你已经熟悉R的逻辑运算符,R提供了一些处理逻辑表达式的函数
+    
+- Class : cmd_question
+  Output: 函数isTRUE（）需要一个参数，如果该参数的计算结果为TRUE，该函数将返回TRUE。否则，该函数将返回FALSE。
+    尝试使用此功能输入：isTRUE（6> 4）
+  CorrectAnswer: isTRUE(6 > 4)
+  AnswerTests: omnitest(correctExpr='isTRUE(6 > 4)')
+  Hint: 通过输入：isTRUE（6> 4）”来测试isTRUE（）
+  
+- Class: mult_question
+  Output: 以下哪一项为真？
+  CorrectAnswer: "!isTRUE(4 < 3)"
+  AnswerChoices: "isTRUE(!TRUE); isTRUE(3); isTRUE(NA); !isTRUE(4 < 3); !isTRUE(8 != 5)"
+  AnswerTests: omnitest(correctVal='!isTRUE(4 < 3)')
+  Hint: 如果作为参数传递给它的语句为TRUE，则isTRUE（）将只返回TRUE。
+  
+- Class : cmd_question
+  Output: 如果作为参数传递给它两个R对象是相同的，那么函数identical（）将返回TRUE。
+    通过输入identical('twins', 'twins')尝试使用identical（）函数
+  CorrectAnswer: identical('twins', 'twins')
+  AnswerTests: omnitest(correctExpr="identical('twins', 'twins')")
+  Hint: 如果您想查看两个R对象是否相同，请键入：identical('twins', 'twins')
+  
+- Class: mult_question
+  Output: 以下哪一项为真？
+  CorrectAnswer: "identical(5 > 4, 3 < 3.1)"
+  AnswerChoices: "identical(5 > 4, 3 < 3.1); identical(4, 3.1); identical('hello', 'Hello'); !identical(7, 7)"
+  AnswerTests: omnitest(correctVal='identical(5 > 4, 3 < 3.1)')
+  Hint: 如果其参数完全相同，那么identical() 只会计算为TRUE。
+  
+- Class : cmd_question
+  Output: 你也应该知道xxor() 函数，它有两个参数。xor() 函数代表异或。如果一个参数为TRUE，一个参数为FALSE，那么这个函数将返回TRUE，否则将返回FALSE。
+    试试xor（）函数通过输入：xor(5 == 6,！FALSE)
+  CorrectAnswer: xor(5 == 6, !FALSE)
+  AnswerTests: omnitest(correctExpr='xor(5 == 6, !FALSE)')
+  Hint: 通过输入：xor（5 == 6，！FALSE）来测试xor（）函数
+  
+- Class : text
+  Output: 5 == 6的计算结果为FALSE，！FALSE的计算结果为TRUE，所以xor（FALSE，TRUE）评估为TRUE。另一方面，如果第一个参数更改为5 == 5而第二个参数是不变的，
+    那么这两个参数都是TRUE，
+    所以xor（TRUE，TRUE）将被评估为FALSE
+    
+- Class: mult_question
+  Output: 以下哪项计算结果为FALSE？
+  CorrectAnswer: "xor(4 >= 9, 8 != 8.0)"
+  AnswerChoices: "xor(4 >= 9, 8 != 8.0); xor(!isTRUE(TRUE), 6 > -1); xor(identical(xor, 'xor'), 7 == 7.0); xor(!!TRUE, !!FALSE)"
+  AnswerTests: omnitest(correctVal='xor(4 >= 9, 8 != 8.0)')
+  Hint: “对于xor（）计算为TRUE，一个参数必须为TRUE，而且必须为FALSE
+    
+- Class : cmd_question
+  Output: 接下来的几个问题，我们将需要创建一个整数向量。输入以下内容创建此向量：ints <- sample（10）
+  CorrectAnswer: ints <- sample(10)
+  AnswerTests: omnitest(correctExpr='ints <- sample(10)')
+  Hint: 要创建一个无替换类型的十个整数向量：int <- sample（10）
+  
+- Class : cmd_question
+  Output: 现在只需显示整数的内容。
+  CorrectAnswer: ints
+  AnswerTests: omnitest(correctExpr='ints')
+  Hint: 查看向量输入：整数
+  
+- Class : cmd_question
+  Output: 向量ints是从1到10的整数的随机采样。比方说，我们想问一些有关ints内容的逻辑问题。如果我们键入int> 5，
+    我们将得到相应的每个元素是否大于5的逻辑向量ints.尝试输入：ints> 5
+  CorrectAnswer: ints > 5
+  AnswerTests: omnitest(correctExpr='ints > 5')
+  Hint: 要查看”ints“的哪些元素大于5类型：ints> 5
+  
+- Class : text
+  Output: 我们可以使用结果逻辑向量来查看关于ints的其他问题。which（）函数将逻辑向量作为参数并返回为TRUE向量元素的索引。
+    例如which（c（TRUE，FALSE，TRUE））会返回向量c（1,3）
+
+- Class : cmd_question
+  Output: 使用which（）函数来查找ints中比7大的元素的索引
+  CorrectAnswer: which(ints > 7)
+  AnswerTests: omnitest(correctExpr='which(ints > 7)')
+  Hint: 使用”ints> 7“生成的逻辑向量作为which()函数的参数
+  
+- Class: mult_question
+  Output: 以下哪个命令会产生ints中小于或等于2元素的索引？
+  CorrectAnswer: which(ints <= 2)
+  AnswerChoices: "ints < 2; ints <= 2; which(ints < 2); which(ints <= 2)"
+  AnswerTests: omnitest(correctVal='which(ints <= 2)')
+  Hint: 使用which()函数。
+  
+- Class : text
+  Output: 就像which()函数一样，函数any()和all()取逻辑向量作为他们的参数。如果逻辑向量中一个或多个元素的值为TRUE, any()函数将返回TRUE。 
+    如果逻辑向量中的每个元素都是TRUE，all()函数将返回TRUE
+    
+- Class : cmd_question
+  Output: 使用any()函数来查看ints是否存在元素比零小
+  CorrectAnswer: any(ints < 0)
+  AnswerTests: omnitest(correctExpr='any(ints < 0)')
+  Hint: 在由ints <0”生成的逻辑向量上使用any（）函数
+  
+- Class : cmd_question
+  Output: 使用all（）函数查看ints的所有元素是否比零大
+  CorrectAnswer: all(ints > 0)
+  AnswerTests: omnitest(correctExpr='all(ints > 0)')
+  Hint: 对由'ints> 0'生成的逻辑向量使用all（）函数
+  
+- Class: mult_question
+  Output: 以下哪一项为TRUE？
+  CorrectAnswer: any(ints == 10)
+  AnswerChoices: "any(ints == 10); all(ints == 10); all(c(TRUE, FALSE, TRUE)); any(ints == 2.5)"
+  AnswerTests: omnitest(correctVal='any(ints == 10)')
+  Hint: 如果逻辑向量中有一个或多个TRUE元素，则any（）将评估为TRUE。
+  
+- Class : text
+  Output: 这就是R的逻辑操作的介绍！
+

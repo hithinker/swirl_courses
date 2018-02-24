@@ -1,0 +1,346 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: Base_Plotting_System
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本课中，我们将重点介绍基本绘图系统，并详细讨论如何利用其所有参数来获取所需的绘图。 我们将专注于使用基本绘图系统在屏幕设备上创建图形而不是其他图形设备。
+
+- Class: text
+  Output: R中的核心绘图和图形引擎封装在两个包中。 第一个是包含“base”系统绘图功能的图形包。 
+    这个软件包中的函数包括plot，hist，boxplot，barplot等。第二个包是grDevices，它包含所有实现各种图形设备的代码，包括X11，PDF，PostScript，PNG等等。
+
+- Class: text
+  Output: 基本的图形通常是零碎的，通过特定的函数调用分别处理绘图的每个方面。 通常你从一个绘图函数（如plot，hist或boxplot）开始，然后使用注释函数（text，abline，points）来添加或修改你的绘图。 
+
+- Class: text
+  Output: 在进行绘图之前，您必须确定绘图将出现的位置以及用途。 是否有大量的数据？ 还是只有几点？ 你需要能够动态调整图形的大小？
+
+- Class: mult_question
+  Output: 你认为base绘图系统的缺点是什么？
+  AnswerChoices:  It's intuitive and exploratory; It mirrors how we think of building plots and analyzing data; You can't go back once a plot has started; A complicated plot is a series of simple R commands
+  CorrectAnswer: You can't go back once a plot has started
+  AnswerTests: omnitest(correctVal='You can\'t go back once a plot has started')
+  Hint: 哪个选择有负面影响呢？
+
+- Class: text
+  Output: 是! 基本系统非常直观，易于使用。 但是，如果您需要重新调整页边距或拼写错误，则不能倒退。 完成的绘图将是一系列的R函数调用，因此很难将完成的绘图转化到不同的系统。
+
+- Class: text
+  Output: 调用诸如plot（x，y）或hist（x）之类的基本例程会启动图形设备（如果尚未打开），并在设备上绘制新图。 如果plot或hist的参数不是一些特殊的类，那么调用默认的方法。
+
+- Class: text
+  Output: 正如你所看到的，大多数的基本绘图函数有很多参数，例如设置标题，轴的标签，绘图字符等。当你调用函数时可以设置一些参数，或者可以稍后添加一个单独的函数调用。
+
+- Class: text
+  Output: 现在有一些基本绘图系统的例子，然后再深入细节。 我们将使用已经加载的数据集airquality（datasets library的一部分）。 这显示1973年纽约市5个月的臭氧和其他空气测量。
+
+- Class: cmd_question
+  Output:  用airquality做的R函数head的参数，看看数据是什么样的。
+  CorrectAnswer: head(airquality)
+  AnswerTests: omnitest(correctExpr='head(airquality)')
+  Hint: 在命令提示符下输入head（airquality）。
+ 
+- Class: cmd_question
+  Output: 我们看到数据集包含6列数据。 用两个参数运行函数range。 首先是由airquality$Ozone指定的空气质量ozone那一列的数据，第二个是等于TRUE的布尔值na.rm。 如果你不指定第二个参数，你将不会得到一个有意义的结果。
+  CorrectAnswer: range(airquality$Ozone,na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='range(airquality$Ozone,na.rm=TRUE)')
+  Hint: 在命令提示符处输入range(airquality$Ozone,na.rm=TRUE)。
+ 
+- Class: cmd_question
+  Output: 所以测量范围从1到168.首先，我们将做一个简单直方图来显示ozone这一列测量数据的分布。 R函数hist,参数为airquality$Ozone。   
+  CorrectAnswer: hist(airquality$Ozone)
+  AnswerTests: omnitest(correctExpr='hist(airquality$Ozone)')
+  Hint: 在命令提示符处输入hist（airquality$Ozone）。
+ 
+- Class: mult_question
+  Output: 很简单，对吧？ R在直方图上放置一个标题，并标记了两个坐标轴。最频繁的计数出现在哪里？
+  AnswerChoices: Under 25; Between 60 and 75; Over 150; Over 100 
+  CorrectAnswer: Under 25
+  AnswerTests: omnitest(correctVal='Under 25')
+  Hint: 最高的矩形柱在哪里？
+
+- Class: cmd_question
+  Output: 接下来，我们将做一个boxplot。 首先，运行R命令table，参数airquality $ Month。
+  CorrectAnswer: table(airquality$Month)
+  AnswerTests: omnitest(correctExpr='table(airquality$Month)')
+  Hint: 在命令提示符下输入table(airquality$Month)。
+ 
+- Class: cmd_question
+  Output: 我们看到数据涵盖5月到9月。 我们需要绘制箱线图，其中臭臭氧层数据作为测量月份的函数，所以我们将使用R公式Ozone~Month作为boxplot的第一个参数。 我们的第二个参数是airquality，第一个参数变量的数据集。 现在试试这个。
+  CorrectAnswer: boxplot(Ozone~Month, airquality)
+  AnswerTests: omnitest(correctExpr='boxplot(Ozone~Month, airquality)')
+  Hint: 在命令提示符处输入boxplot(Ozone~Month, airquality)。
+ 
+- Class: text
+  Output: 请注意，与hist不同，boxplot没有为您自动指定标题和轴标签。
+
+- Class: cmd_question
+  Output: 我们再次调用boxplot来指定标签。 （使用向上箭头恢复前面的命令，节省一些输入。）我们将添加更多的参数，为2个轴指定标签。 设置xlab等于“Month”，ylab等于“Ozone (ppb)”。 指定col.axis等于“blue”，col.lab等于“red”。 现在试试这个。
+  CorrectAnswer: boxplot(Ozone~Month, airquality, xlab="Month", ylab="Ozone (ppb)",col.axis="blue",col.lab="red")
+  AnswerTests: omnitest(correctExpr='boxplot(Ozone~Month, airquality, xlab="Month", ylab="Ozone (ppb)",col.axis="blue",col.lab="red")')
+  Hint: 在命令提示符处输入boxplot(Ozone~Month, airquality, xlab="Month", ylab="Ozone (ppb)",col.axis="blue",col.lab="red")。
+
+- Class: cmd_question
+  Output: 漂亮的颜色，但仍然没有标题。 使用title函数来添加标题"Ozone and Wind in New York City"。
+  CorrectAnswer: title(main="Ozone and Wind in New York City")
+  AnswerTests: omnitest(correctExpr='title(main=\"Ozone and Wind in New York City\")')
+  Hint: 在命令提示符处输入title(main="Ozone and Wind in New York City")。
+
+- Class: cmd_question
+  Output: 现在我们将向您展示如何使用R函数图绘制一个简单的二维散点图。 我们将显示Wind（x轴）和Ozone（y轴）之间的关系。 
+    我们将使用具有这两个参数（Wind和Ozone，按照这个顺序）的函数plot。 为了节省一些输入，我们将使用2个参数调用R函数with。 
+    with的第一个参数是airquality，包含Wind和Ozone的数据集; 第二个参数将是调用绘图函数plot。 这样做可以避免使用更长的记法，例如airquality$Wind。 现在试试这个。 
+  CorrectAnswer: with(airquality, plot(Wind, Ozone))
+  AnswerTests: omnitest(correctExpr='with(airquality, plot(Wind, Ozone))')
+  Hint: 在命令提示符下输入with(airquality, plot(Wind, Ozone))。
+ 
+- Class: text
+  Output: 请注意，绘图生成了x和y轴的标签，但没有标题。
+
+- Class: cmd_question
+  Output: 现在添加一个R命令标题。 使用字符串“Ozone and Wind in New York City”。 
+  CorrectAnswer: title(main="Ozone and Wind in New York City")
+  AnswerTests: omnitest(correctExpr='title(main=\"Ozone and Wind in New York City\")')
+  Hint: 在命令提示符处输入title(main="Ozone and Wind in New York City")。
+
+- Class: cmd_question
+  Output:  基本绘图参数记录在函数par的R帮助页面中。 您可以使用par来设置参数或找出已经设置的值。
+    现在使用length(par())来看看有多少个参数。 
+  CorrectAnswer: length(par())
+  AnswerTests: omnitest(correctExpr='length(par())')
+  Hint: 在命令提示符处输入length(par())。
+ 
+- Class: cmd_question
+  Output: par()提供给你的能访问的参数有72个。 使用par（）作为参数运行R函数names，以查看这些参数是什么。
+  CorrectAnswer: names(par())
+  AnswerTests: omnitest(correctExpr='names(par())')
+  Hint: 在命令提示符处输入names(par())。
+ 
+- Class: cmd_question
+  Output: 变化是生活的调味品。 你可能会从以前的课程中认识到一些如col和lwd。可以运行？par来看看它们的作用。 现在，运行par()$pin命令，看看你得到了什么。
+  CorrectAnswer: par()$pin
+  AnswerTests: ANY_of_exprs('par()$pin','par(\"pin\")','par(\'pin\')')
+  Hint: 在命令提示符下输入par()$pin。
+ 
+- Class: mult_question
+  Output: 或者，通过运行par（“pin”）或par（'pin'））可以得到相同的结果。 你认为这两个数字代表什么？
+  AnswerChoices: Plot dimensions in inches; A confidence interval; Random numbers; Coordinates of the center of the plot window
+  CorrectAnswer: Plot dimensions in inches
+  AnswerTests: omnitest(correctVal='Plot dimensions in inches')
+  Hint: 函数par指定图形参数,所以答案应该和绘图有关,这样排除了两个选项， “pin”中的“in”指定英寸。
+
+- Class: cmd_question
+  Output: 现在运行命令par（“fg”）或者par（'fg'）或par()$fg，看看你得到了什么。
+  CorrectAnswer: par()$fg
+  AnswerTests: ANY_of_exprs('par(\"fg\")','par()$fg','par(\'fg\')')
+  Hint: 在命令提示符处输入par()$fg或par（'fg'）或者par（“fg”）。
+ 
+- Class: mult_question
+  Output: 它给了你一个颜色，对吧？ 由于par()$ fg指定了前景色，所以你认为par()$bg指定了什么？
+  AnswerChoices: Background color; Better color; blue-green; Beautiful color
+  CorrectAnswer: Background color
+  AnswerTests: omnitest(correctVal='Background color')
+  Hint: 什么是前景的对立面？
+
+- Class: text
+  Output: 许多基础绘图函数共享一组参数。 现在我们将介绍一些比较常用的一些。 看看你能否输出它们的名字。
+
+- Class: mult_question
+  Output: 你认为图形参数pch控制什么？
+  AnswerChoices: plot character; pc help; picture characteristics; point control height
+  CorrectAnswer: plot character
+  AnswerTests: omnitest(correctVal='plot character')
+  Hint: p代表plot。
+
+- Class: cmd_question
+  Output: 记住，plot character的默认值是"open circle"，但是它可以是一组图形符号中的一个字符或一个整数代码。 
+    运行命令par（“pch”）查看默认值的整数值。 当你需要的时候，你可以使用R的Documentation（？pch）来查找其他值的含义。
+  CorrectAnswer: par("pch")
+  AnswerTests: ANY_of_exprs('par(\"pch\")','par()$pch','par(\'pch\')')
+  Hint: 在命令提示符下输入par()$ pch或par（'pch'）或者par（“pch”）。
+ 
+- Class: mult_question
+  Output: 所以1是"open circle"的代码。 你认为图形参数lty和lwd分别控制什么？
+  AnswerChoices: line type and width; line width and type; line length and width; line slope and intercept
+  CorrectAnswer: line type and width
+  AnswerTests: omnitest(correctVal='line type and width')
+  Hint: 记住，'l'明显代表线。 ty和wd应该是显而易见的。
+
+- Class: cmd_question
+  Output: 运行命令par（“lty”）查看默认线类型。
+  CorrectAnswer: par("lty")
+  AnswerTests: ANY_of_exprs('par(\"lty\")','par()$lty','par(\'lty\')')
+  Hint: 在命令提示符处输入par()$lty或par（'lty'）或par（“lty”）.
+
+- Class: text
+  Output: 所以默认的线条类型是'solid'，但是可以是虚线，点线等等。再一次，R的？par文档会告诉你还有哪些线型是可用的。'lwd'是一个正整数; 默认值是1。
+
+- Class: text
+  Output: 我们已经看到很多col的例子，绘图颜色，指定为数字，字符串或十六进制代码; colors（）函数按名称给出了一个颜色向量。
+
+- Class: mult_question
+  Output: 你认为图形参数xlab和ylab分别控制什么？
+  AnswerChoices: labels for the x- and y- axes; labels for the y- and x- axes; 
+  CorrectAnswer: labels for the x- and y- axes
+  AnswerTests: omnitest(correctVal='labels for the x- and y- axes')
+  Hint: 注意：'lab'部分代表'label'。
+
+- Class: text
+  Output: par()函数用于指定影响R会话中所有图的全局图形参数。 （使用dev.off或plot.new重置为默认值。）当指定为特定绘图函数的参数时，可以覆盖这些参数。 这些包括las（图中轴标签的方向），bg（背景颜色），mar（边距尺寸），oma（外边距尺寸），mfrow和mfcol（每行，每列的图形数）。
+
+- Class: text
+  Output: 后两个mfrow和mfcol都用来处理多个绘图，他们指定每行和每列的plot数量。 它们之间的差别在于它们填充图形矩阵的顺序。 调用mfrow将首先填充行，而mfcol首先填充列。
+
+
+- Class: text
+  Output: 所以要重申，首先要调用一个基本的绘图程序。 例如，根据要绘制的对象的(class)，绘图会绘制散点图或其他类型的绘图。
+
+- Class: mult_question
+  Output: R提供了几个注释函数。 以下哪一项不是其中之一？
+  AnswerChoices: lines; text; title; hist; points
+  CorrectAnswer: hist
+  AnswerTests: omnitest(correctVal='hist')
+  Hint: 如果你刚刚做了一个散点图，你真的想用直方图注释它吗？
+
+- Class: text
+  Output: 所以你可以添加文字，标题，点和线到现有的情节。 要添加直线，可以给出x值的向量和相应y值的向量（或2列矩阵）; 函数line只是连接点。函数text使用指定的x，y坐标将文本标签添加到图。
+
+- Class: text
+  Output: 函数title添加注释。注释包括包括x轴和y轴标签，标题，副标题和外边距。 其他两个注释函数一个是是mtext，
+    它将任意文本添加到绘图的外边界或内边界，一个是axis,添加坐标轴刻度和标签的。 
+    另一个有用的函数是legend,是向读者解释你的图形使用的符号是什么意思。
+
+- Class: cmd_question
+  Output: 在我们结束之前，让我们来测试一下你的复杂散点图的能力。 有三个参数，airquality$Wind,airquality$Ozone，类型type设置等于“n”。
+    这告诉R建立图形，但不要把数据放在里面。
+  CorrectAnswer:  plot(airquality$Wind, type="n",airquality$Ozone)
+  AnswerTests: omnitest(correctExpr='plot(airquality$Wind, type="n",airquality$Ozone)')
+  Hint: 在命令提示符下输入plot(airquality$Wind, type="n",airquality$Ozone)。
+
+- Class: cmd_question
+  Output: 现在进行测试。 （您可能需要检查其中一些的R的文档。）添加一个标题，main参数是"Wind and Ozone in NYC"
+  CorrectAnswer:  title(main="Wind and Ozone in NYC")
+  AnswerTests: omnitest(correctExpr='title(main="Wind and Ozone in NYC")')
+  Hint: 在命令提示符下输入title(main="Wind and Ozone in NYC")。
+
+- Class: cmd_question
+  Output: 现在通过适当地对airquality进行子集化来创建一个名为may的变量。 （回想一下数据是用数字来表示月份，May(五月份）是一年的第五个月。）
+  CorrectAnswer:  may <- subset(airquality, Month==5)
+  AnswerTests: expr_creates_var("may"); omnitest(correctExpr='may <- subset(airquality, Month==5)')
+  Hint: 在提示符下输入may < - subset（airquality，Month == 5）。
+
+- Class: cmd_question
+  Output: 现在使用R函数points将五月的Wind和Ozone（按照该顺序）绘制为纯蓝色三角形。 您必须使用两个单独的参数来设置颜色和绘图字符。 
+    注意我们使用points函数是因为我们正在添加到现有的图形中。
+  CorrectAnswer: points(may$Wind,may$Ozone,col="blue",pch=17)
+  AnswerTests: omnitest(correctExpr='points(may$Wind,may$Ozone,col="blue",pch=17)')
+  Hint: 实心蓝色三角形的代码是17，所以在提示符下输入points(may$Wind,may$Ozone,col="blue",pch=17)应该可以工作。
+
+- Class: cmd_question
+  Output: 现在通过适当地对airquality进行子集化来创建变量notmay,即过滤掉五月份的数据.
+  CorrectAnswer:  notmay <- subset(airquality, Month!=5)
+  AnswerTests: expr_creates_var("notmay"); omnitest(correctExpr='notmay <- subset(airquality, Month!=5)')
+  Hint: 在提示符处输入notmay <- subset（airquality，Month！= 5）。
+
+
+- Class: cmd_question
+  Output: 现在使用R命令points将notmay的Wind和Ozone（以此顺序）绘制成红色的雪花,雪花的代码是8。
+  CorrectAnswer: points(notmay$Wind,notmay$Ozone,col="red",pch=8)
+  AnswerTests: omnitest(correctExpr='points(notmay$Wind,notmay$Ozone,col="red",pch=8)')
+  Hint: 雪花的代码是8，所以在提示符处输入points(notmay$Wind,notmay$Ozone,col="red",pch=8).
+
+- Class: cmd_question
+  Output: 现在我们将使用R命令legend来阐明图形并解释它的含义。 该函数有很多参数，但是我们只使用其中的4个.第一个将是字符串“topright”来告诉R在哪里放置图例。 
+    其余的3个参数都是由R向量函数cc创建的长度为2的向量。 这些参数是pch，col和legend。 第一个是c(17,8)，第二个c("blue","red")和第三个c("May","Other Months")。 现在就试试。
+  CorrectAnswer: legend("topright",pch=c(17,8),col=c("blue","red"),legend=c("May","Other Months"))
+  AnswerTests: omnitest(correctExpr='legend("topright",pch=c(17,8),col=c("blue","red"),legend=c("May","Other Months"))')
+  Hint: 输入legend("topright",pch=c(17,8),col=c("blue","red"),legend=c("May","Other Months"))。
+
+- Class: cmd_question
+  Output: 现在在airquality$Wind的中位数的位置加一条垂直线。格式为虚线（lty = 2），宽度为2。
+  CorrectAnswer: abline(v=median(airquality$Wind),lty=2,lwd=2)
+  AnswerTests: omnitest(correctExpr='abline(v=median(airquality$Wind),lty=2,lwd=2)')
+  Hint: 输入abline(v=median(airquality$Wind),lty=2,lwd=2)。
+
+- Class: cmd_question
+  Output: 使用函数par与参数mfrow设置水平并排两个图的绘图窗口。 你不会看到结果.
+  CorrectAnswer: par(mfrow=c(1,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(1,2))')
+  Hint: 输入par（mfrow = c（1,2））。
+
+- Class: cmd_question
+  Output: 现在绘制airquality$Wind和airquality$Ozone的散点图并指定标题"Ozone and Wind"。
+  CorrectAnswer: plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")
+  AnswerTests: omnitest(correctExpr='plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")')
+  Hint: 输入plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")。
+
+- Class: figure
+  Output: 现在为第二个图形。
+  Figure: goodPlot1.R
+
+- Class: cmd_question
+  Output: 绘制airquality$Ozone和airquality$ Solar.R的散点图并使用main来指定'Ozone and Solar Radiation'的标题。
+  CorrectAnswer: plot(airquality$Ozone, airquality$Solar.R, main = "Ozone and Solar Radiation")
+  AnswerTests: omnitest(correctExpr='plot(airquality$Ozone, airquality$Solar.R, main = "Ozone and Solar Radiation")')
+  Hint: 输入plot(airquality$Ozone, airquality$Solar.R, main = "Ozone and Solar Radiation")。
+
+- Class: figure
+  Output: 现在为更具挑战性的东西。  
+  Figure: goodPlot2.R
+
+- Class: cmd_question
+  Output: 用三个图形以说明内部和外部边缘。 首先，通过输入par（mfrow = c（1,3），mar = c（4,4,2,1），oma = c（0,0,2,0））来设置绘图窗口
+  CorrectAnswer: par(mfrow = c(1, 3), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))
+  AnswerTests: omnitest(correctExpr='par(mfrow = c(1, 3), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))')
+  Hint: 输入par（mfrow = c（1,3），mar = c（4,4,2,1），oma = c（0,0,2,0））。
+
+- Class: text
+  Output: 边距被指定为4个整数的向量。 每个数字表示在每一边留下多少行文字。 数字从底部开始顺时针分配。 
+    内边距的默认值是c（5.1,4.1,4.1,2.1），所以你可以看到我们减少了每一个，所以我们将有一些外部文本的空间。
+
+- Class: cmd_question
+  Output: 第一个应该是熟悉的。 绘制airquality$Wind和airquality$Ozone与标题（参数main）为“Ozone and Wind”的散点图。
+  CorrectAnswer: plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")
+  AnswerTests: omnitest(correctExpr='plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")')
+  Hint: 输入plot(airquality$Wind, airquality$Ozone, main = "Ozone and Wind")。
+
+- Class: figure
+  Output: 第二个是相似的。
+  Figure: goodPlot3.R
+
+- Class: cmd_question
+  Output: 将airquality$Solar.R和airquality$Ozone和"Ozone and Solar Radiation"为标题（'main'参数）一起绘制。
+  CorrectAnswer: plot(airquality$Solar.R, airquality$Ozone, main = "Ozone and Solar Radiation")
+  AnswerTests: omnitest(correctExpr='plot(airquality$Solar.R, airquality$Ozone, main = "Ozone and Solar Radiation")')
+  Hint: 输入plot(airquality$Solar.R, airquality$Ozone, main = "Ozone and Solar Radiation")。
+
+- Class: figure
+  Output: 现在为最后一个面板。
+  Figure: goodPlot4.R
+
+- Class: cmd_question
+  Output: 绘制airquality$Temp和airquality$Ozone,标题（'main'参数）为"Ozone and Temperature"。
+  CorrectAnswer: plot(airquality$Temp, airquality$Ozone, main = "Ozone and Temperature")
+  AnswerTests: omnitest(correctExpr='plot(airquality$Temp, airquality$Ozone, main = "Ozone and Temperature")')
+  Hint: 输入plot(airquality$Temp, airquality$Ozone, main = "Ozone and Temperature")。
+
+- Class: figure
+  Output: 现在我们将放入一个标题。
+  Figure: goodPlot5.R
+
+- Class: cmd_question
+  Output: 我们使用R命令mtext指定它,调用带有字符串"Ozone and Weather in New York City"，参数outer等于TRUE。
+  CorrectAnswer:  mtext("Ozone and Weather in New York City", outer = TRUE)
+  AnswerTests: omnitest(correctExpr=' mtext("Ozone and Weather in New York City", outer = TRUE)')
+  Hint: 输入mtext("Ozone and Weather in New York City", outer = TRUE)。
+
+- Class: figure
+  Output: 瞧！ 美丽吧？
+  Figure: goodPlot6.R
+
+- Class: text
+  Output: 恭喜！ 你已经很好地学习了这节课程。

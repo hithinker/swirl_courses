@@ -1,0 +1,135 @@
+- Class: meta
+  Course: Vectors
+  Lesson: Sequences_Of_Numbers
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本课中，您将学习如何在R中创建数字序列。
+
+- Class: cmd_question
+  Output: 在R中创建一个数字序列的最简单方法是使用':'运算符。输入1:20看它是如何工作的。
+  CorrectAnswer: '1:20'
+  AnswerTests: omnitest(correctExpr='1:20')
+  Hint: 输入1:20，没有空格。确保使用正则冒号而不是分号。
+
+- Class: cmd_question
+  Output: 上面的1:20我们（包括）1和20之间的每个整数。我们也可以用它来创建一个实数序列。例如，尝试pi：10。
+  CorrectAnswer: pi:10
+  AnswerTests: omnitest(correctExpr='pi:10')
+  Hint: 输入pi：10，看看会发生什么。 pi是R中预定义的常量,值为3.1415 ....
+
+- Class: text
+  Output: 结果是以pi（3.142 ...）开始并且以1为增量增加的实数向量。从下一个数字开始，从未达到10的上限在我们的序列将会大于10。
+
+
+- Class: cmd_question
+  Output: 如果我们输入15：1会发生什么？试试看看。
+  CorrectAnswer: '15:1'
+  AnswerTests: omnitest(correctExpr='15:1')
+  Hint: 输入15：1，然后按Enter键。
+
+- Class: text
+  Output: 以1为增量向后计数！我们不太可能想要这种行为，但是，知道如何发生是很好的。
+
+- Class: text
+  Output: 请记住，如果您对某个R函数有疑问，可以使用问号后跟函数名称的方式访问其文档，'?function_name_here'。但是，
+    在使用操作符的情况下，例如上边问题的冒号的情况下， 你必须像这样在反引号中加上符号：？`：`。 （注意：
+    反单引号（`）键通常位于键盘的左上角Tab键上方。如果您没有反引号键，则可以使用常规引号）
+
+- Class: cmd_question
+  Output: 现在查询`：`的文档
+  CorrectAnswer: ?`:`
+  AnswerTests: any_of_exprs('?`:`', "?':'", '?":"')
+  Hint: 为了查看像冒号操作符这样的符号的文档，你必须使用反引号（或引号）。这是R知道你不是试图使用符号在命令。以下是它的样子：``：`。
+    不要忘记前边的问号?
+
+- Class: text
+  Output: 通常，我们希望更多地控制我们正在创建的序列,`：`运算符却满足不了我们的要求。这是可以使用 seq（）函数来实现
+
+- Class: cmd_question
+  Output: seq（）的最基本用法与`：`运算符完全相同。尝试seq（1，20）来看看这个
+  CorrectAnswer: seq(1, 20)
+  AnswerTests: omnitest(correctExpr='seq(1, 20)')
+  Hint: 输入seq（1，20），然后按Enter键。逗号之后的空格不是必需的，但推荐使用，因为它往往会使代码看起来不那么混乱。
+
+- Class: cmd_question
+  Output: 上边的seq(1:20)给了我们与1:20相同的输出。但是，我们想要一个从0到10的数字向量，元素之间的差为0.5。 
+    seq(0,10,by = 0.5）就是这样做的。试试看。
+  CorrectAnswer: my_seq <- seq(5, 10, by=0.5)
+  AnswerTests: omnitest(correctExpr='my_seq <- seq(5, 10, by=0.5)')
+  Hint: 您仍在使用seq（）函数，但是这次有一个额外的参数告诉R你想增加你的序列以0.5为增量。尝试seq(0,10,by = 0.5)
+
+- Class: cmd_question
+  Output: 也许我们不在乎增量是什么，我们只是想要一个序列在5到10之间有30个数字.seq(5,10,length=30）将会达到这个目的。
+    将结果存储在一个名为my_seq的新变量中。
+  CorrectAnswer: my_seq <- seq(5, 10, length=30)
+  AnswerTests: omnitest(correctExpr='my_seq <- seq(5, 10, length=30)')
+  Hint: 你在这里使用了相同的函数，但为了实现不同结果，改变了它的参数。请确保将结果存储在名为my_seq的新变量中，
+    如下所示：my_seq < - seq(5,10,length = 30)。
+
+- Class: cmd_question
+  Output: 要确认my_seq的长度为30，我们可以使用length（）函数。现在就试试。
+  CorrectAnswer: length(my_seq)
+  AnswerTests: omnitest(correctExpr='length(my_seq)')
+  Hint: 使用length（my_seq）来查看my_seq变量的长度。
+
+- Class: text
+  Output: 假设我们不知道my_seq的长度，但是我们想要生成从1到N的整数序列，其中N表示my_seq的向量的长度。换句话说，我们需要一个长度相同的新矢量（1，2，3，...）
+    作为my_seq。
+
+- Class: cmd_question
+  Output: 有几种方法可以做到这一点。一种可能性是结合'：'运算符和length()函数是这样的：1：length(my_seq)。试一试。
+  CorrectAnswer: 1:length(my_seq)
+  AnswerTests: omnitest(correctExpr='1:length(my_seq)')
+  Hint: 尝试1：length(my_seq),而不将结果赋值给一个新的变量。
+
+- Class: cmd_question
+  Output: 另一个方法是使用seq(along.with = my_seq)。试试看。
+  CorrectAnswer: seq(along.with = my_seq)
+  AnswerTests: omnitest(correctExpr='seq(along.with = my_seq)')
+  Hint: 输入seq(along.with = my_seq)。注意我们使用了相同的seq（）函数，但是有一个叫'along.with'的不同的参数。这告诉R你想要一个序列连同序列'my_seq'。
+    如果您有任何疑问，请记住您可以输入？seq关于seq()函数。
+
+- Class: cmd_question
+  Output: 但是，与许多常见任务一样，R具有单独的为此目的内置函数seq_along()。输入seq_along(my_seq)来看一下。
+  CorrectAnswer: seq_along(my_seq)
+  AnswerTests: omnitest(correctExpr='seq_along(my_seq)')
+  Hint: seq_along()函数是seq()函数的变体。试试seq_along（my_seq）以另一种方式获得相同的结果。
+
+
+- Class: text
+  Output: 解决相同问题的方法通常有几种,特别是在R中.简单的方法，涉及较少的输入通常是最好的。代码是可读性很重要。
+    这样你和其他人可以弄清楚发生了什么事，没有太多的麻烦。
+
+- Class: text
+  Output: 如果R有一个特定任务的内置函数，那很可能就是这个函数是为此目的高度优化过的，是您最好的选择。当你成为一个更高级的R程序员，
+    当没有更好的选择，你会设计自己的功能来执行任务。我们将探讨编写自己的函数未来的课程。
+
+
+- Class: text
+  Output: 与创建数字序列相关的另一个函数是rep()，rep其中代表“replicate”。我们来看看这个函数的几个用途。
+
+- Class: cmd_question
+  Output: 如果我们有兴趣创建一个包含40个零的向量，我们可以使用rep(0，times = 40)。试试看。
+  CorrectAnswer: rep(0, times = 40)
+  AnswerTests: omnitest(correctExpr='rep(0, times = 40)')
+  Hint: 输入rep(0,times = 40)来创建一个包含40个零的向量。
+
+- Class: cmd_question
+  Output: 如果我们想要我们的向量包含10次重复的向量(0,1,2),我们可以做rep(c(0,1,2),times = 10)。来吧。
+  CorrectAnswer: rep(c(0, 1, 2), times = 10)
+  AnswerTests: omnitest(correctExpr='rep(c(0, 1, 2), times = 10)')
+  Hint: 尝试rep(c(0,1,2),times = 10)在同一主题上的不同变化。一定要使用c()函数来告诉R，数字0,1和2组成一个向量。
+
+- Class: cmd_question
+  Output: 不通过重复向量(0,1,2)的方式，我们想要我们的向量包含10个0，然后10个1，然后10个2。
+    我们可以用'each'参数来做到这一点。试试rep(c(0,1,2),each= 10)。
+  CorrectAnswer: rep(c(0, 1, 2), each = 10)
+  AnswerTests: omnitest(correctExpr='rep(c(0, 1, 2), each = 10)')
+  Hint: 输入rep(c(0,1,2),each = 10)看rep()函数略微改变其行为。
+
+- Class: text
+  Output: 本节课我们就到这里了!

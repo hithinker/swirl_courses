@@ -1,0 +1,132 @@
+- Class: meta
+  Course: Data_Structure_02
+  Lesson: String
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 字符处理函数可以从文本型数据中抽取信息，或者为打印输出和生成报告重设文本的格式。。举例来说，你可能希望将某人的姓和名连接在一起，
+    并保证姓和名的首字母大写，抑或想统计可自由回答的调查反馈信息中含有秽语的实例（instance）数量。
+    
+- Class: text
+  Output: 这节课主要介绍一些最有用的字符处理函数
+
+- Class: cmd_question
+  Output: 已经为你预定义了字符向量strs,请打印strs查看其内容
+  CorrectAnswer: strs
+  AnswerTests: omnitest(correctExpr='strs')
+  Hint: 命令提示符出直接输入strs
+  
+- Class: cmd_question
+  Output: nchar()计算字符数量,输出str第三个元素的字符数
+  CorrectAnswer: nchar(strs[3])
+  AnswerTests: omnitest(correctExpr='nchar(strs[3])')
+  Hint: 使用下标3提取strs的第三个元素，并使用函数nchar()
+
+- Class: cmd_question
+  Output: 定义字符串str,其值为"abcdef"
+  CorrectAnswer: str <- "abcdef" 
+  AnswerTests: omnitest(correctExpr='str <- "abcdef"')
+  Hint:  str <- "abcdef" 
+
+- Class: cmd_question
+  Output: substr(x, start, stop) 提取或替换一个字符向量中的子串,请提取str的第2到4个元素
+  CorrectAnswer: substr(str, 2, 4)
+  AnswerTests: omnitest(correctExpr='substr(str, 2, 4)')
+  Hint: substr(str, 2, 4)
+
+- Class: cmd_question
+  Output: substr() 与赋值符号'<-'结合，可以改变元素的值，请将str的第2到4个元素替换为"22222"
+  CorrectAnswer: substr(str, 2, 4) <- "22222"
+  AnswerTests: omnitest(correctExpr='substr(str, 2, 4) <- "22222"')
+  Hint: substr(str, 2, 4) <- "22222"
+- Class: text
+  Output: grep(pattern, x, ignore.case=FALSE, fixed=FALSE)在x 中搜索某种模式。若fixed=FALSE，则pattern 为一个正则表达式。若
+    fixed=TRUE，则pattern 为一个文本字符串。返回值为匹配的下标。
+    
+- Class: cmd_question
+  Output: 在向量c("b","A","c")搜索文本"A"
+  CorrectAnswer: grep("A",c("b","A","c"),fixed=TRUE)
+  AnswerTests: omnitest(correctExpr='grep("A",c("b","A","c"),fixed=TRUE)')
+  Hint: grep("A",c("b","A","c"),fixed=TRUE)
+  
+- Class: text
+  Output: sub(pattern, replacement,x, ignore.case=FALSE,fixed=FALSE)在x 中搜索pattern，并以文本replacement 将其替换。若fixed=FALSE，
+    则pattern 为一个正则表达式。若fixed=TRUE，则pattern 为一个文本字符串。
+  
+- Class: cmd_question
+  Output: 在"Hello There"中搜索空格并将其替换为'.'
+  CorrectAnswer: sub(" ",".","Hello There",fixed=TRUE)
+  AnswerTests: omnitest(correctExpr='sub(" ",".","Hello There",fixed=TRUE)')
+  Hint: sub(" ",".","Hello There",fixed=TRUE)
+  
+- Class: text
+  Output: strsplit(x, split,fixed=FALSE)在split 处分割字符向量x 中的元素。若fixed=FALSE，则pattern 为一个正则表达式。
+    若fixed=TRUE，则pattern 为一个文本字符串。
+    
+- Class: cmd_question
+  Output: 使用strsplit对"abc"进行处理返回一个含有1 个成分、3 个元素的列表，包含的内容为"a" "b" "c"
+  CorrectAnswer: y <- strsplit("abc", "")
+  AnswerTests: omnitest(correctExpr='y <- strsplit("abc", "")')
+  Hint: y <- strsplit("abc", "")
+
+- Class: cmd_question
+  Output: paste(…, sep="") 连接用来'...'所代表的若干个向量，其原理是将对应位置的向量元素连接，并用sep参数的值做分隔符，返回一个字符向量。
+    尝试一下将"x"和1：3连接，并以"M"来分隔。
+  CorrectAnswer: paste("x",1:3,sep="M")
+  AnswerTests: omnitest(correctExpr='paste("x",1:3,sep="M")')
+  Hint: paste("x",1:3,sep="M")
+
+- Class: cmd_question
+  Output: toupper(x) 大写转换。尝试转换"abc"全部为大写
+  CorrectAnswer: toupper("abc")
+  AnswerTests: omnitest(correctExpr='toupper("abc")')
+  Hint: toupper("abc")
+
+- Class: cmd_question
+  Output: tolower(x) 小写转换。尝试转换"ABC"全部为大写
+  CorrectAnswer: tolower("ABC")
+  AnswerTests: omnitest(correctExpr='tolower("ABC")')
+  Hint: tolower("ABC")
+  
+- Class: text
+  Output: grepl＆grep。在最基本的形式中，可以使用正则表达式来查看模式是存在于字符串还是字符串的向量中。 为此，可以使用：
+    grepl（），当在相应的字符串中找到一个模式时，它返回TRUE。grep（），它返回包含模式的字符串的索引向量。
+    这两个函数都需要一个模式和一个x参数，其中pattern是要匹配的正则表达式，而x参数是从中寻找匹配的字符向量。我们已经为你预定义了存储邮箱账号字符向量。
+    使用这个向量完成以下的几个练习。
+    
+- Class: cmd_question
+  Output: 使用grepl（）生成一个逻辑向量，指出这些电子邮件地址是否包含“edu”。 打印结果
+  CorrectAnswer: grepl(pattern="edu",emials)
+  AnswerTests: omnitest(correctExpr='grepl(pattern="edu",emails)')
+  Hint: 你应该传递给grepl（）的第一个参数是pattern：“edu”。 第二个参数是emails。
+
+- Class: cmd_question
+  Output: 用grep（）做同样的事情，但是这次把结果索引保存在一个变量hits
+  CorrectAnswer: hits <- grep(pattern="edu",emails)
+  AnswerTests: omnitest(correctExpr='hits <- grep(pattern="edu",emails)')
+  Hint: 你应该传递给grep（）的第一个参数是pattern：“edu”。 第二个参数是emails。
+  
+- Class: text
+  Output: 您可以使用插入符号^和美元符号$分别匹配位于字符串开头和结尾的内容。 这可能使我们更接近正确的模式，仅匹配电子邮件列表中的“.edu”电子邮件地址。 
+    但还有更多可以添加到使模式更强大：@，因为有效的电子邮件必须包含一个at-sign。*，匹配任何字符（.）零次或多次（*）。 点和星号都是元字符。 
+    您可以使用它们来匹配电子邮件地址的at-sign和“.edu”部分之间的任何字符。\\.edu $，以匹配字符串末尾的电子邮件的“.edu”部分。 \\部分逃脱了这个小点：
+    它告诉R你想要使用。 作为一个真实的字符
+    
+- Class: cmd_question
+  Output: 使用grep（）和更高级的正则表达式来返回一个逻辑向量。 只需打印结果。
+  CorrectAnswer: grepl(pattern="@.*\\.edu$",emails)
+  AnswerTests: omnitest(correctExpr='grepl(pattern="grepl(pattern="@.*\\.edu$",emails)')
+  Hint: 你应该传递给grepl（）的第一个参数是pattern：“@.*\\.edu$”。 第二个参数是emails。
+  
+- Class: text
+  Output: 虽然使用grep（）和grepl（）来简单地检查正则表达式是否可以与字符向量匹配，但是sub（）和gsub（）会更进一步：您可以指定替换参数replacement。 
+     如果在字符向量x中找到正则表达式模式，那么匹配的元素将被replacement。sub（）替换，只替换第一个匹配，而gsub（）替换所有的匹配。
+     
+- Class: cmd_question
+  Output: 使用高级正则表达式“@.* \\.edu $”，使用sub（）将匹配替换为"@pku.edu.cn"。 由于每个字符串只有一个匹配，所以gsub（）在这里是不必要的。 检查结果输出
+  CorrectAnswer: sub(pattern="@.*\\.edu$",emails,replacement="@pku.edu.cn")
+  AnswerTests: omnitest(correctExpr='grepl(pattern="grepl(pattern="@.*\\.edu$",emails)')
+  Hint: 你应该传递给grepl（）的第一个参数是pattern：“@.*//.edu$”。 第二个参数是emails。    

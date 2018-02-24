@@ -1,0 +1,279 @@
+- Class: meta
+  Course: DataScienceAndR
+  Lesson: 01-RBasic-06-List-DataFrame
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 1.0
+- Class: text
+  Output: 这堂课程要跟各位同学介绍list和data.frame这两个很重要的数据结构。
+- Class: text
+  Output: R 的list是非常常用的对象，回归模型的底层架构，就是用list所建立的。
+- Class: text
+  Output: list的本质，其实就是一个「R 对象的向量」，这里要特别强调「向量」的概念，因为list是有顺序性的。
+- Class: cmd_question
+  Output: 请同学建立一个list，`x <- list(iris = iris, cars = cars, n = 2)`
+    这里`iris = iris`的意思是说，第一个元素的名字是`"iris"`，而值会是变数`iris`的值。
+    而`cars = cars`表示第二个元素的名字是`"cars"`，值则是变数`cars`的值。以此类推
+  CorrectAnswer: x <- list(iris = iris, cars = cars, n = 2)
+  AnswerTests: any_of_exprs("x <- list(iris = iris, cars = cars, n = 2)", "x = list(iris
+    = iris, cars = cars, n = 2)")
+  Hint: x <- list(iris = iris, cars = cars, n = 2)
+  
+- Class: cmd_question
+  Output: 在建立的过程中，因为iris在前面，所以是第一个元素（component），而cars跟在iris后面，所以
+    是第二个元素component。我们可以利用两个中括号：`[[]]`来取出component。请同学试试看：`x[[3]]`
+  CorrectAnswer: x[[3]]
+  AnswerTests: omnitest("x[[3]]", 2)
+  Hint: x[[3]]
+  
+- Class: cmd_question
+  Output: 请检查一下`x[[3]]`的型态。
+  CorrectAnswer: mode(x[[3]])
+  AnswerTests: omnitest("mode(x[[3]])")
+  Hint: 还记得`class`或`mode`这两个函数吗？
+- Class: text
+  Output: 可以看到`x[[3]]`的型态是numeric，这是因为`x <- list(iris = iris, cars = cars, n = 2)`，
+    所以`mode(x[[3]])`的结果等同于`mode(2)`，也就是numeric。
+    同理，`mode(x[[1]])`和`mode(x[[2]])`的结果则是x 的第一个值和第二个值的型态。
+- Class: cmd_question
+  Output: 因为list是个向量，所以可以使用我们过去学过的`[]`。如果我们运用如：`x[3]`的指令，从x 中选出只有包含第三个元素的向量，
+    得到的输出会和`x`一样是一个list向量。简言之，`mode(x[1])`、`mode(x[2])`和`mode(x[3])`的结果都会是list，和`mode(x[[3]]) `是numeric是不同的。
+    请同学试试看`mode(x[3])`
+  CorrectAnswer: mode(x[3])
+  AnswerTests: omnitest("mode(x[3])", "list")
+  Hint: mode(x[3])
+- Class: text
+  Output: 输出的型态是否仍为list，就是`[[]]`和`[]`主要的不同  
+- Class: text
+  Output: 也由于list是一种向量，所以先前学过的函数，如`length`之类，都是可以在list上使用的  
+- Class: mult_question
+  Output: 请各位同学猜猜看，`length(x)`的结果会是多少呢？
+  AnswerChoices: 2;3;4
+  CorrectAnswer: 3
+  AnswerTests: omnitest(correctVal = "3")
+  Hint: 在R 中，`length`会计算向量的长度，而我们是运用`x <- list(iris = iris, cars = cars, n = 2)`来建立`x`的。
+- Class: cmd_question
+  Output: list的元素除了用位置做选取之外（如：`x[[3]]`），也可以用名字做选取。
+    在我们建立list的时候，使用指令如下：`x <- list(iris = iris, cars = cars, n = 2)`，
+    这代表第一个元素的名字是`"iris"`，第二个是`"cars"`，第三个是`"n"`。
+    而和我们使用`x[[3]]`的方式类似，我们也可以使用`x[["n"]]`来选择第三个，也就是名字是`"n"`的元素。请同学试试看。
+  CorrectAnswer: x[["n"]]
+  AnswerTests: omnitest('x[["n"]]', 2)
+  Hint: x[["n"]]
+- Class: cmd_question
+  Output: 除了`[[]]`之外，也可以使用`$`来透过名字取出list的值。举例来说，`x$n`就会取出`x`中名字为`"n"`的值。
+    请同学试试看。 
+  CorrectAnswer: x$n
+  AnswerTests: omnitest('x$n', x$n)
+  Hint: x$n
+- Class: text
+  Output: 在windows系统中，如果名字是中文时，使用`$`的语法可能会出错。一个比较保险的写法是： x$`中文名称` 。
+    这里的 `符号的按键，在美式键盘中位于1的左方，这个符号念作：Grave accent，是R 在console中的跳脱字元。
+    以特殊符号为名称的变数可以透过两边包覆Grave accent来在console中进行存取。
+- Class: text
+  Output: 接着，我们要介绍一个在R 中很有名的对象。这个对象的设计，完全满足了近代对结构化对象分析的需求。
+- Class: text
+  Output: 由于传统的matrix和array 有同质性的限制（所有的元素都要同样的型态），所以在数据分析上并不方便。
+    因为我们分析的数据，通常并不会全部都用相同的型态。在结构化的资料中，通常数据是以表格的形式，而各列会有自己的型态，
+    例如是：数值型态、类别型态等等。
+- Class: text
+  Output: R 的data.frame就是要表现出二维表格特性的数据结构对象。以下我们要介绍data.frame这个对象。
+- Class: text
+  Output: 首先，data.frame是一种list。因为表格的各栏是型态不一的向量，所以我们需要用list来装不同型态的向量。
+- Class: text
+  Output: 第二，因为表格的数据是结构化的，所以data.frame存放的值会有格式上的限制。
+    具体来说，data.frame的各个元素必须是以下几种类型之一：数值(numeric)、字串(character)、逻辑(logical)、类别(factor)、数值矩阵(numeric matrix)、
+    list或data.frame。
+- Class: text
+  Output: 最重要的是，因为data.frame代表的是二维表格，所以每一个值的长度须一致（若为矩阵或data.frame，则是行(row)的数量需一致）。
+    上述的特性可以在整理数据时提供很大的帮助。
+- Class: mult_question
+  Output: 请问下列哪一个list对象，符合data.frame的要素？如果不确定的话，可以看Hint了解原因。
+  AnswerChoices: list(a = 1:3, b = 1:4);list(a = function() { }, b = 1:4);list(a =
+    1:3, b = matrix(1:6, nrow = 3, ncol = 2))
+  CorrectAnswer: list(a = 1:3, b = matrix(1:6, nrow = 3, ncol = 2))
+  AnswerTests: omnitest(correctVal = 'list(a = 1:3, b = matrix(1:6, nrow = 3, ncol
+    = 2))')
+  Hint: 提醒同学，`list(a = 1:3, b = 1:4)`长度不一样，`list(a = function() { }, b = 1:4)`的第一个值是函数，不符合型态的条件。
+- Class: text
+  Output: data.frame的操作也是非常重要的。
+- Class: cmd_question
+  Output: 在R 之中，可以使用`data.frame`函数来建立一个data.frame。请同学现在试试看利用
+    `data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2 ) )`建立一个data.frame，并且把这个对象存到变量 `a`
+  CorrectAnswer: a <- data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2
+    ) )
+  AnswerTests: any_of_exprs('a <- data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2
+    ) )', 'a = data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2
+    ) )')
+  Hint: a <- data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2
+    ) )
+- Class: mult_question
+  Output: 所有list的操作，都可用在data.frame上。请问同学，下面哪一个语法「不能」选取`a` 的第一列？
+  AnswerChoices: a[["class"]];a[[1]];a$class;a$`class`;a[["id"]]
+  CorrectAnswer: a[["id"]]
+  AnswerTests: omnitest(correctVal = 'a[["id"]]')
+  Hint: 提醒同学，`a` 是通过`data.frame(class = "NTU", id = 1:10,scores = matrix(c(80:99),nrow=10,ncol=2
+    ) )`建立的。
+- Class: text
+  Output: 除了list的语法之外，在data.frame上也可以使用和matrix一样的语法。
+- Class: text
+  Output: 举例来说，`nrow(a)`可以列出a 所包含的行数、`ncol(a)`可以列出a 所包含的列数、`dim(a)`则可以一次列出两者。
+    上述特性都和matrix一样
+- Class: cmd_question
+  Output: 数据的选取的方式也是一样的。我们可以用`a[,1]`选取第一列。请同学试试看。
+  CorrectAnswer: a[,1]
+  AnswerTests: omnitest('a[,1]')
+  Hint: a[,1]
+- Class: mult_question
+  Output: 根据输出，请问同学`a[,1]`的类别是什么呢？
+  AnswerChoices: list;data.frame;factor
+  CorrectAnswer: factor
+  AnswerTests: omnitest(correctVal = 'factor')
+  Hint: 这里`a[,1]`的效果和`a[[1]]`是一樣的。
+- Class: cmd_question
+  Output: 同理，我们也可以用`a[1,2]`来取出第1 行、第2 列的数据。请同学试试看。
+  CorrectAnswer: a[1,2]
+  AnswerTests: omnitest('a[1,2]')
+  Hint: a[1,2]
+- Class: cmd_question
+  Output: colnames(a)则可以取出a 的列名称。请同学试试看。名称也可以用于接下来的数据选取中。
+  CorrectAnswer: colnames(a)
+  AnswerTests: omnitest('colnames(a)')
+  Hint: colnames(a)
+- Class: cmd_question
+  Output: 数据选取时，列也可以用名字代替。举例来说，`a[2,"id"]`可以选到第二行第二列，因为`a[2,]`代表第二列，
+    而`a[,"id"]` 会选到名称为`"id"`的第二列。两者的交集，就是第2 行第2 列。请同学试试看。
+  CorrectAnswer: a[2,"id"]
+  AnswerTests: omnitest('a[2,"id"]', 2)
+  Hint: a[2,"id"]
+- Class: mult_question
+  Output: 中括号`[]`也可以一次选取多行多列。举例来说，`a[1:2,"id"]`可以一次选取`a$id`底下第1个到第2个的值。
+    请问同学，下面哪一种语法「不能」得到一样的结果？
+  AnswerChoices: a$id[1:2];a[[2]][1:2];a[["id"]][1:2];a[1:2]["id"]
+  CorrectAnswer: a[1:2]["id"]
+  AnswerTests: omnitest(correctVal = 'a[1:2]["id"]')
+  Hint: 在data.frame上，通常会先对列做选择，取得列中的向量以后，才能使用中括号。
+- Class: cmd_question
+  Output: 另一个用法是：`a[1:2,1:2]`，可以选许出前两行的前两列。请同学试试看。  
+  CorrectAnswer: a[1:2,1:2]
+  AnswerTests: omnitest('a[1:2,1:2]')
+  Hint: a[1:2,1:2]
+- Class: cmd_question
+  Output: 请问同学，能不能用`class`查看`a[1:2,1:2]`的类型呢？
+  CorrectAnswer: class(a[1:2,1:2])
+  AnswerTests: omnitest('class(a[1:2,1:2])', 'data.frame')
+  Hint: class(a[1:2,1:2])
+- Class: text
+  Output: 同学是否注意到，在输入`a[1:2,"id"]`的时候，R 会输出一个向量，但是输入`a[1:2,1:2]`的时候R 反而会给一个data .frame呢？
+    其实这样不一致的行为，在未来若要进行更复杂的资数据整理时，会带来困扰的。
+- Class: cmd_question
+  Output: 其实`[]`中括号这个函数，有一个参数叫做：`drop`，而且预设为`TRUE`。当我们使用`[]`取得结果的时候，
+    如果有一个方向可以缩减维度（例如只有一个列的表格），R 就会自动把表格的结构破坏，回传一个向量。
+    请同学试试看：`a[1:2, "id", drop = FALSE]`
+  CorrectAnswer: a[1:2, "id", drop = FALSE]
+  AnswerTests: omnitest('a[1:2, "id", drop = FALSE]')
+  Hint: a[1:2, "id", drop = FALSE]
+- Class: text
+  Output: 从R 显示在console的输出结果，同学会发现这是一个data.frame。
+    在R 中，console会根据不同的`class`而用不同的方式呈现输出结果。
+- Class: text
+  Output: 上述的内容就是我们对于list和data.frame的介绍。data.frame是处理数据和时非常实用结构。所以请同学务必要熟悉不同data.frame的操作，才能有系统地整理数据，
+    并且在数据上运行其他的运算。下面看几个具体的数据框dataframe和列表list的使用练习。
+    
+- Class: cmd_question
+  Output: 我们已经为你定义了5个向量，分别是name,type,diameter,rotation,rings,把这5个向量作为列，构造一个数据框planets_df。
+  CorrectAnswer: planets_df <- data.frame(name,type,diameter,rotation,rings)
+  AnswerTests: omnitest(correctExpr='planets_df <- data.frame(name,type,diameter,rotation,rings)')
+  Hint: 使用函数data.frame（）来构造一个数据框。 将向量name,type,diameter,rotation,rings作为参数传递给data.frame（），按此顺序。 
+    结果数据框为planets_df
+
+- Class: cmd_question
+  Output: 使用str()查看刚才构造的数据框的结构
+  CorrectAnswer: str(planets_df)
+  AnswerTests: omnitest(correctExpr='str(planets_df)')
+  Hint: 使用str()函数
+
+- Class: cmd_question
+  Output: 从planets_df中选择水星"Mercury"的直径diameter：这是第一行和第三列的值。 只需打印出结果
+  CorrectAnswer: planets_df[1,3]
+  AnswerTests: omnitest(correctExpr='planets_df[1,3]')
+  Hint: planets_df[1,3]
+
+- Class: cmd_question
+  Output: 从planets_df选择火星"Mars"上的所有数据（第四行）。 只需打印出结果
+  CorrectAnswer: planets_df[4,]
+  AnswerTests: omnitest(correctExpr='planets_df[4,]')
+  Hint: planets_df[4,]
+
+- Class: cmd_question
+  Output: 选择并打印planets_df的"diameter"列中的前5个值
+  CorrectAnswer: planets_df[1:5,"diameter"]
+  AnswerTests: omnitest(correctExpr='planets_df[1:5,"diameter"]')
+  Hint: 您可以使用planets_df [1：5，...]选择前五个值。 你可以填写...位置只选择“"diameter"”列吗？
+
+- Class: cmd_question
+  Output: 使用$符号从planets_df中选择rings变量。 将结果存储为rings_vector。
+  CorrectAnswer: rings_vector <- planets_df$rings
+  AnswerTests: omnitest(correctExpr='rings_vector <- planets_df$rings')
+  Hint: rings_vector <- planets_df$rings
+
+- Class: cmd_question
+  Output: 在planets_df上使用subset（）来选择diameter小于earth的行星。 因为直径变量是行星地球直径的相对量度，所以你的条件是直径<1
+  CorrectAnswer: subset(planets_df, subset = diameter<1)
+  AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
+  Hint: subset（planets_df，subset = ...）可以解决它; 你可以填写吗
+
+- Class: cmd_question
+  Output: 在planets_df$diameter（planets_df的diameter列）上调用order()。 将结果存储为positions
+  CorrectAnswer: posotions <- order(planets_df$diameter)
+  AnswerTests: omnitest(correctExpr='posotions <- order(planets_df$diameter)')
+  Hint: 使用order(planets_df$diameter)来创建posotions
+
+- Class: cmd_question
+  Output: 现在使用方括号内的posotions向量作为行索引来重新组合planets_df,保留所有列。只需打印出结果。
+  CorrectAnswer: planets_df[posotions,]
+  AnswerTests: omnitest(correctExpr='planets_df[posotions,]')
+  Hint: planets_df[posotions,]
+
+- Class: cmd_question
+  Output: 创建从1到10的数值型向量my_vector
+  CorrectAnswer: my_vector <- 1:10
+  AnswerTests: omnitest(correctExpr='my_vector <- 1:10')
+  Hint: my_vector <- 1:10
+
+- Class: cmd_question
+  Output: 内置数据帧mtcars的前10个行赋给变量my_df
+  CorrectAnswer: my_df <- mtcars[1:10,]
+  AnswerTests: omnitest(correctExpr='my_df <- mtcars[1:10,]')
+  Hint: my_df <- mtcars[1:10,]
+
+- Class: cmd_question
+  Output: 构建一个名为my_list的列表，其中包含变量my_vector和my_df作为列表组件。
+  CorrectAnswer: my_list <- list(my_vector,my_df)
+  AnswerTests: omnitest(correctExpr='my_list <- list(my_vector,my_df)')
+  Hint: 使用my_vector和my_df作为参数的逗号分隔的list（）函数。
+
+- Class: cmd_question
+  Output: 我们已经在你的R工作区创建了mov，act这两个变量,创建列表name_list,将mov这个指定名字为moviename,act指定名字为actors
+  CorrectAnswer: name_list <- list(moviename=mov,actors=act)
+  AnswerTests: omnitest(correctExpr='name_list <- list(moviename=mov,actors=act)')
+  Hint: name_list <- list(moviename=mov,actors=act)
+
+- Class: cmd_question
+  Output: 从name_list中选择act的向量。 只需打印出这个结果。
+  CorrectAnswer: name_list["actors"]
+  AnswerTests: any_of_exprs('name_list["actors"]','name_list$actors')
+  Hint: name_list["actors"]或者name_list$actors
+
+- Class: cmd_question
+  Output: 将名为year的值为1980的项name_list中
+  CorrectAnswer: name_list <- c(name_list,year=1980)
+  AnswerTests: omnitest(correctExpr='name_list <- c(name_list,year=1980)')
+  Hint: name_list <- c(name_list,year=1980)
+
+- Class: cmd_question
+  Output: 用str（）函数查看name_list的结构
+  CorrectAnswer: str(name_list)
+  AnswerTests: omnitest(correctExpr='str(name_list)')
+  Hint: str(name_list)

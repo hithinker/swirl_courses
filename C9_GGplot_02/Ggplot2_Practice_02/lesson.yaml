@@ -1,0 +1,230 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: GGPlot2_Part1
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本课中，我们将重点介绍R中的第三个和最新的绘图系统ggplot2。正如我们对其他两个系统所做的那样，我们将专注于在屏幕设备上创建图形而不是其他图形设备
+
+- Class: text
+  Output: ggplot2包是通过install.packages（）从CRAN提供的附加包。 （不用担心，我们已经为你安装了。）这是一个Grammar of Graphics(图形语法)的实现，这是一个由Leland Wilkinson创作和发明的抽象概念（以及书），由Hadley Wickham在他爱荷华州立大学研究生。网站http://ggplot2.org提供完整的文档。
+
+- Class: text
+  Output: 图形语法表示图形的抽象，也就是图形理论，它将构成新图形和图形对象的基本构件概念化。语法的目标是“缩短从想法到纸面的距离”。
+    从哈德利·韦翰的书中，我们了解到这一点
+
+- Class: text
+  Output:  ggplot2软件包“由一组独立的组件组成，可以用许多不同的方式组合...您可以创建新的图形，并根据您的问题进行精确定制。这些组件包括诸如颜色，形状和尺寸等属性的外观，以及诸如点，线和条的几何对象或几何体。
+
+- Class: text
+  Output: 在我们深入细节之前，让我们回顾一下其他两个绘图系统。
+
+- Class: mult_question
+  Output: 回想一下你对R的基本绘图系统的了解。以下哪项不正确？
+  AnswerChoices: Start with plot (or similar) function; Use annotation functions to add/modify (text, lines, points, axis); It is convenient and mirrors how we think of building plots and analyzing data; Can easily go back once the plot has started (e.g., to adjust margins or correct a typo)
+  CorrectAnswer: Can easily go back once the plot has started (e.g., to adjust margins or correct a typo)
+  AnswerTests: omnitest(correctVal='Can easily go back once the plot has started (e.g., to adjust margins or correct a typo)')
+  Hint: 哪一个选择是唯一一个表示回退绘图过程的? 
+
+- Class: mult_question
+  Output: 回想一下你对R的格子(lattice)绘图系统的了解。以下哪项不正确？
+  AnswerChoices:  Plots are created with a single function call (xyplot, bwplot, etc.); Most useful for conditioning types of plots and putting many panels on one plot; Margins and spacing are set automatically because entire plot is specified at once; Can always add to the plot once it is created
+  CorrectAnswer: Can always add to the plot once it is created
+  AnswerTests: omnitest(correctVal='Can always add to the plot once it is created')
+  Hint: 哪一个选择是唯一与其他三个不一致的选择？ 
+
+- Class: mult_question
+  Output: 如果我们告诉你，ggplot2结合了最好的base绘图和lattice绘图，这将意味着...？
+  AnswerChoices: Automatically deals with spacings, text, titles but also allows you to annotate; Like lattice it allows for multipanels but more easily and intuitively; Its default mode makes many choices for you (but you can customize!); All of the others  
+  CorrectAnswer: All of the others
+  AnswerTests: omnitest(correctVal='All of the others')
+  Hint: 哪一个选择是唯一包含其他三个选项的?
+
+- Class: text
+  Output: 是的，ggplot2结合了最好的base绘图和lattice绘图。它允许多面板(panel)（conditioning即条件绘图）图（和lattice一样），但也可以事后注释（如base绘图），所以你可以添加标题和标签。
+    它使用底层grid包（R）来绘制图形。作为其语法哲学的一部分，ggplot2图由外观设计（如尺寸，形状，颜色等属性）和几何图形（点，线条和条）组成，
+    您在图上看到的几何对象。
+    
+- Class: text
+  Output: ggplot2包有2个主力函数。更基本的主要函数是qplot（快速绘图quick plot），它像基本图形系统中的plot函数一样工作。
+    它可以产生许多类型的图形（散点，直方图，箱线图），同时为用户隐藏单调乏味的细节。与lattice函数类似，它在数据框或父环境中查找数据。
+
+- Class: text
+  Output: 包中更高级的主力函数是ggplot，它更灵活，可以为qplot无法做的定制事情。在本节课中，我们将重点介绍qplot。
+    
+- Class: cmd_question
+  Output: 我们将首先展示qplot是多么的简单和多功能。首先，我们来看一下ggplot2软件包附带的一些数据。 
+    mpg数据框包含1999年和2008年制造的38款车型的燃油经济性数据。运行R函数str,参数是mpg。这会为你展示mpg的结构。
+  CorrectAnswer: str(mpg)
+  AnswerTests: omnitest(correctExpr='str(mpg)')
+  Hint: 在命令提示符下输入str（mpg）
+
+- Class: cmd_question
+  Output: 我们看到数据集中有234个关于汽车11个不同特征的记录。假设我们想看看发动机排量（displ）与每加仑油耗公里数（hwy）
+    之间是否有相关关系。正如我们在base基本系统的plot函数所做的那样，我们可以简单地用三个参数调用qplot，前两个是我们想要测试的变量，
+    第三个参数data设置为等于包含它们的数据集的名称（在这个情况下，MPG）。现在试试这个。
+  CorrectAnswer: qplot(displ, hwy, data = mpg)
+  AnswerTests: omnitest(correctExpr='qplot(displ, hwy, data = mpg)')
+  Hint: 在命令提示符下输入qplot（displ，hwy，data = mpg）
+
+- Class: cmd_question
+  Output: 一个简单的散点图，对吗？所有的标签都自动添加了。第一个参数沿x轴显示，第二个沿y轴显示。负面趋势（增加排量和降低耗油量）非常明显。
+    现在假设我们要做同样的绘图，但这次使用不同的颜色来区分数据中不同类型驱动器（drive (drv)，包含front-wheel, rear-wheel, and 4-wheel三种类型）的不同数据。
+    再一次，qplot使这非常简单。我们将只添加ggplot2所称的美学，第四个参数， color，并将其设置为等于drv。现在试试这个。 （使用向上箭头键来节省一些输入。）
+  CorrectAnswer: qplot(displ, hwy, data = mpg, color = drv)
+  AnswerTests: omnitest(correctExpr='qplot(displ, hwy, data = mpg, color = drv)')
+  Hint: 在命令提示符下输入qplot（displ，hwy，data = mpg，color = drv）
+
+- Class: text
+  Output: 很酷，对吗？请参阅qplot提供的右侧的图例？颜色是由qplot自动分配的，所以图例为你解码颜色。请注意，qplot自动使用点或点来表示数据。
+    这些点是几何对象（几何对象）。我们可以使用不同的外观，例如形状而不是颜色来区分驱动器类型。
+
+- Class: cmd_question
+  Output: 现在让我们添加第二个几何特征到默认点。产生趋势线的一些平滑函数怎么使用，每种颜色一条趋势线？只需添加第五个参数geom，
+    并使用R函数c（），将其设置为等于两个字符串“point”和“smooth”的连接。第一个是指数据点，第二个是我们想要绘制的趋势线。现在试试这个。
+  CorrectAnswer: qplot(displ, hwy, data = mpg, color=drv, geom = c("point", "smooth"))
+  AnswerTests: omnitest(correctExpr='qplot(displ, hwy, data = mpg, color=drv, geom = c("point", "smooth"))')
+  Hint: 在命令提示符下输入qplot（displ，hwy，data = mpg，color = drv，geom = c（“point”，“smooth”））
+
+- Class: text
+  Output: 注意每个趋势线周围的灰色区域。这些表示线的95％置信区间。
+
+- Class: cmd_question
+  Output: 在我们离开qplot的散点图函数之前，再次调用qplot，这次有3个参数。第一个是y设置为hwy，第二个是数据设置等于mpg，第三个是颜色设置等于drv。现在试试这个。
+  CorrectAnswer: qplot(y=hwy, data = mpg, color = drv)
+  AnswerTests: omnitest(correctExpr='qplot(y=hwy, data = mpg, color = drv)')
+  Hint: 在命令提示符下输入qplot（y = hwy，data = mpg，color = drv）。
+
+- Class: cmd_question
+  Output: 图形显示了什么？我们看到x轴的范围是从0到250，我们记得我们有234个数据点，所以我们可以推断出图中的每个点代表hwy值之一（由y轴表示）。
+    我们为您创建了包含来自mpg数据集的hwy数据的向量myhigh。现在看看我的。
+  CorrectAnswer: myhigh
+  AnswerTests: omnitest(correctExpr='myhigh')
+  Hint: 在命令提示符下输入myhigh。
+
+- Class: text
+  Output: 比较myhigh的值和图中的y值，我们看到向量（29,29,31,30，...）中的第一个元素对应于图中最左边的点（按顺序），
+    最后一个元素（28,29,26,26,26）对应于最右边的绘图点。因此，仅指定y参数（不带x参数），会按照y参数在数据中出现的顺序绘制y参数的值。
+
+- Class: cmd_question
+  Output: 通用的qplot也可以创建箱线图。现在用4个参数调用qplot。首先指定要分割数据的变量，在本例中为drv，然后指定要绘图的变量，
+    在本例中为hwy。第三个参数是数据（设置等于mpg），第四个是geom，设置等于字符串“boxplot”
+  CorrectAnswer: qplot(drv,hwy,data=mpg,geom="boxplot")
+  AnswerTests: omnitest(correctExpr='qplot(drv,hwy,data=mpg,geom="boxplot")')
+  Hint: 在命令提示符下输入qplot（drv，hwy，data = mpg，geom =“boxplot”）。
+
+- Class: cmd_question
+  Output: 我们看到3个盒子，每个驱动器(drive)一个。用5个参数调用qplot。前4个就像以前一样，（drv，hwy，数据集等于mpg，geom设置等于字符串“boxplot”）。
+    现在添加第五个参数，颜色等于manufacturer(制造商)。
+  CorrectAnswer: qplot(drv,hwy,data=mpg,geom="boxplot",color=manufacturer)
+  AnswerTests: omnitest(correctExpr='qplot(drv,hwy,data=mpg,geom="boxplot",color=manufacturer)')
+  Hint: 在命令提示符下输入qplot(drv,hwy,data=mpg,geom="boxplot",color=manufacturer)
+
+- Class: text
+  Output: 有点压扁，但我们只是想说明qplot的功能。请注意，图中还是3个区域（由drv决定）。每个被细分成描述不同制造商的几个框。
+
+- Class: cmd_question
+  Output: 现在，到直方图。这些显示单个变量的频率计数。让我们从一个简单的开始。用3个参数调用qplot。首先指定你想要频率计数的变量，
+    在这个例子中是hwy，然后指定数据（设置等于mpg），最后，外观变量， fill，设置等于drv。而不是简单的旧直方图，这将再次使用颜色来区分3种不同的驱动因素(drive factors)。
+  CorrectAnswer: qplot(hwy, data = mpg, fill = drv)
+  AnswerTests: omnitest(correctExpr='qplot(hwy, data = mpg, fill = drv)')
+  Hint: 在命令提示符下输入qplot（hwy，data = mpg，fill = drv）。
+
+- Class: text
+  Output: 看看qplot如何使用颜色。红色（如果四轮驱动在长条图中）位于条状图的底部，然后是绿色（如果存在），然后是蓝色（后轮读懂）。
+    颜色让我们马上看到，在这个数据集中的四轮驱动车辆没有超过每加仑30英里的汽油里程。
+- Class: text
+  Output: qplot很容易做到这一点很酷，但有些人可能会发现这种多色直方图很难解释。让我们使用facet或面板（这就是lattice中的叫法面板）而不是使用颜色来区分驱动因素。
+    这只是意味着我们将数据分成3个子集（根据驱动器），每个子集有一个调用qplot，制作3个较小的独立绘图。
+
+- Class: cmd_question
+  Output:  我们将做两个图，一个散点图，然后是一个直方图，每个都有3个方面。对于散点图，用4个参数调用qplot。
+    前两个是displ和hwy，第三个是参数数据集等于mpg。第四个是将被设置为等于该表达的参数刻面。 
+    .~drv，它是ggplot2对行数（在~的左边）和列数（在~的右边）的简写。在这里.表示单行，drv意味着3，因为有3个不同的驱动因素。现在试试这个。
+  CorrectAnswer: qplot(displ, hwy, data = mpg, facets = . ~ drv)
+  AnswerTests: omnitest(correctExpr='qplot(displ, hwy, data = mpg, facets = . ~ drv)')
+  Hint: 在命令提示符下输入qplot（displ，hwy，data = mpg，facets =.~drv）
+
+- Class: text
+  Output: 结果是1×3阵列的图。请注意，每个标签的顶部都标有因子标签（4，f或r）。这显示了比直方图更详细的信息,
+    我们看到三个驱动因素中的每一个的位移和公路里程之间的关系。
+
+- Class: cmd_question
+  Output: 现在我们将做一个直方图，再次用4个参数调用qplot。这一次，因为我们只需要一个直方图的变量，第一个是hwy，第二个是参数数据集等于mpg。第三个是我们将设置的等于表达式drv~.的参数facets。这将给我们不同的方面安排。第四个参数是binwidth。设置这等于2.现在试试这个。
+  CorrectAnswer: qplot(hwy, data = mpg, facets = drv ~ ., binwidth = 2)
+  AnswerTests: omnitest(correctExpr='qplot(hwy, data = mpg, facets = drv ~ ., binwidth = 2)')
+  Hint: 在命令提示符下输入qplot(hwy, data = mpg, facets = drv ~ ., binwidth = 2).
+  
+- Class: cmd_question
+  Output: 我们将继续使用ggplot2软件包附带的mpg数据。回想一下qplot的多功能性。就像复习一下，现在用5个参数调用qplot。前3个数据处理，
+    displ,hwy和data = mpg。第四是geom设置等于两个字符串的连接“point”和“smooth”。第五个方面是等于公式 .~drv.。现在试试这个。
+    我们会看到一个3面板的图，每个驱动器类型（4，f和r）
+  CorrectAnswer: qplot(displ, hwy, data = mpg, geom=c("point", "smooth"),facets=.~drv)
+  AnswerTests: omnitest(correctExpr='qplot(displ, hwy, data = mpg, geom=c("point", "smooth"),facets=.~drv)')
+  Hint: 在命令提示符下输入qplot(displ, hwy, data = mpg, geom=c("point", "smooth"),facets=.~drv)。
+    
+- Class: mult_question
+  Output: 方面参数drv~.产生了什么样的安排
+  AnswerChoices:  1 by 3; 3 by 1; 2 by 2; huh?
+  CorrectAnswer:  3 by 1
+  AnswerTests: omnitest(correctVal='3 by 1')
+  Hint: 多少行？多少列？
+
+
+- Class: text
+  Output:  很好，对不对？也不是太困难。让我们回顾一下我们学到的东西
+
+- Class: mult_question
+  Output: 以下哪一项是ggplot2的基本函数？
+  AnswerChoices:  hist; xyplot; scatterplot; gplot; qplot
+  CorrectAnswer:  qplot
+  AnswerTests: omnitest(correctVal='qplot')
+  Hint: 我们在本课中调用了哪个函数？
+
+- Class: mult_question
+  Output:  qplot绘制哪些类型的图形？
+  AnswerChoices:  histograms; scatterplots; box and whisker plots; all of the others
+  CorrectAnswer: all of the others
+  AnswerTests: omnitest(correctVal='all of the others')
+  Hint: 那个qplot太棒了！它似乎尽了一切！
+
+- Class: mult_question
+  Output: ggplot2中的gg代表什么？
+  AnswerChoices:  good grief; grammar of graphics; goto graphics; good graphics
+  CorrectAnswer: grammar of graphics
+  AnswerTests: omnitest(correctVal='grammar of graphics')
+  Hint: 考虑构建模块和组件。
+
+- Class: mult_question
+  Output:  对还是错？ geom参数的值是一个字符串。
+  AnswerChoices:  True; False
+  CorrectAnswer: True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 回想一下我们的例子，例如geom =“density”。
+
+- Class: mult_question
+  Output:  对还是错？data参数需要一个字符串作为值。
+  AnswerChoices:  True; False
+  CorrectAnswer: True
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回想我们的例子。我们曾经把数据集的名字放在引号中吗？
+
+- Class: mult_question
+  Output:  对还是错？ binwidth参数需要一个字符串作为值。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回想我们的例子，例如，binwidth = 18497/30。
+
+- Class: mult_question
+  Output:  对还是错？用户在使用qplot时必须指定x轴和y轴标签。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回顾我们的例子，当我们看到标签，我们没有指定。
+
+- Class: text
+  Output: 祝贺！你已经完成了ggplot2的绘图1!!

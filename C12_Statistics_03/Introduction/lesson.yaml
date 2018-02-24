@@ -1,0 +1,121 @@
+- Class: meta
+  Course: Regression_Models
+  Lesson: Introduction
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 这是回归模型的第一课。我们将从 "regression toward the mean"的概念开始，并以法医学之父弗朗西斯·高尔顿（Sir Francis Galton）先生的
+    一些开拓性工作来说明这一点。
+
+- Class: text
+  Output: 弗朗西斯爵士研究了父母身高与子女身高之间的关系。他的工作表明，高于平均水平的父母的孩子身材也很高，但接近平均身高。同样，
+    比平均水平矮的父母的子女也比平均水平矮，但与父母相比，矮的少。也就是说，他们更接近平均身高。从一代到下一代，身高接近平均水平或向平均水平回归。
+
+- Class: text
+  Output: 对于本课，我们将使用弗朗西斯爵士的父母/孩子身高数据，我们已经为您加载了数据，存储在了变量，galton。所以让我们开始吧！
+
+- Class: figure
+  Output: 这里是galton的数据，一组928个父母/孩子身高对的图形。妈妈和爸爸的高度一起平均（妈妈的高度调整了1.08倍）。在我们的图中，
+    我们在孩子身高上使用了R函数"jitter"来突出显示最常出现的高度。每列的黑点从左到右上升，表明儿童的身高依赖于父母的身高。
+    高大的父母有高大的孩子，矮小的父母有矮小的孩子。
+  Figure: plot1_children_vs_parents.R
+  FigureType: new
+
+- Class: figure
+  Output: 在这里，我们添加一条红色（45度）斜率为1，截距为0的线到图中。如果孩子们和父母的高度相同，我们可以期望数据在这条线上的变化是均匀的。
+    我们看到情况并非如此。在图的左半部分，我们看到在线上的高度集中，在右半部分，我们看到在线以下集中。
+  Figure: plot2_identity_line.R
+  FigureType: add
+
+- Class: figure
+  Output: 现在我们在图上添加了一条蓝色的回归线。这是它周围数据的最小变化的线。其斜率大于零，表示父母的身高确实影响了孩子的身高。
+    如果儿童与父母的高度相同，则斜率也小于1。
+  Figure: plot3_regression_line.R
+  FigureType: add
+
+- Class: cmd_question
+  Output: 现在轮到你R中进行绘图。在R提示符处输入“plot（child~parent，galton）”。
+  CorrectAnswer: plot(child ~ parent, galton)
+  AnswerTests: omnitest(correctExpr='plot(child ~ parent, galton)')
+  Hint: 在R提示符处输入“plot（child~parent，galton）”。
+  Figure: restore_1.R
+  FigureType: new
+
+- Class: text
+  Output: 你会注意到这个图与我们显示的原始图看起来有很大的不同。为什么？在测量误差之内，许多人都是一样的高度，所以圆圈相互重叠。
+    你可以看到有些圆圈比其他圆圈显得更黑。然而，通过在儿童身高上使用R的函数"jitter"，我们可以分散数据来模拟测量误差，并使高频高度更加明显。
+
+- Class: cmd_question
+  Output: 现在轮到你来试试了。只要输入“plot（jitter（child，4）~parent，galton）”就可以看到了
+  CorrectAnswer: plot(jitter(child,4) ~ parent,galton)
+  AnswerTests: omnitest(correctExpr='plot(jitter(child,4) ~ parent,galton)')
+  Hint: 你可以做到！输入“plot（jitter（child，4）~parent，galton）”
+  Figure: restore_2.R
+  FigureType: new
+
+- Class: text
+  Output: 现在回到回归线。这在R中是相当容易的。函数lm（线性模型）需要一个“formula”(公式)和数据集。你可以输入"？formula"来获得更多的信息，
+    但是，简单地说，我们只需要指定因变量（孩子的身高）~自变量（父母的身高）。
+
+- Class: cmd_question
+  Output: 因此，生成回归线并将其存储在变量regrline中。输入“regrline <- lm（child~parent，galton）”
+  CorrectAnswer: regrline <- lm(child ~ parent, galton)
+  AnswerTests: omnitest(correctExpr='regrline <- lm(child ~ parent, galton)');expr_creates_var('regrline')
+  Hint: 你可以做到！输入“regrline <- lm（child~parent，galton）”
+
+- Class: cmd_question
+  Output: 现在用“abline”将回归线添加到图中。使线宽和红色的可见性。输入“abline（regrline，lwd = 3，col ='red'）”
+  CorrectAnswer: abline(regrline, lwd=3, col='red')
+  AnswerTests: omnitest(correctExpr='abline(regrline, lwd=3, col=\'red\')')
+  Hint: 是的，你可以！输入“abline（regrline，lwd = 3，col ='red'）”
+  Figure: restore_3.R
+  FigureType: add
+
+- Class: cmd_question
+  Output: 回归线将具有从数据估计的斜率和截距。估计不准确。他们的准确性是用理论技术来衡量的，用"standard error." (“标准误差”)来表示。
+    您可以使用summary(regrline)来检查Galton回归线。现在就做这个。
+  CorrectAnswer: summary(regrline)
+  AnswerTests: omnitest(correctExpr='summary(regrline)')
+  Hint: 这个很简单。输入summary(regrline)
+
+- Class: mult_question  
+  Output: 线的斜率是对“父母身高”的系数或乘数的估计，父母身高是我们数据的自变量（在这种情况下是父母的高度）。
+    从“summary”的输出是什么回归线的斜率？
+  AnswerChoices: .64629;.04114;23.94153
+  CorrectAnswer: .64629
+  AnswerTests: omnitest(correctVal= '.64629')
+  Hint: 看看标记为"parent"的行和"Estimate"列
+
+- Class: mult_question  
+  Output: 斜率的标准误差是多少？
+  AnswerChoices: .64629;.04114;23.94153
+  CorrectAnswer: .04114
+  AnswerTests: omnitest(correctVal= '.04114')
+  Hint: 查看标有“父”的行和“标准错误”列
+
+- Class: text
+  Output: 有95％的可能性，系数将在其估计的2个标准误差之内。这意味着我们的回归的斜率与0或1有显着的不同，
+    因为（.64629）+/-（2 * .04114）既不接近0，也不接近1。
+- Class: figure
+  Output: 现在我们添加两条蓝线来表示儿童身高（水平）和父母（垂直）的平均值。请注意，这些线条和回归线都相交于一点。
+    我们将在稍后的课程中进一步讨论这个问题。 （你可以期待的东西。）
+  Figure: plot4_mean_heights.R
+  FigureType: add
+
+- Class: figure
+  Output: 线的斜率显示水平方向的变化在垂直方向上产生多少变化。所以，高于平均身高1英寸的父母往往会有比平均水平高出0.65英寸的孩子。
+    绿色的三角形说明了这一点。平均来说，将“1英寸的距离”水平移动到右侧（增加父母的身高）会使垂直方向（儿童的身高）增加“0.65英寸”。
+  Figure: plot5_triangle1.R
+  FigureType: add
+
+- Class: figure
+  Output: 同样，身高在平均身高1英寸以下的父母孩子的身高只比平均身高低0.65英寸。紫色三角形说明了这一点。平均来说，将“1英寸的距离”水平移动到左边
+    （降低父母的身高）会使垂直方向（儿童的身高）减少“0.65英寸”。
+  Figure: plot5_triangle2.R
+  FigureType: add
+
+- Class: text
+  Output: 这就结束了我们回归。我们希望你发现它高于平均水平！

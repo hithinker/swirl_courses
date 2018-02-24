@@ -1,0 +1,144 @@
+- Class: meta
+  Course: Base_Graph_01
+  Lesson: introduction_base_graphics
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+
+- Class: text
+  Output: 本章简要介绍了R中使用基本绘图系统所能做的一些事情。这个图形系统是R中四种可用的图形系统之一，它构成了本课程的基础，
+    因为它既是最容易学习的，也是非常有用的探索性数据可视化，帮助您查看数据集中的内容以及准备解释性数据可视化，以帮助其他人查看我们发现的内容。
+
+- Class: text
+  Output: 创建一个探索性图形阵列。根据数据框架构建一个简单的探索性图表，给出三个变量的值，记录在两个冬季采暖季节。 变量是：
+    温度Temp：一周内外部温度的测量值，气体Gas：当周消耗的加热气体量，Insul：具有两个值的分类变量，指示是在对房屋进行绝缘升级之前
+    还是之后进行测量
+
+- Class: cmd_question
+  Output: 将plot（）函数应用于MASS包whiteside数据框。MASS包已经为你加载到工作环境中去了。
+  CorrectAnswer: plot(whiteside)
+  AnswerTests: omnitest(correctExpr='plot(whiteside)')
+  Hint: plot(whiteside)
+
+- Class: text
+  Output: 现在我们讲解一下如何创建散点图。与上一个练习中创建的探索性分析图相对比，本练习要求你创建一个简单的说明性散点图，适合与其他人共享。
+    在这里，在构建这个图形时做出按照需求传入适当参数是很重要的，而不是完全依赖于默认选项。 特别是，这个图的重要属性方面是。首先是要绘制的变量，
+    其次是轴标签，它们被指定为plot（）函数的xlab和ylab参数指定的字符串。
+
+- Class: cmd_question
+  Output: 使用plot（）函数从whiteside数据框中构建加热气体消耗量Gas外部温度Temp之间关系的散点图。 标记x轴和y轴以分别指示图中的变量
+    （分别用"Outside temperature" 和"Heating gas consumption"）。
+  CorrectAnswer: plot(whiteside$Temp,whiteside$Gas,xlab=="Outside temperature".ylab=""Heating gas consumption"")
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Temp,whiteside$Gas,xlab=="Outside temperature".ylab=""Heating gas consumption"")')
+  Hint: plot(whiteside$Temp,whiteside$Gas,xlab=="Outside temperature".ylab=""Heating gas consumption"")
+
+- Class: text
+  Output: plot（）函数是通用的。plot（）函数的一个关键特征是它是通用的，这意味着应用函数的结果取决于它所应用的对象的性质。
+    在上边第一个练习中，将plot（）函数应用于whiteside数据框导致了一个plot阵列。 在这里，当我们将相同的函数应用于Insul
+    （一个来自whiteside数据框的因子变量）时，我们获得了根本不同的结果。试试看
+
+- Class: cmd_question
+  Output: 将plot（）函数应用于whiteside数据框的Insul变量。
+  CorrectAnswer: plot(whiteside$Insul)
+  AnswerTests: omnitest(correctExpr='plot(whiteside$Insul)')
+  Hint: plot(whiteside$Insul)
+
+- Class: text
+  Output: 使用点(point)形状，颜色(color)和参考线将细节添加到图形中去。在解释性图表中添加更多细节可以帮助强调数据的某些方面。 
+    例如，通过指定plot（）函数的pch和col参数，可以添加不同的点形状和颜色，以显示数据的不同变量或子集如何相互关联。 另外，
+    可以使用points（）函数将新的一组点添加到现有的散点图中，并使用abline（）函数添加参考线。
+    使用这些方法创建一个增强的散点图，以有效地显示Cars93数据框中的三个变量如何相互关联。 这些变量是：价格Price：汽车的平均销售价格
+    Max.Price：该车的最高价，Min.Price：该车的最低价格
+
+- Class: cmd_question
+  Output: 使用MASS包里的Cars93数据框。MASS包已经为你加载到了工作环境中了。使用plot（）函数创建Max.Price变量与Price变量的散点图，
+    指定pch和col参数，以便将数据点表示为红色实心三角形。 绘制实心三角形的pch值是17。
+  CorrectAnswer: plot(Cars93$Price,Cars93$Max.Price,pch=17,col="red")
+  AnswerTests: omnitest(correctExpr='plot(Cars93$Price,Cars93$Max.Price,pch=17,col="red")')
+  Hint: plot(Cars93$Price,Cars93$Max.Price,pch=17,col="red"),注意要指定的参数
+
+- Class: cmd_question
+  Output: 继续使用数据框Cars93,使用points（）函数将第二组点添加到散点图，表示Min.Price与Price，其中新数据点表示为蓝色(col)实心圆。 
+    实心圆的pch值是16。
+  CorrectAnswer: points(Cars93$Price,Cars93$Min.Price,pch=16,col="blue")
+  AnswerTests: omnitest(correctExpr='points(Cars93$Price,Cars93$Min.Price,pch=16,col="blue")')
+  Hint: 使用函数points
+
+- Class: cmd_question
+  Output: 使用abline（）函数添加虚线(lty=2)的相等参考线（即，具有y截距0和斜率1的线）。 请自行查阅查看abline（）以了解a和b引用的参数。
+  CorrectAnswer: abline(a=0,b=1,lty=2)
+  AnswerTests: omnitest(correctExpr='abline(a=0,b=1,lty=2)')
+  Hint: abline(a=0,b=1,lty=2)
+
+- Class: text
+  Output: 创建多个图像的阵列您可以使用具有mfrow参数的par（）函数在单个窗格上绘制多个图形。 例如，par（mfrow = c（1，2））创建一个具有
+    1行和2列的图形阵列，允许您并排查看两个图形。 这样，您可以比较和对比不同的数据集或同一数据集的不同视图。 
+    本练习要求您比较robustbase软件包中的两个Animals2数据集视图，它们的变量表示方式不同。这个练习的目的是强调我们在数据集中的变量的
+    原始表示并不总是最好的可视化或分析。 例如，通过以对数表示原始变量，我们可以更好地了解和理解数据。robustbase我们已经加载过了。
+
+- Class: cmd_question
+  Output: 使用par（）函数并设置mfrow参数来创建1行2列的并排绘图阵列。
+  CorrectAnswer: par(mfrow=c(1,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(1,2))')
+  Hint: par(mfrow=c(1,2))
+
+- Class: cmd_question
+  Output: 使用plot（）函数从Animals2数据框中创建变量brain与body的散点图，而不指定其他参数
+  CorrectAnswer: plot(Animals$body,Animals$brain)
+  AnswerTests: omnitest(correctExpr='plot(Animals$body,Animals$brain)')
+  Hint: plot(Animals$body,Animals$brain)
+
+- Class: cmd_question
+  Output: 调用plot（）后运行 title("Original representation")看看会发生什么情况。
+  CorrectAnswer: title("Original representation")
+  AnswerTests: omnitest(correctExpr='title("Original representation")')
+  Hint: title("Original representation")
+
+- Class: cmd_question
+  Output: 再次使用plot（）函数，但是这次使用log =“xy”来生成对数标度的x和y变量的图。
+  CorrectAnswer: plot(Animals$body,Animals$brain,log="xy")
+  AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
+  Hint: plot(Animals$body,Animals$brain,log="xy")
+
+- Class: cmd_question
+  Output: 使用title（）函数将“Log-log plot”添加为第二个图的标题。
+  CorrectAnswer: title("Log-log plot")
+  AnswerTests: omnitest(correctExpr='title("Log-log plot")')
+  Hint: title("Log-log plot")
+
+- Class: text
+  Output: 相同的数据集可以以多种不同的方式显示或汇总，但有些数据集比其他数据集合适得多。尽管普遍受欢迎，但饼图往往是一个糟糕的选择。 
+    虽然R允许使用pie（）函数的饼图，但即使该函数的帮助文件也反对使用它们。 具体来说，帮助文件包含一个“注释”，以“饼图是显示信息的一种
+    非常糟糕的方式”开头。条形图是一个推荐的选择
+
+- Class: cmd_question
+  Output: data（）函数从insuranceData包中加载dataCar数据帧。insuranceData包已经为你加载到了工作环境中去了。指定加载的数据集名称，并指定包名。
+  CorrectAnswer: data(dataCar,package="insuranceData")
+  AnswerTests: omnitest(correctExpr='data(dataCar,package="insuranceData")')
+  Hint: data(dataCar,package="insuranceData")
+
+- Class: cmd_question
+  Output: 使用par（）函数并设置mfrow参数来创建1行2列的并排绘图数组。
+  CorrectAnswer: par(mfrow=c(1,2))
+  AnswerTests: omnitest(correctExpr='par(mfrow=c(1,2))')
+  Hint: par(mfrow=c(1,2))
+
+- Class: cmd_question
+  Output: 使用table（）函数和sort（）函数按照递减顺序创建dataCar数据框中veh_body变量的不同水平的计数表。 叫这个表tbl。注意使用递减的顺序排序
+    要指定sort()函数的decreasing参数为TRUE。
+  CorrectAnswer: tbl <- sort(table(dataCar$veh_body),decreasing=TRUE)
+  AnswerTests: omnitest(correctExpr='tbl <- sort(table(dataCar$veh_body),decreasing=TRUE)')
+  Hint: tbl <- sort(table(dataCar$veh_body),decreasing=TRUE)
+
+- Class: cmd_question
+  Output: 将tbl传递给pie（）函数，以便将该数据的饼图表示形成为左侧图。
+  CorrectAnswer: pie(tbl)
+  AnswerTests: omnitest(correctExpr='pie(tbl)')
+  Hint: pie(tbl)
+
+- Class: cmd_question
+  Output: 同样，使用barplot（）创建相同数据的barplot表示，指定las = 2使两组标签垂直于坐标轴，并使用cex.names = 0.5使名称标签减半默认大小。
+  CorrectAnswer: barplot(tbl,las=2,cex.names=0.5)
+  AnswerTests: omnitest(correctExpr='barplot(tbl,las=2,cex.names=0.5)')
+  Hint: barplot(tbl,las=2,cex.names=0.5)

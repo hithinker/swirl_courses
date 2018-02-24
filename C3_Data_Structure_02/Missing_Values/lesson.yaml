@@ -1,0 +1,142 @@
+- Class: meta
+  Course: Data_Structure_2
+  Lesson: Missing_Values
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 缺失值(Missing Values)在统计和数据分析中起着重要的作用。缺失值往往不能被忽略，而是应该仔细研究，看看是否存在潜在的缺失模式或原因。
+
+- Class: text
+  Output: 在R中，NA用于表示“不可用”或“缺少”（在统计意义上）的任何值。在本节课中，我们将进一步探索NA。
+  
+- Class: text
+  Output: 在R中，字符型和数值型数据的缺失值符号是一致的。
+  
+- Class: cmd_question
+  Output: 定义向量y,元素值为1,2,3,NA
+  CorrectAnswer: y<-c(1,2,3,NA)
+  AnswerTests: omnitest(correctExpr='y<-c(1,2,3,NA)')
+  Hint: 使用函数c
+  
+- Class: cmd_question
+  Output: 函数is.na()允许你监测缺失值是否存在,使用这个函数判y中是否存在缺失值。
+  CorrectAnswer: is.na(y)
+  AnswerTests: omnitest(correctExpr='is.na(y)')
+  Hint: 使用函数is.na()
+
+- Class: cmd_question
+  Output: 可以使用赋值语句将某些值编码为缺失值。将向量y的第一个元素编码为NA
+  CorrectAnswer: y[1]<-NA
+  AnswerTests: omnitest(correctExpr='y[1]<-NA')
+  Hint: 常规的赋值语句即可
+
+- Class: cmd_question
+  Output: 很多的数值函数都有一个na.rm=TRUE的选项，可以在计算之前移除缺失值并使用剩余值进行计算。使用sum函数的na.rm选项来计算y元素的和
+  CorrectAnswer: sum(y,na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='sum(y,na.rm=TRUE)')
+  Hint: 在sum参数里指定na.rm的值为TRUE
+
+- Class: cmd_question
+  Output: na.omit移除所有含有缺失值的观测。在数据框里会移除含有NA的所有行。用y作为参数看一下执行效果。
+  CorrectAnswer: na.omit(y)
+  AnswerTests: omnitest(correctExpr='na.omit(y)')
+  Hint: 将y作为na.omit的参数运行na.rm
+
+- Class: cmd_question
+  Output: 任何涉及NA的操作通常都会产生NA。为了说明，我们创建一个向量c（44，NA，5，NA）并将其赋值给一个变量x。
+  CorrectAnswer: x <- c(44, NA, 5, NA)
+  AnswerTests: omnitest(correctExpr='x <- c(44, NA, 5, NA)')
+  Hint: 将向量c（44，NA，5，NA）赋值给一个变量x。 NA必须大写。
+
+- Class: cmd_question
+  Output: 现在，用x乘以3。
+  CorrectAnswer: x * 3
+  AnswerTests: any_of_exprs('x * 3', '3 * x')
+  Hint: x * 3.
+
+- Class: text
+  Output: 注意，与x中的NA值相对应的结果向量的元素也是NA。
+
+- Class: cmd_question
+  Output: 为了让事情变得更有趣，我们使用y <- rnorm（1000）创建一个包含1000个从标准正态分布的抽取随机值的向量。
+  CorrectAnswer: y <- rnorm(1000)
+  AnswerTests: omnitest(correctExpr='y <- rnorm(1000)')
+  Hint: 函数rnorm（）从正态分布生成随机数。键入y <- rnorm（1000）。
+
+- Class: cmd_question
+  Output: 接下来，让我们用z <- rep（NA，1000）创建一个包含1000个NA的向量。
+  CorrectAnswer: z <- rep(NA, 1000)
+  AnswerTests: omnitest(correctExpr='z <- rep(NA, 1000)')
+  Hint: 键入z <- rep（NA，1000）生成包含1000个NA的向量。
+
+- Class: cmd_question
+  Output: 最后，我们从这2000个值（结合y和z）中随机选择100个元素，但是我们不知道我们有多少个NAs，以及最终向量中
+    它们的位置--my_data <- sample(c(y,z),100)
+  CorrectAnswer: my_data <- sample(c(y, z), 100)
+  AnswerTests: omnitest(correctExpr='my_data <- sample(c(y, z), 100)')
+  Hint: sample()函数从第一个参数（在本例中为c（y，z））中提取一个随机样本,长度为第二个参数（100）指定大小。
+    命令my_data <- sample（c（y，z），100）会给我们我们想要的。
+
+- Class: cmd_question
+  Output: 首先我们来看NAs在我们数据的什么位置。is.na（）函数告诉我们向量的每个元素是否为NA。
+    在my_data上调用is.na()并将结果赋给my_na。
+  CorrectAnswer: my_na <- is.na(my_data)
+  AnswerTests: omnitest(correctExpr='my_na <- is.na(my_data)')
+  Hint: 将is.na（my_data）的结果赋给变量my_na。
+  
+- Class: cmd_question
+  Output: 现在，打印my_na
+  CorrectAnswer: my_na
+  AnswerTests: omnitest(correctExpr='my_na')
+  Hint: 输入my_na to 查看内容
+
+- Class: text
+  Output: 在任何你看到一个TRUE的地方，你知道my_data的对应元素是NA。同样，在任何地方你看到一个FALSE，
+    你知道my_data的相应元素是我们从标准正态分布中随机抽取的一个元素。
+
+- Class: cmd_question
+  Output: 在我们先前对逻辑运算符的讨论中，我们引入了==运算符作为测试两个对象之间相等性的方法。所以，
+    你可能会认为表达式my_data == NA产生与is.na（）相同的结果。试一试
+  CorrectAnswer: my_data == NA
+  AnswerTests: omnitest(correctExpr='my_data == NA')
+  Hint: 输入my_data == NA 看看会发生什么
+
+- Class: text
+  Output: NA不是一个真正的值，而只是一个不可用数值的占位符。因此，逻辑表达式是不完整的，并且R别无选择，
+    只能返回算所有元素均为NA的与my_data长度相同的向量。
+- Class: text
+  Output: 如果有点混乱，不用担心。在使用逻辑表达式的时候要小心，因为任何时候NAs都可能存在，因为单个NA值会搞乱整个事情。
+
+- Class: text
+  Output: 所以，回到手头的任务。现在我们有一个向量my_na，对于每个NA对应有一个TRUE，每个数值对应有一个FALSE，
+    我们可以计算出我们数据中的NA总数。
+
+- Class: text
+  Output: R里，TRUE为数字1，FALSE代表数字0.因此，如果我们取一串TRUE和FALSE的总和，我们得到TRUE的总数。
+
+- Class: cmd_question
+  Output: 让我们在这里试试。在my_na上调用sum()函数来计算my_na中TRUE的总数，从而计算my_data中的NA总数。不要将结果分配给新的变量。
+  CorrectAnswer: sum(my_na)
+  AnswerTests: omnitest(correctExpr='sum(my_na)')
+  Hint: 使用sum（my_na）来统计数据中NAs的数量。
+
+- Class: cmd_question
+  Output: 最后，让我们看看数据来说服自己。 将my_data打印到控制台。
+  CorrectAnswer: my_data
+  AnswerTests: omnitest(correctExpr='my_data')
+  Hint: 将my_data打印到控制台。
+
+- Class: cmd_question
+  Output: 现在我们已经学到了NAs，让我们来看看第二种类型的缺失值 - NaN，它代表“不是数字”。 要生成NaN，现在尝试用0除0（使用正斜杠）。
+  CorrectAnswer: 0/0
+  AnswerTests: omnitest(correctExpr='0/0')
+  Hint:  0/0.
+
+- Class: cmd_question
+  Output: 我们再来做一个，只是为了好玩。 在R中，Inf代表无限。 如果你从Inf中减去Inf，会发生什么？
+  CorrectAnswer: Inf - Inf
+  AnswerTests: omnitest(correctExpr='Inf - Inf')
+  Hint: 输入Inf - Inf。 你能猜出结果吗？

@@ -1,0 +1,113 @@
+- Class: meta 
+  Course: Data Analysis 
+  Lesson: Central Tendency 
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 1.0.0
+
+- Class: text
+  Output: 今天，我将教你数据分析的基础知识。 开始定义DATA这个词可能是有意义的。
+
+- Class: text
+  Output: 根据维基百科，“数据是定性或定量变量的值，属于一组实体”。
+
+- Class: text
+  Output: 我们有兴趣研究的“一组实体”通常被称为“种群”。 数据分析通常涉及研究整个种群的子集或样本。
+
+- Class: figure
+  Output: 以下是一张显示人口与样本之间关系的图表。
+  Figure: mod1_pop_vs_samp.R
+  FigureType: new
+
+- Class: text
+  Output: 数据分析应始终从一个特定的兴趣问题开始。例如，我们可能会问：“居住在美国的人中有多少比六英尺高？”
+
+- Class: text
+  Output: 在这里，我们感兴趣的群体是每个居住在美国的人。 由于测量3亿多人的高度是不切实际的，我们可以随意选择100人，并测量他们的高度。
+    我们希望这个100人的样本是整个美国人口的代表。
+- Class: text
+  Output: 分析样本的目的是得出关于选择样本的人群的结论。 这就是所谓的“推断”（INFERENCE），它是“推断统计”（INFERENTIAL STATISTICS）的主要目标。
+
+- Class: text
+  Output: 为了对整个的群体进行任何推论，我们首先需要描述样本。这是DESCRIPTIVE STATISTICS的主要目标。
+
+- Class: text
+  Output: 如果我们想用一个数字来描述我们的样本，我们最好怎么做呢？ 
+    一个好的开始是找到我们数据的中心，中间或最常见的元素。 统计学家称之为“集中趋势”(central tendency)。
+
+- Class: text
+  Output: 有三种不同的方法来找到这样的数字，每种方法的适用性取决于具体情形。这三种方法被称为MEAN，MEDIAN和MODE。
+
+- Class: cmd_question
+  Output: 为了说明这些概念，我们现在将看看来自已经为您加载的“openintro”R包中的真实数据集。 输入“cars”，然后按Enter查看我们将要使用的数据集。
+  CorrectAnswer: cars
+  AnswerTests: equivalent=cars
+  Hint: 输入“cars”，然后按Enter键。 不要使用引号，空格或大写字母。
+
+- Class: text
+  Output: 你会注意到行被编号为1到54，每个代表数据集中的一辆车。对于每辆车，有以下变量或特征：
+    ''type'' (small, midsize, large), ''price'' (USD), ''mpgCity'' (city miles per gallon), ''driveTrain'' (4WD, front, rear),
+    ''passengers'' (total capacity),''weight'' (lbs). 
+
+- Class: text
+  Output: 我们将在本课中关注“mpgCity”变量。 为了简单起见，我们从数据集中提取它并将其存储在一个新的变量中。
+
+- Class: cmd_question
+  Output: 使用'dataset$variable'符号从“cars”数据集访问“mpgCity”变量。
+  CorrectAnswer: cars$mpgCity
+  AnswerTests: equivalent=cars$mpgCity
+  Hint: 使用'dataset$variable'。 请记住，我们的数据集的名称是“cars”，我们感兴趣的变量名称是“mpgCity”。
+
+- Class: cmd_question
+  Output: 现在将“cars $ mpgCity”的内容存储在一个名为“myMPG”的新变量中。
+  CorrectAnswer: myMPG <- cars$mpgCity
+  AnswerTests: newcmd=myMPG <- cars$mpgCity
+  Hint: 使用赋值操作符将'cars $ mpgCity'赋值给一个新的变量'myMPG'。
+
+- Class: text
+  Output: 算术平均值，或简单的平均值或平均值是集中趋势最常用的度量。 要计算数据集的平均值，首先将所有值相加，然后除以数据集中总值的总和。
+
+- Class: text
+  Output: 但是，当有很多值时，手工做这个计算就变得单调乏味了。 幸运的是，R具有用于计算均值的内置函数。 这样做的语法是'mean(variable)'。
+
+- Class: cmd_question
+  Output: 现在计算“myMPG”变量的平均值。
+  CorrectAnswer: mean(myMPG)
+  AnswerTests: newcmd=mean(myMPG)
+  Hint: 输入'mean'，然后输入括号中的变量名称，使用'mean'函数。 不要使用任何空格。
+
+- Class: text
+  Output: 我们的数据集中的极端值可能对平均值有显著的影响。 例如，如果我们的数据集中有一辆汽车每加仑能行驶200英里，那么这个数字就会导致均值很大。 
+    这可能是误导，因为没有其他车辆靠近这个油耗。
+
+- Class: text
+  Output: MEDIAN是一种替代平均值的方法，它根本不受极端值的影响。 中位数是通过从最小到最大排序所有值然后选择中间值来计算的。 如果有偶数个值，那么实际上有2个中间值。
+    在这种情况下，MEDIAN等于2个中间值的平均值。
+
+- Class: cmd_question
+  Output: R还具有计算数据集的中位数的功能，并通过输入'median(variable)'来完成。 现在找到你的'myMPG'变量的中间值。
+  CorrectAnswer: median(myMPG)
+  AnswerTests: newcmd=median(myMPG)
+  Hint: 输入'median'后跟括号中的变量名，使用'median'函数。 不要使用任何空格。
+
+- Class: text
+  Output: 最后，我们可能最感兴趣的是找到在我们的数据集中显示最多的值。 换句话说，在我们的数据集中最常见的值是什么？
+    这叫做模式（MODE），它是通过计算每个值出现在数据集中的次数和选择最频繁的值来找到的。
+
+- Class: cmd_question
+  Output: 使用'table'函数来查看每个值出现在“myMPG”变量中的次数。 这个函数的语法和你所看到的其他语法一样。
+  CorrectAnswer: table(myMPG)
+  AnswerTests: newcmd=table(myMPG)
+  Hint: 键入“table”，然后在括号中放置变量名称。
+
+- Class: exact_question
+  Output: 看看上面创建的'myMPG'变量的表格(table)。 第一行为您提供变量的值，第二行为您提供数据集中出现的次数。 
+    由于模式是我们最频繁出现的变量的值，因此“myMPG”变量的模式是什么？
+  CorrectAnswer: '19'
+  AnswerTests: exact=19
+  Hint: 请记住，模式是最常见的变量的值，而不是它出现的次数。
+
+- Class: text
+  Output: “恭喜！你已经通过你的第一课。我们介绍了与数据和数据分析相关的基本概念。具体来说，你学习了三个重要的中心倾向测量：平均值，中位数和模式。
+    你也知道如何使用R来计算这些值。“

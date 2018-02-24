@@ -1,0 +1,250 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: GGPlot2_Part2
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 在本课中，我们将重点介绍ggplot2软件包的一些基本组件。这些是在调用它们时使用默认值的qplot的基础。如果你了解这些积木，你将能够更好地定制你的图形。我们将使用包中的第二个主要函数ggplot以及其他图形函数。
+
+- Class: text
+  Output:  A "grammar" of graphics 意味着ggplot2包含构建块，您可以使用它创建自己的图形对象。 ggplot2图的这些基本组件是什么？有7个
+
+- Class: text
+  Output: 很明显，DATA FRAME包含你试图绘制的数据。然后，AESTHETIC MAPPINGS确定数据如何映射到颜色，大小等。
+    GEOMS（几何对象）是您在绘图（点，线，形状）中看到的内容，FACETS是在有条件绘图中使用的面板。
+
+- Class: text
+  Output: 还有3个。 STATS是统计转换，如ggplot2应用于数据的binning，quantiles和smoothing。 SCALES显示外观映射使用的编码（例如，男=红色，女=蓝色）。
+    最后，这些图在一个坐标系统上进行描述。
+
+- Class: mult_question
+  Output:  你还记得在绘图的情况下"artist's palette"模型的含义吗？
+  AnswerChoices: we draw pictures; we mix paints; plots are built up in layers; things get messy
+  CorrectAnswer: plots are built up in layers
+  AnswerTests: omnitest(correctVal='plots are built up in layers')
+  Hint: 考虑图层，思考创建一个图片几个步骤
+
+- Class: text
+  Output: 和基础绘图系统一样（和格子lattice系统相反），当用ggplot2绘制图时，绘图可以分成几层，也许分几步。您可以绘制数据，
+    然后覆盖总结（例如，回归线或平滑），然后添加所需的任何元数据和注释。
+    
+- Class: text
+  Output: 。现在我们来看看ggplot是如何工作的。我们将使用包的基本组件构建一个类似的图形。
+    我们将通过一系列步骤来做到这一点。
+    
+- Class: cmd_question
+  Output: 首先，我们将通过将两个参数分配一个ggplot，用输出来创建一个变量g。ggplot的参数第一个是mpg（我们的数据集），
+    第二个将告诉ggplot我们要绘制什么，在这种情况下，displ和hwy。这些是我们希望我们的图形外观所显示的东西，
+    所以我们把这些作为两个参数来添加到函数aes中。现在试试这个。
+  CorrectAnswer: g <- ggplot(mpg,aes(displ,hwy))
+  AnswerTests: expr_creates_var("g"); omnitest(correctExpr='g <- ggplot(mpg,aes(displ,hwy))')
+  Hint: 在命令提示符下输入g < - ggplot（mpg，aes（displ，hwy））
+
+- Class: text
+  Output: 注意什么都没有发生？同lattice系统一样，ggplot创建了一个我们分配给变量g的图形对象。
+
+- Class: cmd_question
+  Output: 以g为参数运行R命令summary以查看g包含的内容。
+  CorrectAnswer: summary(g)
+  AnswerTests: omnitest(correctExpr='summary(g)')
+  Hint: 在命令提示符处输入summary(g)。
+
+- Class: text
+  Output: 因此，g包含mpg数据及其所有命名组件在一个234×11的矩阵。它还包含指定的映射，x（displ）和y（hwy），并且不包含facets。
+  CorrectAnswer: print(g)
+  AnswerTests: omnitest(correctExpr='print(g)')
+  Hint: 在命令提示符下print(g)
+
+- Class: cmd_question
+  Output: 请注意，如果您尝试使用表达式g或print（g）来打印g，则会出现错误！，因为你没有指定你想如何显示它，ggplot不知道如何显示数据。
+    现在输入g + geom_point（），看看会发生什么。
+  CorrectAnswer: g+geom_point()
+  AnswerTests: omnitest(correctExpr='g+geom_point()')
+  Hint: 在命令提示符下输入g + geom_point（）
+
+- Class: cmd_question
+  Output: 通过调用函数geom_point你添加了一个图层。通过不把表达式分配给一个变量，你显示一个图。请注意，您不必将任何参数传递给函数geom_point。
+    那是因为对象g拥有存储在其中的所有数据。 现在使用刚才输入的表达式（g + geom_point（）），并添加另一个层，调用geom_smooth（）。注意红色的信息R给你。
+  CorrectAnswer: g+geom_point()+geom_smooth()
+  AnswerTests: omnitest(correctExpr='g+geom_point()+geom_smooth()')
+  Hint: 在命令提示符下键入g + geom_point（）+ geom_smooth（）
+
+- Class: cmd_question
+  Output: 蓝线周围的灰色阴影是置信区间。看看它有多宽？让我们尝试一个不同的smoothing函数。使用向上箭头来恢复刚输入的表达式，
+    而不是调用没有参数的geom_smooth，而是使用method等于字符串“lm”的参数方法进行调用。
+  CorrectAnswer: g+geom_point()+geom_smooth(method="lm")
+  AnswerTests: omnitest(correctExpr='g+geom_point()+geom_smooth(method="lm")')
+  Hint: 在命令提示符下输入g + geom_point（）+ geom_smooth（method =“lm”）
+
+- Class: cmd_question
+  Output: 通过将平滑函数更改为“lm”（线性模型），ggplot2通过数据生成回归直线。现在回想一下你刚刚使用的表达式，并添加到另一个调用，
+    这次是函数facet_grid。使用公式.~drv作为它的参数。请注意，这是在调用qplot中使用的相同类型的公式。
+  CorrectAnswer: g+geom_point()+geom_smooth(method="lm") + facet_grid(.~drv)
+  AnswerTests: omnitest(correctExpr='g+geom_point()+geom_smooth(method="lm") + facet_grid(.~drv)')
+  Hint: 在命令提示符下输入g+geom_point()+geom_smooth(method="lm") + facet_grid(.~drv)。
+
+- Class: text
+  Output: 注意每个面板如何用适当的因子标记。所有与四轮驱动车相关的数据都位于最左侧的面板中，前轮驱动数据显示在中间面板中，
+    而后轮驱动数据位于最右侧。请注意，这与您在课程开始时使用qplot创建的绘图类似。 （我们使用了与以前不同的平滑功能。）
+
+- Class: cmd_question
+  Output: 到目前为止，您只是使用了ggplot提供的默认标签。也可以使用函数（如xlab（），ylab（）和ggtitle（））添加自己的注释。
+    此外，函数labs()更通用，可以用来标记一个或两个轴，以及提供一个标题。现在回想一下你刚刚输入的表达式，然后用参数“Swirl Rules！”添加一个函数ggtitle的调用。
+  CorrectAnswer: g+geom_point()+geom_smooth(method="lm") + facet_grid(.~drv)+ ggtitle("Swirl Rules!")
+  AnswerTests: omnitest(correctExpr='g+geom_point()+geom_smooth(method="lm") + facet_grid(.~drv)+ ggtitle("Swirl Rules!")')
+  Hint: 在命令提示符下输入g + geom_point（）+ geom_smooth（method =“lm”）+ facet_grid（。〜drv）+ ggtitle（“Swirl Rules！”）
+
+- Class: text
+  Output: 现在你已经看到了基础知识，我们将讨论定制。每个“geom”函数（例如_point和_smooth）都有修改它的选项。
+    而且，可以使用函数theme()来修改整个图的各个方面，例如，legend(图例)的位置。 ggplot包含两个标准外观主题(theme)函数。
+    默认主题（带有白色网格线的灰色背景）的theme_gray（）和是更普遍的（黑色和白色）配色方案的theme_bw（）。
+    
+- Class: cmd_question
+  Output: 现在让我们练习修改外观。我们将使用已经填充了mpg数据的图形对象g，并添加对函数geom_point的调用，但这次我们将给geom_point 3参数。
+    将参数颜色(color)设置为“pink”，参数size设置为4，参数alpha设置为1/2。请注意，所有参数都设置为等于常量。
+  CorrectAnswer: g+geom_point(color="pink",size=4,alpha=1/2)
+  AnswerTests: ANY_of_exprs('g+geom_point(color="pink",size=4,alpha=1/2)','g+geom_point(color="pink",size=4,alpha=.5)')
+  Hint: 在命令提示符处输入g + geom_point（color =“pink”，size = 4，alpha = 1/2）。
+
+- Class: text
+  Output: 注意粉色的不同色调？这是设定aalpha为1/2的结果。这种设置告诉ggplot应该是多么透明。较深的圆圈表示由多个数据点命中的值。
+
+- Class: cmd_question
+  Output: 现在我们将修改外观，以便颜色指示每个点代表哪个drv类型。再次，使用g并添加一个对带有3个参数的函数geom_point的调用。
+    第一个是大小size设置为4，第二个是alpha等于1/2。第三个是调用函数aes，参数颜色color设置等于drv。请注意，您必须使用函数aes，
+    因为点的颜色是数据相关的，而不像前面的示例中那样是常量。
+  CorrectAnswer: g + geom_point(aes(color = drv), size = 4, alpha = 1/2)
+  AnswerTests: ANY_of_exprs('g + geom_point(aes(color = drv), size = 4, alpha = 1/2)','g + geom_point(aes(color = drv), size = 4, alpha = .5)')
+  Hint: 在命令提示符处输入g + geom_point（aes（color = drv），size = 4，alpha = 1/2）。
+
+- Class: text
+  Output: 注意有用的图例解释了颜色和drv之间的关系。
+
+- Class: cmd_question
+  Output: 现在我们将练习修改标签。再次，我们将使用g并添加到3个函数的调用。首先，添加一个调用geom_point的参数，
+    使其颜色依赖于drv类型（就像我们在前面的例子中所做的那样）。其次，添加一个调用函数labs()的参数标题设置等于"Swirl Rules!"。
+    最后，给实labs添加一个2个参数的调用，一个设置x等于“Displacement”，另一个设置y等于“Hwy Mileage”。
+  CorrectAnswer: g + geom_point(aes(color = drv)) + labs(title="Swirl Rules!") + labs(x="Displacement", y="Hwy Mileage")
+  AnswerTests: omnitest(correctExpr='g + geom_point(aes(color = drv)) + labs(title="Swirl Rules!") + labs(x="Displacement", y="Hwy Mileage")')
+  Hint: 在命令提示符下输入 + geom_point（aes（color = drv））+ labs（title =“Swirl Rules！”）+ labs（x =“Displacement”，y =“Hwy Mileage”）。
+
+- Class: cmd_question
+  Output: 请注意，您可以将两个前面例子中的函数labs()调用结合到一块。现在我们将练习定制geom_smooth调用。使用g并添加一个对geom_point的调用，
+    将颜色设置为drv类型（记得使用对aes函数的调用），size设置为2，alpha设置为1/2。然后用4个参数添加对geom_smooth的调用。
+    将size设置为4，linetype设置为3，method设置为“lm”，se设置为FALSE。
+  CorrectAnswer: g + geom_point(aes(color = drv),size=2,alpha=1/2) + geom_smooth(size=4,linetype=3,method="lm",se=FALSE)
+  AnswerTests: ANY_of_exprs('g + geom_point(aes(color = drv),size=2,alpha=1/2) + geom_smooth(size=4,linetype=3,method="lm",se=FALSE)','g + geom_point(aes(color = drv),size=2,alpha=.5) + geom_smooth(size=4,linetype=3,method="lm",se=FALSE)')
+  Hint: 在命令提示符处输入g + geom_point（aes（color = drv），size = 2，alpha = 1/2）+ geom_smooth（size = 4，linetype = 3，method =“lm”，se = FALSE）。
+
+- Class: text
+  Output: 这些论据是做什么的？该方法指定了一个线性回归（注意负斜率表示位移越大，耗油量越低），线型应指定为虚线（不连续），
+    尺寸为破折号，se标志告诉ggplot关闭指示标准误差（置信区间）的灰色阴影。
+
+- Class: cmd_question
+  Output: 最后，我们用黑白主题theme_bw做一个简单的绘图。指定g并使用将参数设置为drv类型的参数来添加对函数geom_point的调用。
+    然后添加对函数theme_bw的调用，将参数base_family设置为“Times”。看看你是否注意到不同之处。
+  CorrectAnswer: g + geom_point(aes(color = drv)) + theme_bw(base_family="Times")
+  AnswerTests: omnitest(correctExpr='g + geom_point(aes(color = drv)) + theme_bw(base_family="Times")')
+  Hint: 在命令提示符处输入g + geom_point（aes（color = drv））+ theme_bw（base_family =“Times”）
+
+- Class: text
+  Output: 没有了的灰色背景！另外，如果你有良好的视力，你会注意到标签中的字体改变了。
+
+- Class: text
+  Output: 在我们经历一个更复杂的，分层的ggplot示例之前，最后一个注意事项是关于轴的限制。我们指出这一点是为了强调ggplot和基本绘图函数图之间的细微差别。
+
+- Class: cmd_question
+  Output: 我们创建了一些随机的x和y数据，称为myx和myy，称为testdat的数据框的组件。这些代表了100个随机正常点，除了在半路上，我们把其中一个点作为异常点。也就是说，我们将其y值设置为超出其他点的范围。使用基本绘制功能图创建此数据的线图。用4个参数调用它 - myx，myy，type =“l”和ylim = c（-3,3）。 type =“l”表示您想要将数据显示为线而不是散点图。
+  CorrectAnswer: plot(myx, myy, type = "l", ylim = c(-3,3))
+  AnswerTests: omnitest(correctExpr='plot(myx, myy, type = "l", ylim = c(-3,3))')
+  Hint: 在命令提示符下输入plot（myx，myy，type =“l”，ylim = c（-3,3））。
+
+- Class: cmd_question
+  Output: 注意如何在y值的（-3,3）范围内标绘点。线图上不显示（50,100）的异常值。现在我们将用ggplot绘制相同的数据。回想一下数据框的名称是testdat。使用2个参数调用ggplot创建图形对象g，使用testdat（数据）和2个参数的对aes的调用，将x设置为等于myx，并将y设置为等于myy。
+  CorrectAnswer: g <- ggplot(testdat, aes(x = myx, y = myy)) 
+  AnswerTests: expr_creates_var("g"); omnitest(correctExpr='g <- ggplot(testdat, aes(x = myx, y = myy))')
+  Hint: 在命令提示符处输入g < - ggplot（testdat，aes（x = myx，y = myy））。
+
+- Class: cmd_question
+  Output: 现在添加一个调用geom_line，没有参数。
+  CorrectAnswer: g + geom_line()
+  AnswerTests: omnitest(correctExpr='g + geom_line()')
+  Hint: 在命令提示符下输入g + geom_line（）。
+  
+- Class: text
+  Output: 注意ggplot DID如何在（50,100）处显示异常值点。结果，其余的数据被破坏，所以你不会看到它的大部分。单个离群值可能不足以支配图。
+    我们如何让ggplot在这样的情况下表现得更好？
+
+- Class: cmd_question
+  Output: 我们猜测，除了向g添加geom_line（）之外，我们还必须添加ylim（-3,3），就像调用plot一样。现在试试看看会发生什么。
+  CorrectAnswer: g + geom_line() + ylim(-3,3)
+  AnswerTests: omnitest(correctExpr='g + geom_line() + ylim(-3,3)')
+  Hint: 在命令提示符下输入g + geom_line（）+ ylim（-3,3）。
+
+- Class: cmd_question
+  Output: 注意，通过这样做，ggplot简单地忽略了（50,100）的异常点。有一个断点不是很明显。现在回想一下，在课程的开始，
+    我们提到了一个ggplot图的7个组成部分，其中之一是一个坐标系。使用坐标系统会有所帮助的情况。
+    不要将ylim（-3,3）添加到表达式g + geom_line（），而是将函数coord_cartesian的参数ylim设置为等于c（-3,3）。
+  CorrectAnswer: g + geom_line() + coord_cartesian(ylim=c(-3,3))
+  AnswerTests: omnitest(correctExpr='g + geom_line() + coord_cartesian(ylim=c(-3,3))')
+  Hint: 在命令提示符下输入g + geom_line（）+ coord_cartesian（ylim = c（-3,3））。
+
+- Class: text
+  Output: 看到区别？这看起来更像是由基本绘图函数产生的图形。在x = 50处的异常值y没有被显示，但是该图表明它大于3。
+
+- Class: text
+  Output: 我们将通过一个更复杂的例子来展示ggplot和整个ggplot2软件包的全部功能。我们将继续使用mpg数据集。
+
+- Class: cmd_question
+  Output: 首先创建一个图形对象g，通过给它分配一个带有2个参数的ggplot的调用。第一个是数据集，第二个是对函数aes的调用。
+    函数aes这个调用将有3个参数，x设置等于displ，y设置为hwy，颜色设置等于因子（year）。这最后将允许我们在数据中区分两个制造年份（1999年和2008年）。
+  CorrectAnswer: g <- ggplot(mpg,aes(x=displ,y=hwy,color=factor(year)))
+  AnswerTests: expr_creates_var("g"); omnitest(correctExpr='g <- ggplot(mpg,aes(x=displ,y=hwy,color=factor(year)))')
+  Hint: 在命令提示符处输入g < - ggplot（mpg，aes（x = displ，y = hwy，color = factor（year）））。
+
+- Class: text
+  Output: Uh oh! 什么都没发生。 g是否存在？当然，因为你没有添加图层，所以它不可见。
+  
+- Class: mult_question
+  Output: 如果你在命令行输入g，会发生什么情况？
+  AnswerChoices: a scatterplot would appear with 2 colors of points; R would return an error in red; I would have to try this to answer the question
+  CorrectAnswer: R would return an error in red
+  AnswerTests: omnitest(correctVal='R would return an error in red')
+  Hint: 你已经告诉ggplot数据了，但你告诉它如何显示它？
+
+- Class: cmd_question
+  Output: 我们将逐步建立起来。首先用0个参数添加对函数geom_point的调用。
+  CorrectAnswer: g + geom_point()
+  AnswerTests:  omnitest(correctExpr='g + geom_point()')
+  Hint: 在命令提示符下输入g + geom_point（）。
+  
+- Class: cmd_question
+  Output: 出现一个简单但令人感到舒服的散点图。让我们显示一个二维多面板的图形。回忆你的上一个命令（用向上的箭头）并添加一个调用函数facet_grid。
+    给它2个参数。第一个是公式drv~cyl，第二个是参数margin设置为TRUE。现在试试这个。
+  CorrectAnswer: g + geom_point() + facet_grid(drv~cyl,margins=TRUE)
+  AnswerTests:  omnitest(correctExpr='g + geom_point() + facet_grid(drv~cyl,margins=TRUE)')
+  Hint: 在命令提示符下输入g + geom_point（）+ facet_grid（drv~cyl，margin = TRUE）。
+
+- Class: text
+  Output: 一个4乘5的图形，是吧？边界参数告诉ggplot显示每行和每列的边际总计，所以我们看到的是一个4乘5的显示，而不是看到3行（drv因子的数量）和4列（cyl因子的数目）。
+    请注意，位置（4,5）中的面板是整个数据集的散点图的微小版本。
+
+- Class: cmd_question
+  Output: 现在添加到您的最后一个调用，一个用4个参数调用geom_smooth 。"method"设置为“lm”，se设置为FALSE，尺寸设置为2，颜色设置为“black”。
+  CorrectAnswer: g + geom_point() + facet_grid(drv~cyl,margins=TRUE)+geom_smooth(method="lm",size=2,se=FALSE,color="black")
+  AnswerTests:  omnitest(correctExpr='g + geom_point() + facet_grid(drv~cyl,margins=TRUE)+geom_smooth(method="lm",size=2,se=FALSE,color="black")')
+  Hint: 在命令提示符下输入g + geom_point（）+ facet_grid（drv〜cyl，margin = TRUE）+ geom_smooth（method =“lm”，size = 2，se = FALSE，color =“black”）。
+
+- Class: cmd_question
+  Output: 最后，添加到最后一个函数调用你的绘图。一个函数调用labs(),含有3个参数。这些都是x设置为"Displacement"，y设置为"Highway Mileage"，标题设置为"Swirl Rules!"。
+  CorrectAnswer: g + geom_point() + facet_grid(drv~cyl,margins=TRUE)+geom_smooth(method="lm",size=2,se=FALSE,color="black")+labs(x="Displacement",y="Highway Mileage",title="Swirl Rules!")
+  AnswerTests:  omnitest(correctExpr='g + geom_point() + facet_grid(drv~cyl,margins=TRUE)+geom_smooth(method="lm",size=2,se=FALSE,color="black")+labs(x="Displacement",y="Highway Mileage",title="Swirl Rules!")')
+  Hint: 在命令提示符输入g + geom_point（）+ facet_grid（drv~cyl，margin = TRUE）+ geom_smooth（method =“lm”，size = 2，se = FALSE，color =“black”）+ labs（x =“Displacement”， y ="Highway Mileage"，title="Swirl Rules!"）。
+
+- Class: text
+  Output: 您可以通过对labs()的单独调用完成这些标签，但是现在我们认为您会对此感到厌烦。无论如何，恭喜！
+    你已经完成了ggplot2的练习。我们希望你能够从课程中获得足够的技能。如果你喜欢ggplot2，你可以做一些额外的事情。
+

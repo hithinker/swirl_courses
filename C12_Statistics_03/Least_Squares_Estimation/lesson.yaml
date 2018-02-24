@@ -1,0 +1,105 @@
+- Class: meta
+  Course: Regression_Models
+  Lesson: Least_Squares_Estimation
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+  
+- Class: text
+  Output: 本节内容是关于最小二乘法的介绍。在进行实验之前，请确保已经安装了"manipulate"包。
+
+- Class: figure
+  Output: 下面是在introduction课程中使用的galton数据和回归线。回归线总结父母的高度（预测指标）与子女（结果）之间的关系。
+  Figure: plot1.R
+  FigureType: new
+
+- Class: text
+  Output: 回归线是使数据具有最小平方“误差”的的线，“误差”即928个实际儿童高度与预测线的高度之间的垂直距离。
+    平方距离确保线条上方和下方的数据点处理相同。这种选择“最佳”回归线（或“拟合”数据线）的方法称为普通最小二乘法。
+
+- Class: figure
+  Output: 回归线包含表示两组高度平均值的点。平均值由细的水平线和垂直线表示。交点由图中的三角形表示。它的x坐标是父母高度的平均值，
+    y坐标是孩子高度的平均值。
+  Figure: meanpt.R
+  FigureType: add
+
+- Class: figure
+  Output: 在这里，我们显示的代码演示了如何改变回归线的斜率影响实际值和预测值之间的均方误差。看看它是多么简单。
+  Figure: demofile.R
+  FigureType: new
+
+- Class: mult_question  
+  Output: 什么RStudio图形软件包允许用户使用数据来查看变化的影响？
+  AnswerChoices: manipulate; plot; abline; points
+  CorrectAnswer: manipulate
+  AnswerTests: omnitest(correctVal='manipulate')
+  Hint: 四个选择中的三个都是画图相关的。
+
+- Class: figure
+  Output: 现在你可以使用代码来使用R的操作函数，并找到最小的平方误差。您可以用鼠标左键调整滑块，或使用左右箭头键查看如何改变斜率（β）
+    影响均方误差（mse）。如果滑块消失，可以通过单击绘图窗口左上角的小齿轮来回调。
+  Figure: sourceit.R
+  FigureType: new
+
+- Class: mult_question  
+  Output:  哪个斜率的值使均方误差最小？
+  AnswerChoices: .64; .44; .70; 5
+  CorrectAnswer: .64
+  AnswerTests: omnitest(correctVal='.64')
+  Hint: 如果列出从最小到最大的选项，请选择两个中间选项之一
+
+- Class: mult_question  
+  Output:  什么是最小mse？
+  AnswerChoices: 5.0; .64; 44; .66
+  CorrectAnswer: 5.0
+  AnswerTests: omnitest(correctVal='5.0')
+  Hint: 你不需要太大或太小的错误。
+
+- Class: text
+  Output: 回想一下，您通过减去其均值并除以其标准差来标准化数据。我们已经为你的孩子和父母身高的数据完成了标准化。
+    我们将这些归一化的值存储在两个向量gpa_nor和gch_nor中，归一化的galton父母和孩子的身高数据。
+
+- Class: cmd_question
+  Output: 使用R的函数“cor”来计算这些归一化数据集之间的相关性。
+  CorrectAnswer: cor(gpa_nor,gch_nor)
+  AnswerTests: ANY_of_exprs('cor(gpa_nor,gch_nor)','cor(gch_nor,gpa_nor)')
+  Hint: 在R提示符处输入“cor（gpa_nor，gch_nor）”。
+
+- Class: mult_question  
+  Output:  这种相关性如何与非标准化数据的相关性相关联？
+  AnswerChoices: It is the same.; It is bigger.; It is smaller.
+  CorrectAnswer: It is the same.
+  AnswerTests: omnitest(correctVal='It is the same.')
+  Hint: 你真的改变了什么吗？
+
+- Class: cmd_question
+  Output: 使用R的函数“lm”使用这个标准化数据生成回归线。将其存储在一个名为l_nor的变量中。使用父母的高度作为预测（自变量）和
+    儿童作为预测（依赖）。请记住，'lm'需要一个独立于形式的公式。由于我们已经为您创建了数据向量，
+    所以不需要像以前那样提供第二个“data”参数。
+  CorrectAnswer: l_nor <- lm(gch_nor ~ gpa_nor)
+  AnswerTests: omnitest(correctExpr='l_nor <- lm(gch_nor ~ gpa_nor)')
+  Hint: 在R提示符处输入“l_nor <- lm（gch_nor~gpa_nor）”。
+
+- Class: mult_question  
+  Output:  这条线的斜率是什么？
+  AnswerChoices: The correlation of the 2 data sets; I have no idea; 1.
+  CorrectAnswer:  The correlation of the 2 data sets
+  AnswerTests: omnitest(correctVal='The correlation of the 2 data sets')
+  Hint: 认为相关。
+
+- Class: mult_question  
+  Output: 如果将原始（非标准化）数据的结果（Y）和预测变量（X）交换（例如，使用儿童高度来预测他们的父母），那么新的回归线的斜率是多少？
+  AnswerChoices: correlation(X,Y) * sd(X)/sd(Y); the same as the original; I have no idea; 1.
+  CorrectAnswer: correlation(X,Y) * sd(X)/sd(Y) 
+  AnswerTests: omnitest(correctVal='correlation(X,Y) * sd(X)/sd(Y)')
+  Hint: 由于您正在交换X和Y，请在公式中交换X和Y.在相关函数中交换X和Y不会改变任何内容。
+
+- Class: figure
+  Output: 我们将关闭源代码的最终显示。它用三条回归线绘制了galton数据，红色的原始数据以儿童身高为因变量，
+    新的蓝线以父母的身高为结果和儿童的身高为预测值，以及缩放的斜率的黑线，它等于标准误差的比率。
+  Figure: demofile2.R
+  FigureType: new
+
+- Class: text
+  Output: 祝贺！你已经在普通最小二乘法中得出了这个真正非凡的知识！

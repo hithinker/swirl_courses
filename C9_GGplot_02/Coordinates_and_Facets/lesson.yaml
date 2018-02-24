@@ -1,0 +1,154 @@
+- Class: meta
+  Course: GGplot_02
+  Lesson: Coordinates and Facets
+  Author: your name goes here
+  Type: Standard
+  Organization: your organization's name goes here
+  Version: 2.4.3
+  
+- Class: text
+  Output: Coordinates和Facets层提供了有效和准确的数据通信的特定和非常有用的工具。 在本章中，我们将看看有效使用这两层的各种方法
+
+- Class: text
+  Output: 使用坐标图层进行放大有多种方式。在本练习中，我们将使用并比较比较一些技巧。你将使用mtcars数据集(位于datasets包内，
+    已经为你加载到了工作空间了)
+
+- Class: cmd_question
+  Output: 首先画出mtcars数据集hp vs. wt的散点图，颜色映射到am列,注意将am变量转化成因子类型。然后使用默认的"LOESS"方法画出回归曲线。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()')
+  Hint: ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()
+
+- Class: cmd_question
+  Output: 用limits= c（3,6）和expand= c（0,0）的scale_x_continuous（）扩展上一个练习的指令。 你看到了什么
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()+scale_x_continuous(limit=c(3,6),expand=c(0,0))
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()+scale_x_continuous(limit=c(3,6),expand=c(0,0))')
+  Hint: 在上一个练习的命令之后添加scale_x_continuous(limit=c(3,6),expand=c(0,0))
+
+- Class: cmd_question
+  Output: 这次用coord_cartesian（）：将xlim参数设置为c（3，6），而不是scale_x_continuous()。看看有什么不同 
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()+coord_cartesian(xlim=c(3,6))
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()+coord_cartesian(xlim=c(3,6))')
+  Hint: 完整的表达式为：ggplot(mtcars,aes(x=wt,y=hp,color=factor(am)))+geom_point()+geom_smooth()+coord_cartesian(xlim=c(3,6))
+
+- Class: text
+  Output: 我们可以用coord_fixed（）或coord_equal（）来设置图的长宽比。 两者都使用aspect = 1作为默认值。 正如iris数据集当两个连续的变量尺度
+    相同时，1：1的宽高比是最合适的。iris数据集所有的变量都是以厘米为单位来测量的，所以只有在每个坐标轴上的一个单位应该是相同的物理距离
+    才有意义。 由于纵横比可以改变我们的平滑线的角度，所以这给出了两个变量之间关系的更真实的描述。当然，
+    潜在的线性模型不会改变，但是我们的感觉可能受到角度的影响。
+    
+- Class: cmd_question
+  Output: 使用str()来查看iris数据集的结构
+  CorrectAnswer: str(iris)
+  AnswerTests: omnitest(correctExpr='str(iris)')
+  Hint: 使用str()函数来查看数据集的结构
+
+- Class: cmd_question
+  Output: 使用iris数据框完成基本散点图功能，将Sepal.Width绘制到y轴上，Sepal.Length绘制到x和Species决定颜色col。使用geom_jitter()是图中的点
+    发生抖动，然后再画出使用"lm"方法的线性模型，se设置为FALSE。 将这个图形保存在一个名为base.plot的对象中。
+  CorrectAnswer: base.plot=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,col=Species))+geom_jitter()+geom_smooth(method="lm",se=FALSE)
+  AnswerTests: omnitest(correctExpr='base.plot=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,col=Species))+geom_jitter()+geom_smooth(method="lm",se=FALSE)')
+  Hint: base.plot=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,col=Species))+geom_jitter()+geom_smooth(method="lm",se=FALSE)
+
+- Class: cmd_question
+  Output: 输入base.plot将图形打印出来。 检查它：绘制的图形是依照图形设备的尺寸的。
+  CorrectAnswer: base.plot
+  AnswerTests: omnitest(correctExpr='base.plot')
+  Hint: 直接在命令提示符处输入base.plot
+
+
+- Class: cmd_question
+  Output: 添加coord_equal（）图层以强制1：1宽高比到base.plot
+  CorrectAnswer: base.plot+coord_equal()
+  AnswerTests: omnitest(correctExpr='base.plot+coord_equal()')
+  Hint: base.plot+coord_equal()
+
+- Class: text
+  Output: coord_polar（）函数将平面x-y笛卡尔坐标转换为极坐标。 如果您正在制作饼图，这可能很有用。我们可以想象饼图的两种形式 - 
+    典型的实心圆或彩色圆环。作为一个例子，考虑堆积条形图。 想象一下，我们只需要在左边的y轴，并弯曲它，直到它回到本身，
+    而我们沿着扩大右侧。我们最终会得到一个饼图 - 它只是一个转换成极坐标系的条形图。。mtcars数据框是可用的，记得将cyl转换为一个因子类型
+
+- Class: cmd_question
+  Output: 将mtcars的cyl列转换为因子类型
+  CorrectAnswer: mtcars$cyl <- as.factor(mtcars$cyl)
+  AnswerTests: omnitest(correctExpr='mtcars$cyl <- as.factor(mtcars$cyl)')
+  Hint: 使用as.factor()函数
+
+- Class: cmd_question
+  Output: 创建一个基本的堆积条形图。 既然我们有单变量数据，需要x图形属性，我们将不得不使用一个虚拟变量。 将x设置为1并将
+    cyl映射到fill,创建将条形图并分配给thin.bar。
+  CorrectAnswer: thin.bar <- ggplot(mtcars,aes(x=1,fill=cyl))+geom_bar()
+  AnswerTests: omnitest(correctExpr='thin.bar <- ggplot(mtcars,aes(x=1,fill=cyl))+geom_bar()')
+  Hint: 首先根据题目要求创建ggplot对象，然后再使用geom_bar()画条形图
+
+- Class: cmd_question
+  Output: 将一个coord_polar（）图层添加到thin.bar。 将参数theta设置为“y”。 这指定了将被转换为极坐标的轴。 
+  CorrectAnswer: thin.bar+coord_polar(theta="y")
+  AnswerTests: omnitest(correctExpr='thin.bar+coord_polar(theta="y")')
+  Hint: thin.bar+coord_polar(theta="y")
+
+- Class: cmd_question
+  Output: 重复堆叠条形图的代码，但是这次将geom_bar（）函数中的宽度参数width设置为1，并将此图分配给wide.bar。 
+  CorrectAnswer: wide.bar <- ggplot(mtcars,aes(x=1,fill=cyl))+geom_bar(width=1)
+  AnswerTests: omnitest(correctExpr='wide.bar <- ggplot(mtcars,aes(x=1,fill=cyl))+geom_bar(width=1)')
+  Hint: 在geom_bar()函数里添加参数width=1。
+
+- Class: cmd_question
+  Output: 增加coord_polar()图层到 wide.bar
+  CorrectAnswer: wide.bar+coord_polar()
+  AnswerTests: omnitest(correctExpr='wide.bar+coord_polar()')
+  Hint: wide.bar+coord_polar()
+
+- Class: text
+  Output: 使用facet的最直接的方法是facet_grid()。在这里，我们只需要使用公式符号来表示分类变量指定的行和列。
+    请注意，我们也可以利用序数变量，将它们以正确的顺序排列成列或行，就像Cylinders的数值一样。 ggplot2已经为你加载。 mtcars可用,注意在使用时
+    将cyl和am转换成因子类型。
+    
+- Class: cmd_question
+  Output: 创建一个基本图形p，将mtcars数据框的wt映射到x,mpg映射到列，绘制散点图，将这个图形对象存储到p。
+  CorrectAnswer: p <- ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()
+  AnswerTests: omnitest(correctExpr='p <- ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()')
+  Hint: p <- ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()
+  
+- Class: cmd_question
+  Output: 扩展我们创建的基本散点图p，使用facet_grid()和公式factor(am)~.。公式am~.表示每一类am是一行
+  CorrectAnswer: p+facet_grid(factor(am)~.)
+  AnswerTests: omnitest(correctExpr='p+facet_grid(factor(am)~.)')
+  Hint: p+facet_grid(formula)的格式，别忘了将am转换成因子类型
+
+- Class: cmd_question
+  Output: 扩展我们创建的基本散点图p，使用facet_grid()和公式.~factor(cyl)。公式.~factor(cyl)表示每一类cyl是一列
+  CorrectAnswer: p+facet_grid(.~factor(cyl))
+  AnswerTests: omnitest(correctExpr='p+facet_grid(.~factor(cyl))')
+  Hint: p+facet_grid(formula)的格式，别忘了将cyl转换成因子类型
+
+- Class: cmd_question
+  Output: 扩展我们创建的基本散点图p，使用facet_grid()和公式factor(am)~factor(cyl)。
+  CorrectAnswer: p+facet_grid(factor(am)~factor(cyl))
+  AnswerTests: omnitest(correctExpr='p+facet_grid(factor(am)~factor(cyl))')
+  Hint: p+facet_grid(formula)的格式，别忘了将am,cyl转换成因子类型
+
+- Class: text
+  Output: Facets是呈现分类变量的另一种方式。 回想一下，我们之前看到了组合变量的所有方法，无论是类型变量的还是连续变量。 有时候可能会图形过多。
+    在这里，我们将呈现一个有6个变量的图形，看看我们是否可以增加更多。我们首先把两个变量映射到两个颜色度量指标 - 色调和亮度。 
+    我们将cyl和am组合成一个可变的cyl_am。 为了适应这种情况，我们也制作了一个新的调色板，使红色和蓝色交替变黑。 这被保存为myCol。
+
+- Class: cmd_question
+  Output: 从基本散点图开始，数据集仍然为mtcars,图形属性x表示mt,y表示mpg,color由我们新增的列cyl_am来表示。最后添加包含scale_color_manual()图层
+    myCol作为其参数values的值。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)')
+  Hint: ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)
+
+- Class: cmd_question
+  Output: 从前面的指令中复制你的散点图代码，并根据gear决定行和vs（vs变量：0代表V引擎，1代表直发器）决定列的公式添加一个facet_grid（）层。 现在我们共有6个变量
+    （4个分类变量和2个连续变量）。 图形仍然可读，但开始变得困难。
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)+facet_grid(gear~vs)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)+facet_grid(gear~vs)')
+  Hint: ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am))+geom_point()+scale_color_manual(values=myCol)+facet_grid(gear~vs)
+
+- Class: cmd_question
+  Output: 修改上一个图形，我们可以尝试添加一个变量disp来决定size(尺寸)。 地图显示，每个气缸的排量，大小
+  CorrectAnswer: ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am,size=disp))+geom_point()+scale_color_manual(values=myCol)+facet_grid(gear~vs)
+  AnswerTests: omnitest(correctExpr='ggplot(mtcars,aes(x=wt,y=mpg,color=cyl_am,size=disp))+geom_point()+scale_color_manual(values=myCol)+facet_grid(gear~vs)')
+  Hint: 进一步扩展aes（）以将disp映射到size

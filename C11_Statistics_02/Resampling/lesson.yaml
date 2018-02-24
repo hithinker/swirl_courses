@@ -1,0 +1,351 @@
+- Class: meta
+  Course: Statistical_Inference
+  Lesson: Resampling
+  Author: Swirl Coders
+  Type: Standard
+  Organization: Johns Hopkins Bloomberg School of Public Health
+  Version: 2.2.0
+
+- Class: text
+  Output: "重采样。 
+
+- Class: text
+  Output: 在本课中我们学习统计推断的两个主题，自助法(bootstraping) 和 置换检验(permutation testing)。 这些都属于更广泛的重采样方法。 
+    我们将从bootstrapping开始。
+
+- Class: text
+  Output: bootstrap是进行统计推断的方便工具。 它被用于构建置信区间和计算统计的标准误差，由于某些原因,例如缺乏数据或没有封闭形式可能会有困难
+    的统计尤其有用。自助法(bootstraping) 是一种“允许使用非常简单的方法估计几乎任何统计量的抽样分布”的技术。 简单就好，对吧？
+
+- Class: text
+  Output: 自助法(bootstraping)的美妙之处在于，它避免了复杂的数学，而是使用模拟和计算来推断可能无法确定的分布属性。
+
+- Class: text
+  Output: 基本自助原则使用观测数据来构建一个使用随机重置抽样估计总体分布。 从这个分布（根据观测数据构建），我们可以估计我们感兴趣的
+    统计量的分布。 
+
+- Class: mult_question
+  Output: 那么，在自助法里观察到的数据替代什么？
+  AnswerChoices: a population; a statistic; a hypothesis; observations
+  CorrectAnswer: a population
+  AnswerTests: omnitest(correctVal='a population')
+  Hint: 我们将使用观察到的数据，并进行重置抽样，就像我们将要找到某些总体的信息一样。
+
+- Class: mult_question
+  Output: 因此，如果观察到的数据是总体数据，那么随机采样会对应什么呢？
+  AnswerChoices: a population; a statistic; a hypothesis; observations
+  CorrectAnswer: observations
+  AnswerTests: omnitest(correctVal='observations')
+  Hint: 从一个总体抽样会给我们观测值，对不对？
+
+- Class: text
+  Output:  实际上，最初观察到的样本替代了总体。 我们的抽样变成了观察数据，通过观察数据我们估计一个统计量，并对其分布有一个概念。 这让我们更好地了解潜在的总体
+    （对于总体我们没有足够的数据）。
+
+- Class: mult_question
+  output: 这是一个关键点。 在构建估计分布时，我们对观察到的数据进行取样。 如果原始样本长度很长，而且我们抽样n次而没有更换，我们会得到什么？
+  AnswerChoices: the original sample permuted; an entirely new sample; a better sample; a worse sample
+  CorrectAnswer: the original sample permuted
+  AnswerTests: omnitest(correctVal='the original sample permuted')
+  Hint: 取样n次而不更换原始样品。
+
+- Class: text
+  Output:来自幻灯片的激励范例涉及计算一个模具的50个卷的平均值。 当然，当我们知道死亡是公平的时候，我们可以在理论上做到这一点。 请记住，对于x的所有值，x（x）= Sum（x * p（x））对于x = 1,2，... 6和p（x）= 1/6。
+
+- Class: cmd_question
+  Output:对于这一点，计算一个公平的死亡的预期死亡卷。
+  CorrectAnswer: 3.5
+  AnswerTests: equiv_val(3.5)
+  Hint: 在命令提示符下输入sum（1：6）/ 6。
+
+- Class: figure
+  Output:理论上，平均值是3.5。 在这里，我们已经运行代码，并绘制了一个直方图，我们采取了1000个这样的平均值，每50个骰子。 注意不寻常的Y轴比例。 我们把它作为一个密度函数来显示，所以鲑鱼色区域的面积在理论上是1.在这个尺度上，箱子的所有高度实际上加起来是5，所以你必须把每个高度乘以0.2 并加起来所有的结果得到1。 
+  Figure: plot1.R
+  FigureType: new
+
+- Class: text
+  Output:重点是，经验符合理论。 好极了！ 就像数学预测的那样，最高的容器以3.5为中心。 所以呢？
+
+- Class: figure
+  Output:如果某个小丑想让你用他给你的死亡来进行同样的实验，他警告你说骰子已经装上了？ 换句话说，这是不公平的。 它有一些像这样的随机分布。
+  Figure: plot2.R
+  FigureType: new
+
+- Class: text
+  Output: 结果不太可能，是吗？ 所以当你做1000次，每次50卷时，手段的密度看起来不一样。 
+
+- Class: cmd_question
+  Output: 我们已经为你做了这个，并把结果放在g2中。 请打印（g2）以查看照片。
+  CorrectAnswer: print(g2)
+  AnswerTests: omnitest(correctExpr='print(g2)')
+  Hint: 在命令提示符处键入print（g2）。
+
+- Class: text
+  Output: 图片有点不同，对吧？ 虽然这个例子有点做作，但它却说明了一个重要的概念。 我们真的需要分配手段，而且我们只有一套观察。 （在这种情况下，这是与不公平死亡相关联的经验分布 - 蓝色大图）。我们使用这一个分布，通过用给定的替代抽样来“创造”许多（1000）分布。 我们采样了50000次，所以我们创建了1000个分布，每个分布50个卷。
+
+- Class: text
+  Output: 然后，我们计算了我们创建的每个分布的均值，并得到了均值的分布。 多次对一个分布进行抽样使得我们计算的结果统计数据有一些变化。 然后，我们可以计算与统计相关的标准误差和置信区间。
+
+- Class: mult_question
+  Output: 在我们继续讨论更多的理论之前，我们再来看一个人口中位数分布的例子。 你记得中位数是多少？
+  AnswerChoices: 50th percentile; a point halfway between rare and well-done; the most frequent outcome; a person who talks to spirits
+  CorrectAnswer: 50th percentile
+  AnswerTests: omnitest(correctVal='50th percentile')
+  Hint: 一半的结果高于它，一半低于它。
+
+- Class: cmd_question
+  Output: 回想一下父亲和儿子的身高数据。 再一次，我们已经为你装上了它。 我们把儿子的高度放在向量sh中，这个向量的长度存储在变量nh中。 使用R命令头查看sh的前几个条目。
+  CorrectAnswer: head(sh)
+  AnswerTests: omnitest(correctExpr='head(sh)')
+  Hint: 在命令提示符处键入head（sh）。
+
+- Class: cmd_question
+  Output:  现在看看呃看sh是多久。
+  CorrectAnswer: nh
+  AnswerTests: omnitest(correctExpr='nh')
+  Hint: 在命令提示符下键入nh。
+
+- Class: text
+  Output: 现在我们将创建1000个与原始sh相同长度的分布。 我们将通过以替换1000 * nh次取样sh来执行此操作，并将结果存储在1000行的数组中，每个数组都有nh个条目。 然后，我们将取每一行的中位数并绘制结果。 
+
+- Class: text
+  Output: 请注意，每次我们从经验分布sh中抽取，其nh个数据点的每一个数据点都可能被拉取，因此绘制任何一个数据点的概率为1 / nh。 我们创建的1000个样本与原始样本不同。
+
+- Class: figure
+  Output:这是密度曲线。 这估计了中位数的分布。 粗的垂直线显示原始观察数据的中位数。
+  Figure: fatherson.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 我们在resampledMedians矢量中存储了1000个重采样集合的中值。 使用R函数中值来计算这个向量中数字的中位数。
+  CorrectAnswer: median(resampledMedians)
+  AnswerTests: obliterate("resamples"); omnitest(correctExpr='median(resampledMedians)')
+  Hint: 在命令提示符下输入median（resampledMedians）。
+
+- Class: cmd_question
+  Output:  现在计算原始样本sh的中位数。
+  CorrectAnswer: median(sh)
+  AnswerTests: omnitest(correctExpr='median(sh)')
+  Hint: 在命令提示符处键入中位数（sh）。
+
+
+- Class: text
+  Output:很近，对吧？ 现在回到理论。 假设你有一个估计一些总体参数的统计量，但你不知道它的抽样分布。 bootstrap原理使用由观测数据定义的分布来近似该统计量的采样分布。
+
+- Class: text
+  Output:引导的好处在于，您可以随时通过模拟来完成。 一般程序如下：首先通过采样替换来从观测数据模拟B完整数据集。 确保B很大，并且您正在替换以创建与原始大小相同的数据集。
+
+- Class: text
+  Output:这接近于从该统计量的抽样分布中抽取的数据，至少数据接近真实的人口分布。 通过计算每个模拟数据集的统计量并使用这些模拟统计量，我们可以定义置信区间（例如找到2.5和97.5百分位数），或者采用标准差来估计该统计量的标准误差。
+
+- Class: text
+  Output:请注意，这个过程不使用任何花哨的数学或渐近。 背后的唯一假设是所观察的样本是潜在人口的代表。
+
+- Class: text
+  Output：我们已经为您创建了一个向量，其中包含我们一直在处理的父亲数据的父亲高度。 它的长度与存储在nh中的儿子数据（1078）一样长。 B，我们想要的bootstraps数量已经被设置为1000.现在我们将以小步骤做一个例子。
+
+- Class: cmd_question
+  Output: 我们的观测数据的一个样本是在向量fh中。 使用R函数样本对fh nh * B次进行采样。 将参数replace设置为TRUE。 把结果放在变量sam中。
+  CorrectAnswer: sam <- sample(fh,nh*B,replace=TRUE)
+  AnswerTests: expr_creates_var('sam'); omnitest(correctExpr='sam <- sample(fh,nh*B,replace=TRUE)')
+  Hint: 在命令提示符处键入sam < - sample（fh，nh * B，replace = TRUE）。
+
+- Class: cmd_question
+  Output:  现在把山姆形成一个有B行和nh列的矩阵。 使用R函数矩阵并将结果放在resam中
+  CorrectAnswer: resam <- matrix(sam,B,nh)
+  AnswerTests: expr_creates_var('resam'); omnitest(correctExpr='resam <- matrix(sam,B,nh)')
+  Hint:在命令提示符下键入resam < - matrix（sam，B，nh）。
+
+- Class: cmd_question
+  Output: 现在使用R函数apply来取resam（第一个参数）的每一行的中位数（第三个参数）。 把结果放在药物中。 第二个参数，数字1，指定该函数的应用是对第一个参数的行。
+  CorrectAnswer: meds <- apply(resam,1,median)
+  AnswerTests: obliterate("sam"); expr_creates_var('meds'); omnitest(correctExpr='meds <- apply(resam,1,median)')
+  Hint:键入meds < - 在命令提示符下应用（resam，1，median）。
+
+- Class: cmd_question
+  Output: 现在看看fh的中位数和meds的中位数之间的差异.
+  CorrectAnswer: median(meds)-median(fh)
+  AnswerTests: ANY_of_exprs("median(meds)-median(fh)","median(fh)-median(meds)")
+  Hint: 在命令提示符处输入中位数（中位数） - 中位数（fh）或中位数（fh） - 中位数（中位数）。
+
+- Class: cmd_question
+  Output:  很近，对吧？ 现在使用R函数sd来估计矢量药物的标准误差。
+  CorrectAnswer: sd(meds)
+  AnswerTests: obliterate("resam"); omnitest(correctExpr='sd(meds)')
+  Hint: 在命令提示符下键入sd（meds）。
+
+- Class: cmd_question
+  Output:我们以前对儿子的数据做了同样的过程，并将重新采样的中位数存储在1000长的矢量重采样中药中。 找到resampledMedians的标准错误。 
+  CorrectAnswer: sd(resampledMedians)
+  AnswerTests: omnitest(correctExpr='sd(resampledMedians)')
+  Hint: 在命令提示符下键入sd（resampledMedians）。
+
+- Class: cmd_question
+  Output: 现在我们将用R函数分位数来找出儿子数据的95％置信区间。 第一个参数是resampledMedians的向量，第二个参数是表达式c（.025，.975）。 现在就做这个。
+  CorrectAnswer: quantile(resampledMedians,c(.025,.975))
+  AnswerTests: omnitest(correctExpr='quantile(resampledMedians,c(.025,.975))')
+  Hint: 在命令提示符处键入分位数（resampledMedians，c（.025，.975））。
+
+- Class: cmd_question
+  Output: 非常接近分位数，对不对？ 现在对父亲的数据做同样的事情。 回想一下，它存储在矢量药物。
+  CorrectAnswer: quantile(meds,c(.025,.975))
+  AnswerTests: omnitest(correctExpr='quantile(meds,c(.025,.975))')
+  Hint: 在命令提示符处键入分位数（meds，c（.025，.975））。
+
+- Class: text
+  Output:另一对紧密的分位数，但注意到这些父亲中位数的分位数与儿子的位数不同。
+
+- Class: text
+  Output:Bootstrapping是一个非常复杂和复杂的话题，我们只是在这里剔除了表面。 我们向您展示的技术是非参数的，也就是说，它不基于任何参数化的概率分布族。 我们只使用了一组我们认为是人口代表的观察数据。 
+
+- Class: text
+  Output:最后，由于偏差，我们计算的置信区间可能表现不佳，但是R软件包引导为这个问题提供了一个简单的解决方案。
+
+- Class: text
+  Output:现在，排列测试，另一个方便的工具用于组比较。 如bootstrapping所做的那样，置换测试对单个数据集进行数十万次采样，并基于这些采样来计算统计量。
+
+- Class: text
+  Output：排列测试是基于集团标签可交换性的思想。 它衡量的结果是否独立于群体的身份。 我们的数十亿个样品只是排列与结果相关的组标签。 我们将看到一个这样的例子。
+
+- Class: figure 
+  Output：这是来自数据集InsectSprays的图片，其中包含由六种不同喷雾杀死的虫数的计数。 
+  Figure: insectSprays.R
+  FigureType: new
+
+- Class: text
+  Output: 我们将使用置换测试来比较喷雾B和喷雾C.
+
+- Class: cmd_question
+  Output:  使用R命令dim查找InsectSprays的尺寸。
+  CorrectAnswer: dim(InsectSprays)
+  AnswerTests: omnitest(correctExpr='dim(InsectSprays)')
+  Hint: 在R提示符处输入dim（InsectSprays）。
+
+- Class: cmd_question
+  Output: 现在使用R命令名称来查找两列InsectSprays包含的内容。
+  CorrectAnswer: names(InsectSprays)
+  AnswerTests: omnitest(correctExpr='names(InsectSprays)')
+  Hint:在R提示符处输入名称（InsectSprays）。
+
+- Class: text
+  Output: 我们将使用置换测试来比较喷雾剂B和喷雾剂C.我们将这两种喷雾剂的数据分成数据框子数据。 此外，两个数据帧Bdata和Cdata包含各自喷雾的数据。
+
+- Class: cmd_question
+  Output:  现在使用Bdata $ count上的R命令范围来查找喷雾B的最小和最大计数。
+  CorrectAnswer: range(Bdata$count)
+  AnswerTests: omnitest(correctExpr='range(Bdata$count)')
+  Hint: 在R提示符下输入范围（Bdata $ count）。
+
+- Class: cmd_question
+  Output:  照片现在更有意义了吧？ 现在对Spray C做同样的事情。它的数据在Cdata中。
+  CorrectAnswer: range(Cdata$count)
+  AnswerTests: omnitest(correctExpr='range(Cdata$count)')
+  Hint:在R提示符下键入范围（Cdata $计数）。
+
+- Class: text
+  Output: 从范围（以及图片），喷雾看起来很不一样。 我们将测试（显然是错误的）零假设，他们的手段是相同的。
+
+- Class: cmd_question
+  Output:  为了使分析更容易，我们为您定义了两个阵列，一个持有喷雾器B和C的计数，称为BCcounts。 现在看看。
+  CorrectAnswer: BCcounts
+  AnswerTests: omnitest(correctExpr='BCcounts')
+  Hint: 在命令提示符下键入BCcounts。
+
+- Class: cmd_question
+  Output: 我们定义的第二个数组保存了喷雾识别，它被称为组。 这两个阵列是相互排列的，也就是说，计数的前12个输入与喷雾B相关，最后12个输入与喷雾C相关。现在看组。
+  CorrectAnswer: group
+  AnswerTests: omnitest(correctExpr='group')
+  Hint:在命令提示符下键入组。.
+
+- Class: cmd_question
+  Output: 我们还为您定义了一个单行函数testStat，它接受两个参数，一个计数数组和一个关联标识符数组。 它假定所有计数都来自B组或C组。它从组B的计数平均值中减去C组中计数的平均值。输入testStat，不带圆括号和参数来查看它是如何定义的。 
+  CorrectAnswer: testStat
+  AnswerTests: omnitest(correctExpr='testStat')
+  Hint: 在命令提示符处键入testStat。
+
+- Class: cmd_question
+  Output:  现在通过使用参数BCcounts和group调用testStat并将结果赋给obs来设置一个变量obs。
+  CorrectAnswer: obs <- testStat(BCcounts,group)
+  AnswerTests: expr_creates_var('obs'); omnitest(correctExpr='obs <- testStat(BCcounts,group)')
+  Hint: 在命令提示符下键入obs < - testStat（BCcounts，组）。
+
+- Class: cmd_question
+  Output:  现在来看看obs。
+  CorrectAnswer: obs 
+  AnswerTests: omnitest(correctExpr='obs')
+  Hint: 在命令提示符下键入obs。
+
+- Class: cmd_question
+  Output: 相当大的区别，对吧？ 您可以通过在Bdata $ count和Cdata $ count上使用mean来检查，并从前者减去后者。 等价地，您可以将均值应用于Bdata $ count-Cdata $ count。 现在做一个。
+  CorrectAnswer: mean(Bdata$count)-mean(Cdata$count)
+  AnswerTests: ANY_of_exprs("mean(Bdata$count)-mean(Cdata$count)","mean(Bdata$count-Cdata$count)")
+  Hint: 在命令提示符处键入mean（Bdata $ count）-mean（Cdata $ count）。
+
+- Class: mult_question
+  Output: 所以，意味着（Bdata $ count）-mean（Cdata $ count）等于平均值（Bdata $ count-Cdata $ count），因为？
+  AnswerChoices: the data is special;  mean is linear; mathemagic; 
+  CorrectAnswer:  mean is linear
+  AnswerTests: omnitest(correctVal='mean is linear')
+  Hint: 回想一下，平均数或平均数是线性的，所以平均数就是平均数。
+
+- Class: text
+  Output:现在这是排列测试开始涉及重采样的地方。 我们要测试计数的特定组关联是否影响手段的差异。
+
+- Class: text
+  Output:我们将保持相同的计数数组，只是随机重新标记它们，通过排列组数组。 R使这个过程非常简单。 使用一个参数（一个数组名称）调用函数示例（我们已经在本课中多次使用过）将简单地对该数组的元素进行置换。
+
+
+- Class: cmd_question
+  Output:  现在在数组上调用示例来查看发生了什么。
+  CorrectAnswer: sample(group)
+  AnswerTests: omnitest(correctExpr='sample(group)')
+  Hint:在命令提示符下键入示例（组）。
+
+- Class: text
+  Output:“现在所有的标签都混在一起了，我们将对这些标签进行排列，然后我们将重新计算两个”新“（真正新标记的）组的差异。
+
+- Class: cmd_question
+  Output:“我们将重新标记并计算均值10000次的差异，并将（means）的差异存储在数组perm中。这里是代码看起来像perms < - sapply（1：10000，function（i）testStat（BCcounts，sample （组））），现在就试试吧。“
+  CorrectAnswer: "perms <- sapply(1 : 10000, function(i) testStat(BCcounts, sample(group)))"
+  AnswerTests: "expr_creates_var('perms'); omnitest(correctExpr='perms <- sapply(1 : 10000, function(i) testStat(BCcounts, sample(group)))')"
+  Hint: “键入perms < - sapply（1：10000，函数（i）testStat（BCcounts，sample（group）））在命令提示符处”。
+
+- Class: cmd_question
+  Output:我们可以采用布尔表达式perms> obs的虚拟数组的意思。 现在就做这个。
+  CorrectAnswer: mean(perms>obs)
+  AnswerTests: omnitest(correctExpr='mean(perms>obs)')
+  Hint:在命令提示符处输入mean（perms> obs）。
+
+- Class: text
+  Output:所以平均而言，0个排列组的差异大于所观察到的排列组。 这意味着我们会拒绝零假设，即两次喷雾的手段是平等的。
+
+
+- Class: figure 
+  Output:这是一个手段差异的直方图。 看起来很正常，对吧？ 我们可以看到，分布大致在-10到+10之间，并且以0为中心。垂直线显示观察到的平均差异的位置，并且我们看到离重采样置换的分布相当远。 这意味着组识别确实很重要，喷雾剂B和C是完全不同的。
+  Figure: insectHisto.R
+  FigureType: new
+
+- Class: figure 
+  Output:这是InsectSprays的图片。 假设我们运行相同的实验，这次比较看起来更相似的喷雾剂D和E. 我们重新定义了testStat来查看这些喷雾，并从喷雾D的平均值中减去喷雾E的平均值。
+  Figure: insectSprays2.R
+  FigureType: new
+
+- Class: cmd_question
+  Output:我们还储存了DE和E组数据中的D和E数据。 现在用DEcounts和group运行testStat。
+  CorrectAnswer: testStat(DEcounts,group)
+  AnswerTests: omnitest(correctExpr='testStat(DEcounts,group)')
+  Hint: 在命令提示符下键入testStat（DEcounts，组）。
+
+- Class: cmd_question
+  Output:现在运行permutation命令，使用DEcounts，这里是perms < - sapply（1：10000，function（i）testStat（DEcounts，sample（） 组）））”
+  CorrectAnswer: "perms <- sapply(1 : 10000, function(i) testStat(DEcounts, sample(group)))"
+  AnswerTests: "expr_creates_var('perms'); omnitest(correctExpr='perms <- sapply(1 : 10000, function(i) testStat(DEcounts, sample(group)))')"
+  Hint: “在命令提示符处键入perms < - sapply（1：10000，函数（i）testStat（DEcounts，sample（group）））”。
+
+- Class: figure 
+  Output最后，我们可以绘制均值差分布的直方图。 我们看到，用这些喷雾剂，观察到的平均差异（垂直线）更接近置换标签的平均值。 这表明，喷雾剂D和E是非常相似的，我们不能拒绝手段相等的零假设。
+  Figure: insectHisto.R
+  FigureType: new
+
+- Class: text
+  Output: 恭喜！ 我们希望你们不要因为这一课而陷入困境，而觉得自己已经把自己拉上了自己的行列。

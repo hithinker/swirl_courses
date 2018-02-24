@@ -1,0 +1,358 @@
+- Class: meta
+  Course: Exploratory_Data_Analysis
+  Lesson: Working_with_Colors
+  Author: mzl
+  Type: Standard
+  Organization: pkuss
+  Version: 2.4.3
+
+- Class: text
+  Output: 这一课是关于在R中使用颜色。它补充了基础包和lattice包，其中包含的很的绘图函数都是通过col参数来设置颜色。学习了这节课之后，
+    我们将会有更加丰富多彩的方法来设置颜色.
+
+- Class: text
+  Output: 当然，对于数据和如何分析数据颜色选择是次要的，但有效地使用颜色可以提高您的图形和演示效果，强调您要传达的重要点。
+
+- Class: text
+  Output: 本课的动机是R中大多数图的默认配色方案不是最优的。 幸运的是最近有一些进展，改善了绘图和图表中颜色的处理和规格。 
+    我们将介绍R中的一些函数以及非常方便的外部包。 如果你知道如何使用其中的一些，那么当你创建你的图形时，你将有更多的选择。
+
+- Class: figure
+  Output: 我们将从一个例子开始 - 一个典型的使用3种默认颜色的R图。
+  Figure: showBad.R
+  FigureType: new
+
+- Class: mult_question
+  Output: 根据图形指示，什么是颜色2？
+  AnswerChoices:  Empty black circles; Red; Green; Blue
+  CorrectAnswer:  Red
+  AnswerTests: omnitest(correctVal='Red')
+  Hint: col = 2指向的箭头是什么颜色的？
+
+- Class: text
+  Output: 所以这是前3个默认值。 如果你正在绘图，只是指定col = c（1：3）作为你的参数之一，这些是你会得到的颜色。 也许你喜欢他们，但他们可能不是你的应用程序的最佳选择。
+
+- Class: figure
+  Output: 为了向您展示一些选项，下面是可用的grDevices包随附的两个调色板的显示。 左边显示了来自函数heat.colors的一些颜色。 
+    这里低值以红色表示，随着值增加，颜色通过黄色向白色移动。 这与火的物理性质是一致的。 右边的显示来自topo.colors函数，它使用从蓝色（低值）到棕色（高值）的地形颜色。
+  Figure: showHeat.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: 所以我们将首先讨论grDevices包提供的一些函数。 colors（）函数列出了可以在任何绘图函数中使用的657个预定义颜色的名称。 
+    这些名称以字符串形式返回。 使用colors（）作为第一个参数运行R函数sample，使用10作为第二个参数，让您了解您拥有的选择。
+  CorrectAnswer: sample(colors(),10)
+  AnswerTests: omnitest(correctExpr='sample(colors(),10)')
+  Hint: 在命令提示符处输入sample(colors(),10)。
+  
+- Class: text
+  Output: 我们看到很多颜色，其中一些是名称，后面跟着数字，表示有多种形式的特定颜色。
+
+- Class: text
+  Output: 所以你可以自由地使用颜色功能列出的600多种颜色中的任何一种。 但是，grDevices另外两个函数
+    colorRamp和colorRampPalette的为您提供了更多的选择。 它们都以颜色名称作为参数，并将它们用作“调色板”，
+    也就是说，这些参数颜色以不同的比例混合形成新的颜色。
+
+- Class: text
+  Output: 第一个colorRamp采用colors(参数)的调色板并返回一个函数，该函数将0和1之间的值作为参数。 0和1对应于调色板的极限值。 0和1之间的参数返回这些极端值的混合。
+
+- Class: cmd_question
+  Output:  我们来看看这是什么意思 使用单个参数c（“red”，“blue”）调用colorRamp的输出，结果分配给变量pal。
+  CorrectAnswer: pal <- colorRamp(c("red","blue"))
+  AnswerTests: expr_creates_var("pal"); omnitest(correctExpr='pal <- colorRamp(c("red","blue"))')
+  Hint: 在命令提示符处输入pal < - colorRamp（c（“red”，“blue”））。
+
+- Class: cmd_question
+  Output: 我们没有看到任何输出，但是R创建了可以用0和1之间的单个参数调用的函数pal。现在用参数0调用pal。
+  CorrectAnswer: pal(0)
+  AnswerTests: omnitest(correctExpr='pal(0)')
+  Hint: 在命令提示符下键入pal（0）。
+
+- Class: text
+  Output: 我们看到一个1×3矩阵，其中255作为第一个项，而另外2个0。这个长3向量对应于电视机和监视器中常用的红，绿，蓝（RGB）颜色编码。 在R中，用24位来表示颜色。 将这24位认为是3组8bits值的集合，每一组代表红色，绿色和蓝色之一的强度。
+
+- Class: text
+  Output: 从pal（0）调用返回的255对应于用8位表示的最大可能数字，所以向量（255,0,0）只包含红色（无绿色或蓝色），此外，它是可能的红的最高值。 
+
+- Class: mult_question
+  Output: 假设你用包含“red”和“blue”的调色板创建了pal，你认为pal（1）返回的向量代表了什么颜色？ 回想一下，pal只会使用0到1之间的参数，所以1是您可以传递的最大参数。
+  AnswerChoices:   red; green; blue; yellow
+  CorrectAnswer:  blue
+  AnswerTests: omnitest(correctVal='blue')
+  Hint: 如果一个极端值（0）返回红色，pal（1）将返回一个代表蓝色的向量是有意义的。
+
+- Class: cmd_question
+  Output:  现在用参数1调用pal来检查你的答案。
+  CorrectAnswer: pal(1)
+  AnswerTests: omnitest(correctExpr='pal(1)')
+  Hint: 在命令提示符处输入pal（1）。
+
+- Class: mult_question
+  Output: 你看到代表蓝色最高强度的向量（0,0,255）。 你觉得调用pal(.5)会返回什么？
+  AnswerChoices:   (0,255,0); (127.5,0,127.5); (255,255,255);(255,0,255)
+  CorrectAnswer: (127.5,0,127.5)
+  AnswerTests: omnitest(correctVal='(127.5,0,127.5)')
+  Hint: 正确答案应该在（255,0,0）和（0,0,255）之间。 这是唯一的选择，这两个的平均？
+
+- Class: cmd_question
+  Output: 函数pal可以采用多个参数。 它为每个参数返回一个3长（或4长，但更多关于这个稍后）的向量。 调用参数seq（0,1，len = 6）的pal。
+  CorrectAnswer: pal(seq(0,1,len=6))
+  AnswerTests: omnitest(correctExpr='pal(seq(0,1,len=6))')
+  Hint: 在命令提示符处键入pal（seq（0,1，len = 6））。
+
+- Class: text
+  Output: 六个向量（每个长度为3）被返回。 第i个向量与i = 0，... 5时调用pal（i / 5）返回的输出相同。 我们看到，第i行（对于i = 1，... 6）与第（i-1）行不同之处在于以下方式。 其红色项低51 = 255/5点，蓝色项高51点。
+
+- Class: text
+  Output: 所以pal使用我们在调用colorRamp时指定的调色板创建颜色。 在这个例子中，pal的输出都不会包含绿色，因为它不在我们的初始调色板中。
+
+- Class: text
+  Output: 现在我们将转到colorRampPalette，一个类似于colorRamp的函数。 它也需要调色板并返回一个函数。 但是，
+    该函数使用整数参数（而不是0和1之间的数字），并返回一个颜色向量，每个颜色是原始调色板的颜色混合。
+
+- Class: text
+  Output: 你传递给返回函数的参数指定了你想返回的颜色数。 返回的向量的每个元素都是24位数字，用6个十六进制字符表示，
+    范围从0到F.这组6个十六进制字符表示红色，绿色和蓝色每种颜色的的强度，2个字符代表一种颜色。 
+
+- Class: cmd_question
+  Output: 为了更好的看到这个，调用colorRampPalette的输出分配给变量p1，使用单个参数c（“red”，“blue”）。 我们将其与我们的使用colorRamp实验进行比较。
+  CorrectAnswer: p1 <- colorRampPalette(c("red","blue"))
+  AnswerTests: expr_creates_var("p1"); omnitest(correctExpr='p1 <- colorRampPalette(c("red","blue"))')
+  Hint: 在命令提示符处输入p1 < - colorRampPalette（c（“red”，“blue”））。
+
+- Class: cmd_question
+  Output: 现在用参数2调用p1。
+  CorrectAnswer: p1(2)
+  AnswerTests: omnitest(correctExpr='p1(2)')
+  Hint: 在命令提示符下输入p1（2）。
+
+- Class: text
+  Output: 我们看到一个长2向量被返回。 第一项FF0000代表红色。 FF是十六进制的255，与我们调用pal（0）返回的值相同。 第二项0000FF代表蓝色，强度也是255。
+
+- Class: cmd_question
+  Output:  现在用参数6调用p1。让我们来看看是否得到和我们用参数seq（0,1，len = 6）调用pal的结果相同的结果。
+  CorrectAnswer: p1(6)
+  AnswerTests: omnitest(correctExpr='p1(6)')
+  Hint: 在命令提示符下输入p1（6）。
+
+- Class: cmd_question
+  Output: 现在我们得到长6的向量（FF0000，CC0033,990066,65009,3200CC，0000FF）。 我们看到两端（FF0000和0000FF）与红色和蓝色一致。
+    CC0033怎么样？ 在命令行输入0xcc或0xCC以查看该十六进制数的十进制等效值。 您必须在x之前包含0以指定您输入的是十六进制数字。
+  CorrectAnswer: 0xcc
+  AnswerTests: ANY_of_exprs('0xcc','0xCC','0xcC','0xCc')
+  Hint: 在命令提示符处输入0xcC或0xcc或0xCC或0xCc。
+
+- Class: text
+  Output: 所以0xCC等于204，我们可以很容易地将十六进制33转换为十进制，如0x33 = 3 * 16 + 3 = 51。 这些正是我们调用pal（seq（0,1，len = 6））从第二行中得到的数字，。 我们看到6个数字中的4个与我们之前对pal的调用一致。 六个中的两个稍有不同。
+
+- Class: cmd_question
+  Output: 我们也可以使用红色，绿色和蓝色以外的颜色形成调色板。 通过调用颜色“红色”和“黄色”的colorRampPalette形成一个调色板p2。 请记住将它们连接成一个参数。
+  CorrectAnswer: p2 <- colorRampPalette(c("red","yellow"))
+  AnswerTests: expr_creates_var("p2"); omnitest(correctExpr='p2 <- colorRampPalette(c("red","yellow"))')
+  Hint: 在命令提示符处输入p2 < - colorRampPalette（c（“red”，“yellow”））。
+
+- Class: cmd_question
+  Output:  现在用参数2调用p2。这将向我们展示我们将得到的颜色混合的两个极端。
+  CorrectAnswer: p2(2)
+  AnswerTests: omnitest(correctExpr='p2(2)')
+  Hint: 在命令提示符下键入p2（2）。
+
+- Class: figure
+  Output: 毫不奇怪，我们看到的第一个颜色是FF0000，我们知道它代表红色。 返回的第二种颜色FFFF00必须表示黄色，即全强度红色和全强度绿色的组合。 这是有道理的，因为我们在这里看到黄色落在色轮上的红色和绿色之间。 （我们从lucaskrech.com借了这个图片。）
+  Figure: showColor.R
+  FigureType: new
+
+- Class: cmd_question
+  Output:  现在让我们用第10个参数来调用p2。这将告诉我们两个极端，红色和黄色如何混合在一起。
+  CorrectAnswer: p2(10)
+  AnswerTests: omnitest(correctExpr='p2(10)')
+  Hint: 在命令提示符下输入p2（10）。
+
+- Class: text
+  Output: 所以我们看到了长10的向量。 对于每个元素，红色分量固定为FF，绿色分量从00（在第一个元素）到FF（在最后）增长。
+  
+- Class: cmd_question
+  Output: 这一切都很好，但是你可能想知道什么时候你可以看到所有这些颜色在显示器中出现。 我们从R文档页面复制了一些代码（如果您感兴趣，
+    可以使用color.scale），并为您创建一个函数showMe。 这是一个作为一个参数，正如你所知道的，颜色向量恰恰是对p1和p2的要求返回给你的。 现在用p1（20）调用showMe。
+  CorrectAnswer: showMe(p1(20))
+  AnswerTests: omnitest(correctExpr='showMe(p1(20))')
+  Hint: 在命令提示符下输入showMe（p1（20））。
+
+- Class: cmd_question
+  Output:  我们在这里看到插入的调色板。 左下角的低值为红色，当您移动到右上角时，颜色向蓝色移动。 现在以p2（20）作为参数调用showMe。
+  CorrectAnswer: showMe(p2(20))
+  AnswerTests: omnitest(correctExpr='showMe(p2(20))')
+  Hint: 在命令提示符下输入showMe（p2（20））。
+
+- Class: cmd_question
+  Output: 在这里，我们看到一个类似的显示，从红色到黄色的颜色，我们的P2调色板的基本颜色。 为了好玩，请使用showMe来查看p2（2）的外观。
+  CorrectAnswer: showMe(p2(2))
+  AnswerTests: omnitest(correctExpr='showMe(p2(2))')
+  Hint: 在命令提示符下输入showMe（p2（2）））。
+
+- Class: text
+  Output: 一个更基本的模式，简单而优雅。
+
+- Class: text
+  Output: 我们前面提到colorRamp（和colorRampPalette）可以返回颜色向量元素是一个长3或4的向量。 我们看到长3的向量返回，表示红色，绿色和蓝色的强度。 第四项是什么？
+
+- Class: cmd_question
+  Output: 我们会间接回答。 首先，看一下colorRampPalette返回给你的函数p1。 只需在命令提示符下键入p1.
+  CorrectAnswer: p1
+  AnswerTests: omnitest(correctExpr='p1')
+  Hint: 在命令提示符下输入p1。
+
+- Class: text
+  Output: 我们看到p1是一个带有一个参数n的简短函数。 参数n用作调用函数seq.int的长度，函数seq.int本身是函数ramp的参数。 我们可以推断，ramp只是将0到1之间的区间分成n个部分。 
+
+- Class: cmd_question
+  Output: p1的核心实际上是对函数rgb的4或5个参数的调用。使用？fun结构来查看rgb的R文档，这里使用?rgb。
+  CorrectAnswer: ?rgb
+  AnswerTests: omnitest(correctExpr='?rgb')
+  Hint: 在命令提示符下输入？rgb。
+
+- Class: mult_question
+  Output: 我们看到rgb是一个颜色规格函数，可以用来产生红，绿，蓝比例的任何颜色。 我们可以看到maxColorValue的默认值是1，所以如果我们用rgb的值来调用红色，绿色和蓝色的话，我们会指定最多1个数字（假设我们没有改变maxColorValue的默认值）。 根据文档，rgb可以有多少个参数？
+  AnswerChoices: 3;4;5;6
+  CorrectAnswer: 6
+  AnswerTests: omnitest(correctVal='6')
+  Hint: 查看文档的“用法”部分中的示例调用行。
+
+- Class: cmd_question
+  Output: 所以第四个参数是可以是逻辑的，也就是TRUE或FALSE，或者是一个数值。 现在通过调用colorRampPalette的蓝色和绿色（记得将它们连接成一个参数）并将alpha参数设置为.5来创建函数p3。
+  CorrectAnswer: p3 <- colorRampPalette(c("blue","green"),alpha=.5)
+  AnswerTests: expr_creates_var("p3"); omnitest(correctExpr='p3 <- colorRampPalette(c("blue","green"),alpha=.5)')
+  Hint: 在命令提示符处输入p3 <- colorRampPalette（c（“blue”，“green”），alpha = .5）。
+
+
+- Class: cmd_question
+  Output: 现在用参数5调用p3。
+  CorrectAnswer: p3(5)
+  AnswerTests:  omnitest(correctExpr='p3(5)')
+  Hint: 在命令提示符下键入p3（5）。
+
+- Class: text
+  Output: 我们看到，在调用返回的长5的向量中，每个元素都有32位，每组8位。 最后8位表示alpha的值。 由于在调用colorRampPalette时它不是零，所以它获得最大的FF值。 （如果将alpha设置为TRUE，则会发生相同的结果。）如果为0或FALSE（如前面调用colorRampPalette所示），则会给出值00并且不显示。 每个元素的最左边的24位是我们以前看到的相同的RGB编码。
+
+- Class: text
+  Output: 那么alpha是什么？ Alpha代表不透明度，即颜色应该如何透明。 我们可以使用alpha参数添加颜色透明度来调用rgb。 我们还没有看到这方面的例子，但现在我们来了。
+
+- Class: cmd_question
+  Output: 我们为变量x和y生成了1000个随机正态对。 我们将通过调用具有4个参数的plot来将它们绘制在散点图中。 变量x和y是前两个参数。
+    第三个是打印字符参数pch，设置等于19（实心圆）。 最后一个参数是col，它应该被设置为等于对rgb的调用。 给rgb 3个参数，0，.5和.5。
+  CorrectAnswer: plot(x,y,pch=19,col=rgb(0,.5,.5))
+  AnswerTests:  omnitest(correctExpr='plot(x,y,pch=19,col=rgb(0,.5,.5))')
+  Hint: 在命令提示符处输入plot（x，y，pch = 19，col = rgb（0，.5，.5））。
+
+- Class: cmd_question
+  Output: 那么这张照片对散点图是好的，蓝色和绿色的组合很好，但是在中心部分没有太多的信息，因为那里的点太厚了。 我们看到有很多的点，但是是一个比另一个填充更多的区域？ 我们不能真正区分不同的点密度。 这就是alpha参数可以帮助我们的地方。 回想之前绘图命令（使用向上的箭头），并添加第四个参数.3，对rgb的调用。 这将是我们的alpha值。
+  CorrectAnswer: plot(x,y,pch=19,col=rgb(0,.5,.5,.3))
+  AnswerTests:  omnitest(correctExpr='plot(x,y,pch=19,col=rgb(0,.5,.5,.3))')
+  Hint: 在命令提示符下输入plot（x，y，pch = 19，col = rgb（0，.5，.5，.3））。
+
+- Class: text
+  Output: 显然这是更好的。 它向我们显示了散点图的最密集区域的具体位置。
+
+- Class: text
+  Output: 本课的最后一个主题是在CRAN上提供的RColorBrewer包，其中包含有趣和有用的调色板，其中有3种类型，顺序，发散和定性。 你会选择哪一个取决于你的数据。
+
+- Class: figure
+  Output: 以下是该软件包中可用的调色板的图片。 上面的部分显示了顺序的调色板，其中颜色从浅到深排列。 发散调色板位于底部。 在这里，中性色（白色）在中心，当你从中间移动到每个调色板的两端，颜色的强度增加。 中间显示了看起来像随机颜色的集合的定性调色板。 这些可能被用来区分数据中的因素。
+  Figure: showBrewer.R
+  FigureType: new
+
+- Class: text
+  Output: 这些colorBrewer调色板可以与colorRamp（）和colorRampPalette（）函数结合使用。 您将使用colorBrewer调色板中的颜色作为基础调色板，即作为colorRamp或colorRampPalette的参数，这些参数将插值它们以创建新的颜色。
+
+- Class: cmd_question
+  Output: 作为一个例子，创建一个新的对象cols，通过调用带有2个参数的函数brewer.pal，参数是3和“BuGn”。 字符串“BuGn”是顺序显示中的倒数第二个调色板。 3告诉功能我们想要多少不同的颜色。
+  CorrectAnswer: cols <- brewer.pal(3, "BuGn")
+  AnswerTests:  expr_creates_var("cols"); omnitest(correctExpr='cols <- brewer.pal(3, "BuGn")')
+  Hint: 在命令提示符处输入cold < - brewer.pal（3，“BuGs”）。
+
+- Class: cmd_question
+  Output: 现在使用showMe来查看cols。
+  CorrectAnswer: showMe(cols)
+  AnswerTests:  omnitest(correctExpr='showMe(cols)')
+  Hint: 在命令提示符处输入showMe（cols）。
+
+- Class: cmd_question
+  Output: 我们看到3种颜色，蓝色和绿色的混合。 现在通过调用colorRampPalette以cols作为参数来创建变量pal。
+  CorrectAnswer: pal <- colorRampPalette(cols)
+  AnswerTests:  omnitest(correctExpr='pal <- colorRampPalette(cols)')
+  Hint: 在命令提示符处输入pal <- colorRampPalette（cols）。
+
+- Class: cmd_question
+  Output: 调用showMe（pal（3））将与showMe（cols）调用相同。 所以用showMe看pal（20）。
+  CorrectAnswer: showMe(pal(20))
+  AnswerTests:  omnitest(correctExpr='showMe(pal(20))')
+  Hint: 在命令提示符下输入showMe（pal（20））。
+
+- Class: cmd_question
+  Output: 现在我们可以用pal（20）中的颜色来显示奥克兰Maunga Whau火山的地形信息。 R以包含在软件包数据集中的名为volcano的矩阵形式提供这些信息。 
+    用volcano作为第一个参数调用R函数image，col设置等于pal（20）作为第二个参数。
+  CorrectAnswer: image(volcano, col = pal(20))
+  AnswerTests:  omnitest(correctExpr='image(volcano, col = pal(20))')
+  Hint: 在命令提示符下输入image(volcano, col = pal(20))。
+
+- Class: cmd_question
+  Output: 我们看到顺序调色板的颜色在地形上提示我们。 较深的颜色比较轻的颜色更浓。 为了好玩，回想一下你最后一个调用图像的命令，而不是pal（20），用p1（20）作为第二个参数。
+  CorrectAnswer: image(volcano, col = p1(20))
+  AnswerTests:  omnitest(correctExpr='image(volcano, col = p1(20))')
+  Hint: 在命令提示符下输入image（volcano，col = p1（20））。
+
+- Class: text
+  Output: 由于调色板不适合这些数据，所以没有那么好，但没关系。 下面是复习时间！
+
+
+- Class: mult_question
+  Output:  对或错？ 仔细使用plots/maps等的颜色。 可以让读者更容易理解你想表达的是什么。
+  AnswerChoices:  True; False
+  CorrectAnswer:  True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 如果这是错误的，我们是否会就这个问题创造这节课呢？
+
+- Class: mult_question
+  Output:  以下哪个是R包，为顺序，分类和发散数据提供调色板？
+  AnswerChoices:  RColorBrewer; RColorVintner; RColorBluer; RColorStewer
+  CorrectAnswer:  RColorBrewer
+  AnswerTests: omnitest(correctVal='RColorBrewer')
+  Hint: 回忆一下前边的知识点哟！
+
+- Class: mult_question
+  Output:  对或错？ colorRamp和colorRampPalette函数可以与调色板一起使用来将数据连接到颜色。
+  AnswerChoices:  True; False
+  CorrectAnswer:  True
+  AnswerTests: omnitest(correctVal='True')
+  Hint: 回想一下使用RColorBrewer和colorRampPalette的例子。
+  
+- Class: mult_question
+  Output:  对或错？ 透明度永远不能用来澄清有很多点的情节
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回想我们的例子，散点图和密集的部分。
+
+- Class: mult_question
+  Output:  对或错？ 调用p7 <- colorRamp（“red”，“blue”）将起作用（即不产生错误）。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 回想一下我们提醒连接颜色形成一个单一的参数，要记住：使用向量。
+
+- Class: mult_question
+  Output: 对或错？ 函数colors只返回10种颜色。
+  AnswerChoices:  True; False
+  CorrectAnswer: False
+  AnswerTests: omnitest(correctVal='False')
+  Hint: 我们只看了10，但是还有很多很多。
+
+- Class: mult_question
+  Output:  透明度是由rgb函数的哪个参数决定的？
+  AnswerChoices:  alpha; beta; gamma; delta; it's all Greek to me
+  CorrectAnswer: alpha
+  AnswerTests: omnitest(correctVal='alpha')
+  Hint: 我们在本课中只提到了一个希腊字母.
+
+- Class: text
+  Output: 恭喜！ 自己总结一下本节课的知识点哟！
